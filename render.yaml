@@ -1,0 +1,69 @@
+services:
+  - type: web
+    name: didar-gold
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: didar-gold-db
+          property: connectionString
+      - key: DATABASE_SSL
+        value: "false"
+      - key: DATABASE_POOL_MAX
+        value: "5"
+      - key: DATABASE_SEED
+        value: "false"
+      - key: AUTH_HASH_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_MOBILES
+        sync: false
+      - key: OTP_PROVIDER
+        value: payamsms
+      - key: OTP_TTL_SECONDS
+        value: "120"
+      - key: OTP_COOLDOWN_SECONDS
+        value: "60"
+      - key: OTP_MAX_ATTEMPTS
+        value: "5"
+      - key: SESSION_TTL_DAYS
+        value: "30"
+      - key: PAYAMSMS_BASE_URL
+        value: https://www.payamsms.com
+      - key: PAYAMSMS_CLIENT_ID
+        sync: false
+      - key: PAYAMSMS_CLIENT_SECRET
+        sync: false
+      - key: PAYAMSMS_SYSTEM_NAME
+        sync: false
+      - key: PAYAMSMS_USERNAME
+        sync: false
+      - key: PAYAMSMS_PASSWORD
+        sync: false
+      - key: PAYAMSMS_SENDER
+        sync: false
+      - key: PAYAMSMS_BODY_TEMPLATE
+        value: "کد ورود دیدار: {code}"
+      - key: VITE_AUTH_API_URL
+        value: /api/auth
+      - key: VITE_AUTH_DEMO
+        value: "false"
+
+databases:
+  - name: didar-gold-db
+    databaseName: didar_gold
+    user: didar_gold
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: "16"
+    ipAllowList: []

@@ -11,6 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
+server/data/
+.env
+tmp/
+*-capture.png
+*-capture-*.png
+design-qa.md
 
 # Editor directories and files
 .vscode/*

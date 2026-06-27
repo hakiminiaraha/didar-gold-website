@@ -1,60 +1,35 @@
-import React from "react";
 import ArticleCard from "./ArticleCard";
+import { useSitePreferences } from "../context/SitePreferencesContext";
+import { Link } from "react-router-dom";
+import { useJournal } from "../hooks/useJournal";
 
-const articles = [
-  {
-    image: "/images/article-1.jpg",
-    title: "راهنمای انتخاب انگشتر",
-    readTime: "۵ دقیقه مطالعه",
-  },
-  {
-    image: "/images/article-2.jpg",
-    title: "هنر دست‌ساز",
-    readTime: "۷ دقیقه مطالعه",
-  },
-  {
-    image: "/images/article-3.jpg",
-    title: "راهنمای نگهداری طلا",
-    readTime: "۶ دقیقه مطالعه",
-  },
-  {
-    image: "/images/article-4.jpg",
-    title: "داستان الماس",
-    readTime: "۴ دقیقه مطالعه",
-  },
+const fallbackArticles = [
+  { slug: "choosing-for-an-occasion", image: "/images/article-1.jpg", fa: ["راهنمای انتخاب انگشتر", "۵ دقیقه مطالعه"], en: ["A Guide to Choosing Rings", "5 min read"] },
+  { slug: "from-idea-to-form", image: "/images/article-2.jpg", fa: ["هنر دست‌ساز", "۷ دقیقه مطالعه"], en: ["The Art of Handcraft", "7 min read"] },
+  { slug: "digital-product-passport", image: "/images/article-3.jpg", fa: ["راهنمای نگهداری طلا", "۶ دقیقه مطالعه"], en: ["Caring for Gold", "6 min read"] },
+  { slug: "gold-in-cultural-memory", image: "/images/article-4.jpg", fa: ["داستان طلا", "۴ دقیقه مطالعه"], en: ["The Story of Gold", "4 min read"] },
 ];
 
 function Journal() {
+  const { language } = useSitePreferences();
+  const { articles: journalArticles, available, loaded } = useJournal();
+  const articles = loaded && available ? journalArticles.slice(0, 4).map((article) => ({
+    slug: article.slug,
+    image: article.image,
+    fa: [article.content.fa.title, article.readLabel.fa],
+    en: [article.content.en.title, article.readLabel.en],
+  })) : fallbackArticles;
+
   return (
-    <section id="journal" className="bg-[#F7F3EE] px-8 py-16">
-      <div className="mx-auto grid max-w-[1450px] grid-cols-[300px_1fr] items-center gap-8">
-
-        {/* Title Side */}
-        <div className="text-right">
-          <h2 className="text-[58px] font-normal leading-tight text-[#041E42]">
-            مجله دیدار
-          </h2>
-
-          <a
-            href="#"
-            className="mt-6 inline-flex text-[18px] text-[#B08A57] transition hover:text-[#041E42]"
-          >
-            ← مطالعه همه مقالات
-          </a>
+    <section id="journal" className="bg-[var(--surface)] px-5 py-16 sm:px-8">
+      <div className="mx-auto grid max-w-[1450px] items-center gap-8 lg:grid-cols-[300px_1fr]">
+        <div className="text-start">
+          <h2 className="text-5xl font-normal text-[var(--ink)]">{language === "fa" ? "مجله دیدار" : "Didar Journal"}</h2>
+          <Link to="/journal" className="mt-6 inline-flex text-lg text-[#B08A57]">{language === "fa" ? "مطالعه همه مقالات" : "Read all stories"}</Link>
         </div>
-
-        {/* Articles */}
-        <div className="grid grid-cols-4 gap-5">
-          {articles.map((article) => (
-            <ArticleCard
-              key={article.title}
-              image={article.image}
-              title={article.title}
-              readTime={article.readTime}
-            />
-          ))}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {articles.map((article) => <Link key={article.slug} to={`/journal/${article.slug}`}><ArticleCard image={article.image} title={article[language][0]} readTime={article[language][1]} /></Link>)}
         </div>
-
       </div>
     </section>
   );

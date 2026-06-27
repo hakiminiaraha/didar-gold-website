@@ -1,48 +1,24 @@
-import React from "react";
+import { useSitePreferences } from "../context/SitePreferencesContext";
 
 function ShopSection() {
+  const { language } = useSitePreferences();
+  const text = language === "fa"
+    ? ["ویترین دیدار", "هر مجموعه، روایت متفاوتی از زیبایی است. از امضای دیدار تا میراث جاودانه، مجموعه‌ای برای هر سلیقه و هر لحظه.", "مشاهده کالکشن‌ها", "رزرو تجربه حضوری"]
+    : ["The Didar Showcase", "Every collection tells a different story of beauty. From Didar signatures to enduring heritage, discover a creation for every style and moment.", "Explore Collections", "Book a Private Viewing"];
+
   return (
-    <section id="shop" className="bg-[#F7F3EE] px-8 py-16">
-      <div className="mx-auto grid max-w-[1450px] grid-cols-[42%_58%] items-center gap-10 rounded-[32px] bg-[#FFFCF7] p-10">
-        <div className="text-right">
-          <div className="mb-8 flex items-center justify-start gap-4">
-            <span className="h-px w-16 bg-[#B08A57]" />
-            <span className="text-[#B08A57]">✦</span>
-            <span className="h-px w-16 bg-[#B08A57]" />
-          </div>
-
-          <h2 className="text-[58px] font-normal leading-tight text-[#041E42]">
-            ویترین دیدار
-          </h2>
-
-          <p className="mt-7 max-w-[520px] text-[20px] leading-10 text-[#111820]/70">
-            هر مجموعه، روایت متفاوتی از زیبایی است.
-            <br />
-            از امضای دیدار تا میراث جاودانه، مجموعه‌ای برای هر سلیقه و هر لحظه.
-          </p>
-
-          <div className="mt-10 flex gap-5">
-            <a
-              href="#collections"
-              className="flex h-[58px] w-[220px] items-center justify-center rounded-xl bg-[#041E42] text-white transition-all duration-300 hover:bg-[#B08A57]"
-            >
-              مشاهده کالکشن‌ها
-            </a>
-
-            <a
-              href="#art-gallery"
-              className="flex h-[58px] w-[220px] items-center justify-center rounded-xl border border-[#B08A57] text-[#B08A57] transition-all duration-300 hover:bg-[#B08A57] hover:text-white"
-            >
-              رزرو تجربه حضوری
-            </a>
+    <section id="shop" className="bg-[var(--surface)] px-5 py-16 sm:px-8">
+      <div className="mx-auto grid max-w-[1450px] items-center gap-10 rounded-[32px] border border-[var(--line)] bg-[var(--surface-raised)] p-6 lg:grid-cols-[42%_58%] lg:p-10">
+        <div className="text-start">
+          <div className="mb-8 flex items-center gap-4 text-[#B08A57]"><span className="h-px w-16 bg-[#B08A57]" />✦<span className="h-px w-16 bg-[#B08A57]" /></div>
+          <h2 className="text-5xl font-normal text-[var(--ink)]">{text[0]}</h2>
+          <p className="mt-7 max-w-[520px] text-lg leading-10 text-[var(--ink-muted)]">{text[1]}</p>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <a href="/collections" className="flex h-[58px] w-[220px] items-center justify-center rounded-xl bg-[#041E42] text-white transition hover:bg-[#B08A57]">{text[2]}</a>
+            <a href="/contact#appointment" className="flex h-[58px] w-[220px] items-center justify-center rounded-xl border border-[#B08A57] text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">{text[3]}</a>
           </div>
         </div>
-
-        <img
-          src="/images/shop-section.JPG"
-          alt="ویترین دیدار"
-          className="h-[520px] w-full rounded-[28px] object-cover"
-        />
+        <img src="/images/shop-section.JPG" alt={text[0]} className="h-[420px] w-full rounded-[28px] object-cover lg:h-[520px]" />
       </div>
     </section>
   );

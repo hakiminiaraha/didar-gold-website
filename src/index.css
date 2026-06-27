@@ -38,10 +38,59 @@ html,
 body,
 #root {
   margin: 0;
+  width: 100%;
   min-height: 100%;
+  overflow-x: clip;
   font-family: 'Doran', sans-serif;
 }
 
 body {
-  direction: rtl;
+  background: var(--surface);
+  color: var(--ink);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+:root,
+[data-theme='light'] {
+  --surface: #f7f3ee;
+  --surface-soft: #f2f0eb;
+  --surface-raised: #fffaf3;
+  --ink: #041e42;
+  --ink-muted: rgba(4, 30, 66, 0.65);
+  --line: rgba(176, 138, 87, 0.25);
+  --header: rgba(247, 243, 238, 0.9);
+  --contrast: #041e42;
+  --contrast-soft: #0b2a52;
+  --contrast-ink: #ffffff;
+  --contrast-muted: rgba(255, 255, 255, 0.64);
+  --media-surface: #f2f0eb;
+  --footer: #041e42;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --surface: #07182f;
+  --surface-soft: #0b2342;
+  --surface-raised: #102b4d;
+  --ink: #f7f3ee;
+  --ink-muted: rgba(247, 243, 238, 0.66);
+  --line: rgba(217, 185, 133, 0.26);
+  --header: rgba(7, 24, 47, 0.9);
+  --contrast: #020b17;
+  --contrast-soft: #0b2342;
+  --contrast-ink: #f7f3ee;
+  --contrast-muted: rgba(247, 243, 238, 0.64);
+  --media-surface: #173454;
+  --footer: #020b17;
+}
+
+::selection {
+  background: #b08a57;
+  color: white;
+}
+
+@layer components {
+  .form-control {
+    @apply h-14 w-full border border-[var(--line)] bg-[var(--surface)] px-4 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--ink-muted)] focus:border-[#B08A57];
+  }
 }
