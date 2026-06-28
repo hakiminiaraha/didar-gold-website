@@ -175,7 +175,7 @@ function ContactPage() {
     <div dir={direction} className="min-h-screen overflow-x-clip bg-[var(--surface)] text-[var(--ink)]">
       <section className="relative min-h-[700px] overflow-hidden bg-[#041E42] lg:min-h-[820px]">
         <Header />
-        <img src="/images/gallery-main.JPG" alt={text.title} className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/didar-ui/service-accent.jpg" alt={text.title} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[#020b17]/38" />
         <div className={`absolute inset-0 ${language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-[#041E42]/98 via-[#041E42]/78 to-[#041E42]/18`} />
         <div className="relative z-10 mx-auto flex min-h-[700px] max-w-[1450px] items-center px-5 pb-14 pt-36 sm:px-8 lg:min-h-[820px] lg:px-12">
@@ -227,7 +227,7 @@ function ContactPage() {
         <section id="appointment" className="bg-[var(--surface-soft)] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto grid max-w-[1450px] overflow-hidden rounded-[34px] border border-[var(--line)] bg-[var(--surface-raised)] lg:grid-cols-[0.82fr_1.18fr]">
             <div className="relative min-h-[420px] overflow-hidden lg:min-h-[720px]">
-              <img src="/images/shop-section.JPG" alt={text.formTitle} className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/images/IMG_7949.JPG" alt={text.formTitle} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/86 via-[#041E42]/12 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-7 text-start text-white sm:p-10">
                 <p className="text-xs tracking-[0.24em] text-[#D9B985]">{text.formEyebrow}</p>

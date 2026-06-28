@@ -413,7 +413,7 @@ function ShopPage() {
     >
       <section className="relative min-h-[700px] overflow-hidden bg-[#020b17] lg:min-h-[820px]">
         <Header />
-        <img src="/images/shop-section.JPG" alt={text.heroTitle} className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/IMG_7951.JPG" alt={text.heroTitle} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[#020b17]/35" />
         <div
           className={`absolute inset-0 ${
@@ -703,7 +703,7 @@ function ShopPage() {
 
           <section className="mt-14 grid overflow-hidden border border-[var(--line)] bg-[var(--surface)] lg:grid-cols-[0.8fr_1.2fr]">
             <div className="relative min-h-[320px]">
-              <img src="/images/gallery-main.JPG" alt={text.trustTitle} className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/images/didar-ui/service-accent.jpg" alt={text.trustTitle} className="absolute inset-0 h-full w-full object-cover" />
               <span className="absolute inset-0 bg-[#020b17]/35" />
             </div>
             <div className="p-7 text-start sm:p-10 lg:p-12">
@@ -723,7 +723,7 @@ function ShopPage() {
           </section>
 
           <section id="shop-consultation" className="relative mt-12 min-h-[330px] overflow-hidden bg-[#020b17] text-white">
-            <img src="/images/world-craft.webp" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover opacity-75" />
+            <img src="/images/didar-ui/gallery-accent.jpg" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover opacity-75" />
             <div
               className={`absolute inset-0 ${
                 language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"

@@ -454,7 +454,7 @@ function ProductsPage() {
       <section id="product-consultation" className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
         <div className="relative mx-auto min-h-[520px] max-w-[1450px] overflow-hidden rounded-[32px]">
           <img
-            src="/images/gallery-main.JPG"
+            src="/images/didar-ui/gallery-accent.jpg"
             alt="Didar private consultation"
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover"

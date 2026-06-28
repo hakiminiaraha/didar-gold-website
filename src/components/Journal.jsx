@@ -5,9 +5,9 @@ import { useJournal } from "../hooks/useJournal";
 
 const fallbackArticles = [
   { slug: "choosing-for-an-occasion", image: "/images/didar-ui/product-03.jpg", fa: ["راهنمای انتخاب انگشتر", "۵ دقیقه مطالعه"], en: ["A Guide to Choosing Rings", "5 min read"] },
-  { slug: "from-idea-to-form", image: "/images/world-craft.webp", fa: ["هنر دست‌ساز", "۷ دقیقه مطالعه"], en: ["The Art of Handcraft", "7 min read"] },
+  { slug: "from-idea-to-form", image: "/images/IMG_7951.JPG", fa: ["هنر دست‌ساز", "۷ دقیقه مطالعه"], en: ["The Art of Handcraft", "7 min read"] },
   { slug: "digital-product-passport", image: "/images/didar-ui/product-06.jpg", fa: ["راهنمای نگهداری طلا", "۶ دقیقه مطالعه"], en: ["Caring for Gold", "6 min read"] },
-  { slug: "gold-in-cultural-memory", image: "/images/brand-story.png", fa: ["داستان طلا", "۴ دقیقه مطالعه"], en: ["The Story of Gold", "4 min read"] },
+  { slug: "gold-in-cultural-memory", image: "/images/gallery-3.JPG", fa: ["داستان طلا", "۴ دقیقه مطالعه"], en: ["The Story of Gold", "4 min read"] },
 ];
 
 function Journal() {

@@ -137,9 +137,9 @@ const content = {
 const processImages = [
   "/images/didar-ui/collection-01.jpg",
   "/images/didar-ui/collection-02.jpg",
-  "/images/world-craft.webp",
+  "/images/IMG_7946.JPG",
   "/images/didar-ui/product-05.jpg",
-  "/images/brand-story.png",
+  "/images/didar-ui/service-accent.jpg",
 ];
 
 function OurWorldPage() {
@@ -275,7 +275,7 @@ function OurWorldPage() {
             <div className="grid overflow-hidden rounded-[34px] bg-[var(--contrast)] text-[var(--contrast-ink)] shadow-[0_25px_80px_rgba(4,30,66,0.16)] lg:grid-cols-[1.1fr_0.9fr]">
               <div className="relative min-h-[430px] overflow-hidden lg:min-h-[650px]">
                 <img
-                  src="/images/world-craft.webp"
+                  src="/images/IMG_7947.JPG"
                   alt={text.craftTitle}
                   className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 hover:scale-105"
                 />
@@ -367,7 +367,7 @@ function OurWorldPage() {
         <section className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="mx-auto grid max-w-[1450px] overflow-hidden rounded-[34px] border border-[var(--line)] bg-[var(--surface-raised)] lg:grid-cols-[1fr_1fr]">
             <div className="relative min-h-[380px] lg:min-h-[560px]">
-              <img src="/images/gallery-main.JPG" alt={text.galleryTitle} className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/images/didar-ui/gallery-accent.jpg" alt={text.galleryTitle} className="absolute inset-0 h-full w-full object-cover" />
               <span className="absolute inset-0 bg-[#041E42]/24" />
             </div>
             <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
@@ -409,7 +409,7 @@ function OurWorldPage() {
 
         <section className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="relative mx-auto min-h-[520px] max-w-[1450px] overflow-hidden rounded-[34px] bg-[#041E42] text-white shadow-[0_25px_80px_rgba(4,30,66,0.18)]">
-            <img src="/images/brand-story.png" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover object-center opacity-70" />
+            <img src="/images/didar-ui/service-accent.jpg" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover object-center opacity-70" />
             <div
               className={`absolute inset-0 ${
                 language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"

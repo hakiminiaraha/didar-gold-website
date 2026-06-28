@@ -298,7 +298,7 @@ function ServicesPage() {
 
       <section id="consultation" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto grid max-w-[1450px] overflow-hidden rounded-[34px] bg-[#041E42] text-white shadow-[0_26px_80px_rgba(4,30,66,0.2)] lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="relative min-h-[380px] lg:min-h-[560px]"><img src="/images/gallery-main.JPG" alt="مشاوره اختصاصی دیدار" className="absolute inset-0 h-full w-full object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/55 to-transparent" /></div>
+          <div className="relative min-h-[380px] lg:min-h-[560px]"><img src="/images/didar-ui/service-accent.jpg" alt="مشاوره اختصاصی دیدار" className="absolute inset-0 h-full w-full object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/55 to-transparent" /></div>
           <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
             <p className="text-xs tracking-[0.25em] text-[#D9B985]">PRIVATE CONSULTATION</p>
             <h2 className="mt-5 text-3xl font-normal leading-[1.55] sm:text-5xl">مشاوره اختصاصی دیدار</h2>

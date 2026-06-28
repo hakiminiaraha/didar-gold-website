@@ -7,15 +7,15 @@ import Header from "../components/Header";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 
 const galleryItems = [
-  { image: "/images/didar-ui/collection-01.jpg", category: "necklace", span: "md:row-span-2", href: "/collections/signature" },
-  { image: "/images/didar-ui/collection-02.jpg", category: "ring", span: "", href: "/collections/heritage" },
-  { image: "/images/didar-ui/collection-03.jpg", category: "earring", span: "", href: "/collections/ceremony" },
-  { image: "/images/didar-ui/product-01.jpg", category: "necklace", span: "md:col-span-2", href: "/products/atrin-necklace" },
-  { image: "/images/didar-ui/product-02.jpg", category: "bracelet", span: "", href: "/products/vira-bracelet" },
-  { image: "/images/didar-ui/product-03.jpg", category: "ring", span: "", href: "/products/mahtab-ring" },
-  { image: "/images/didar-ui/product-04.jpg", category: "earring", span: "", href: "/products/nadia-earrings" },
-  { image: "/images/didar-ui/product-05.jpg", category: "necklace", span: "", href: "/products/leila-ring" },
-  { image: "/images/didar-ui/product-06.jpg", category: "bracelet", span: "", href: "/products/raha-necklace" },
+  { image: "/images/didar-ui/collection-01.jpg", category: "necklace", span: "md:row-span-2", href: "/collections/signature", label: "Signature necklace on dark stone" },
+  { image: "/images/didar-ui/collection-02.jpg", category: "ring", span: "", href: "/collections/heritage", label: "Heritage ring with geometric detail" },
+  { image: "/images/didar-ui/collection-03.jpg", category: "earring", span: "", href: "/collections/ceremony", label: "Ceremony earrings with floral motif" },
+  { image: "/images/didar-ui/product-01.jpg", category: "necklace", span: "md:col-span-2", href: "/products/atrin-necklace", label: "Atrin necklace pendant detail" },
+  { image: "/images/didar-ui/product-02.jpg", category: "bracelet", span: "", href: "/products/vira-bracelet", label: "Vira bracelet link detail" },
+  { image: "/images/didar-ui/product-03.jpg", category: "ring", span: "", href: "/products/mahtab-ring", label: "Mahtab ring setting detail" },
+  { image: "/images/didar-ui/product-04.jpg", category: "earring", span: "", href: "/products/nadia-earrings", label: "Nadia earrings on dark background" },
+  { image: "/images/didar-ui/product-05.jpg", category: "necklace", span: "", href: "/products/leila-ring", label: "Leila ring polished profile" },
+  { image: "/images/didar-ui/product-06.jpg", category: "bracelet", span: "", href: "/products/raha-necklace", label: "Raha necklace pendant and chain" },
 ];
 
 const collectionCards = [
@@ -25,11 +25,11 @@ const collectionCards = [
 ];
 
 const processImages = [
-  "/images/brand-story.png",
+  "/images/didar-ui/gallery-accent.jpg",
   "/images/IMG_7944.JPG",
   "/images/didar-ui/collection-02.jpg",
   "/images/gallery-3.JPG",
-  "/images/world-craft.webp",
+  "/images/IMG_7947.JPG",
 ];
 
 const copy = {
@@ -113,7 +113,7 @@ function ArtGalleryPage() {
       <section className="relative min-h-[660px] overflow-hidden lg:min-h-[780px]">
         <Header />
         <img
-          src="/images/brand-story.png"
+          src="/images/didar-ui/journal-01.jpg"
           alt={text.heroTitle}
           className="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-center"
         />
@@ -177,7 +177,8 @@ function ArtGalleryPage() {
                 >
                   <img
                     src={item.image}
-                    alt=""
+                    alt={item.label}
+                    loading={index < 2 ? "eager" : "lazy"}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
                   <span className="absolute inset-0 bg-gradient-to-t from-[#020b17]/60 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
@@ -292,7 +293,8 @@ function ArtGalleryPage() {
           <div className="relative mx-auto min-h-[300px] max-w-[1450px] overflow-hidden border border-[var(--line)]">
             <img
               src="/images/didar-ui/collection-03.jpg"
-              alt=""
+              alt={text.quote}
+              loading="lazy"
               className="absolute inset-0 h-full w-full object-cover opacity-25"
             />
             <div className="absolute inset-0 bg-[var(--surface-raised)]/75" />
@@ -306,7 +308,7 @@ function ArtGalleryPage() {
         <section className="px-4 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="relative mx-auto min-h-[430px] max-w-[1450px] overflow-hidden bg-[#020b17] text-white">
             <img
-              src="/images/brand-story.png"
+              src="/images/didar-ui/service-accent.jpg"
               alt={text.ctaTitle}
               className="absolute inset-0 h-full w-full object-cover object-center opacity-70"
             />

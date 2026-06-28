@@ -17,7 +17,7 @@ function DidarWorld() {
             <a href="#about" className="mt-6 inline-flex h-12 w-44 items-center justify-center rounded-xl bg-[#041E42] text-sm text-white transition hover:bg-[#B08A57]">{text[2]}</a>
           </div>
           <div className="relative min-h-[300px] overflow-hidden">
-            <img src="/images/brand-story.png" alt={text[0]} className="absolute inset-0 h-full w-full object-cover" />
+            <img src="/images/IMG_7949.JPG" alt={text[0]} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           </div>
         </div>
       </div>

@@ -296,7 +296,7 @@ function CollectionDetailPage() {
 
         <section className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="relative mx-auto min-h-[440px] max-w-[1450px] overflow-hidden rounded-[34px] bg-[#041E42] text-white">
-            <img src="/images/shop-section.JPG" alt={text.boutiqueTitle} className="absolute inset-0 h-full w-full object-cover opacity-70" />
+            <img src="/images/gallery-4.JPG" alt={text.boutiqueTitle} loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-70" />
             <div className={`absolute inset-0 ${language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-[#041E42]/98 via-[#041E42]/82 to-[#041E42]/18`} />
             <div className="relative flex min-h-[440px] max-w-2xl flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
               <p className="text-xs tracking-[0.25em] text-[#D9B985]">{text.boutiqueEyebrow}</p>

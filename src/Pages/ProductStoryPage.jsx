@@ -63,7 +63,7 @@ const fallbackCreations = [
   {
     id: "mahtab-ring",
     image: "/images/didar-ui/product-03.jpg",
-    gallery: ["/images/didar-ui/product-03.jpg", "/images/didar-ui/collection-02.jpg", "/images/world-craft.webp"],
+    gallery: ["/images/didar-ui/product-03.jpg", "/images/didar-ui/collection-02.jpg", "/images/IMG_7944.JPG"],
     category: { fa: "انگشتر", en: "Ring" },
     collection: { fa: "میراث", en: "Heritage" },
     name: { fa: "انگشتر مهتاب", en: "Mahtab Ring" },
@@ -117,7 +117,7 @@ const fallbackCreations = [
   {
     id: "raha-necklace",
     image: "/images/didar-ui/product-06.jpg",
-    gallery: ["/images/didar-ui/product-06.jpg", "/images/didar-ui/collection-03.jpg", "/images/gallery-main.JPG"],
+    gallery: ["/images/didar-ui/product-06.jpg", "/images/didar-ui/collection-03.jpg", "/images/IMG_7946.JPG"],
     category: { fa: "گردنبند", en: "Necklace" },
     collection: { fa: "مراسم", en: "Ceremony" },
     name: { fa: "گردنبند رها", en: "Raha Necklace" },
@@ -238,6 +238,52 @@ function ProductStoryPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
 
+  useEffect(() => {
+    if (!product) return undefined;
+
+    const title = `${product.name[language]} | دیدار گلد`;
+    const description = product.positioning[language] || product.story[language] || "";
+    const canonical = `https://didargold.com/products/${product.id}`;
+    const image = product.image?.startsWith("http") ? product.image : `https://didargold.com${product.image}`;
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name[language],
+      image: product.gallery.map((item) => item.startsWith("http") ? item : `https://didargold.com${item}`),
+      description,
+      brand: { "@type": "Brand", name: "Didar Gold" },
+      material: product.specs?.karat || "18K gold",
+      category: product.category[language],
+      additionalProperty: [
+        { "@type": "PropertyValue", name: "Collection", value: product.collection[language] },
+        { "@type": "PropertyValue", name: "Weight", value: product.specs?.weight },
+        { "@type": "PropertyValue", name: "Digital Identity", value: "Prepared for product passport" },
+        { "@type": "PropertyValue", name: "Guarantee", value: "Didar ownership services" },
+      ],
+    };
+
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:image"]')?.setAttribute("content", image);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonical);
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonical);
+
+    let script = document.getElementById("didar-product-schema");
+    if (!script) {
+      script = document.createElement("script");
+      script.id = "didar-product-schema";
+      script.type = "application/ld+json";
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(schema);
+
+    return () => {
+      document.getElementById("didar-product-schema")?.remove();
+    };
+  }, [language, product]);
+
   const related = useMemo(
     () => product ? creations.filter((item) => item.id !== product.id).slice(0, 3) : [],
     [creations, product],
@@ -246,6 +292,29 @@ function ProductStoryPage() {
   const detailSections = product ? [
     ["story", text.story, product.story[language]],
     ["design", text.design, product.design[language]],
+  ] : [];
+
+  const ownershipServices = product ? [
+    {
+      title: language === "fa" ? "گواهی و اصالت" : "Certificate & authenticity",
+      description: language === "fa" ? "اطلاعات اصالت، عیار و مشخصات قطعه برای ثبت رسمی آماده می‌شود." : "Authenticity, karat, and creation details are prepared for official registration.",
+      icon: ShieldCheck,
+    },
+    {
+      title: language === "fa" ? "هویت دیجیتال" : "Digital identity",
+      description: language === "fa" ? "هر قطعه می‌تواند به گذرنامه دیجیتال و شناسه یکتا متصل شود." : "Each creation can connect to a digital passport and unique identity.",
+      icon: QrCode,
+    },
+    {
+      title: language === "fa" ? "پوشش گارانتی" : "Guarantee coverage",
+      description: language === "fa" ? "مسیر گارانتی پس از ثبت قطعه و تایید اطلاعات مالکیت فعال می‌شود." : "Warranty coverage is activated after product and ownership verification.",
+      icon: Wrench,
+    },
+    {
+      title: language === "fa" ? "بازخرید و ارتقا" : "Buyback & upgrade",
+      description: language === "fa" ? "درخواست بازخرید یا ارتقا از مسیر مشاوره و ارزیابی دیدار بررسی می‌شود." : "Buyback or upgrade requests are reviewed through Didar consultation and assessment.",
+      icon: Sparkles,
+    },
   ] : [];
 
   if (!product) {
@@ -272,12 +341,13 @@ function ProductStoryPage() {
                 <button
                   key={image}
                   type="button"
+                  aria-label={`${language === "fa" ? "نمایش تصویر" : "Show image"} ${index + 1} ${product.name[language]}`}
                   onClick={() => setSelectedImage(index)}
                   className={`h-24 w-24 shrink-0 overflow-hidden rounded-[18px] border transition sm:h-28 sm:w-full ${
                     selectedImage === index ? "border-[#B08A57]" : "border-[var(--line)]"
                   }`}
                 >
-                  <img src={image} alt="" className="h-full w-full object-cover" />
+                  <img src={image} alt={`${product.name[language]} ${index + 1}`} className="h-full w-full object-cover" />
                 </button>
               ))}
             </div>
@@ -307,6 +377,7 @@ function ProductStoryPage() {
               <button
                 type="button"
                 onClick={() => isAuthenticated ? toggleWishlist(product.id) : navigate(`/login?returnTo=${encodeURIComponent(`/wishlist?add=${product.id}`)}`)}
+                aria-label={favorite ? (language === "fa" ? "حذف از علاقه‌مندی‌ها" : "Remove from wishlist") : (language === "fa" ? "افزودن به علاقه‌مندی‌ها" : "Add to wishlist")}
                 className={`flex h-12 w-12 items-center justify-center rounded-full border transition ${
                   favorite ? "border-[#B08A57] bg-[#B08A57] text-white" : "border-[var(--line)] hover:border-[#B08A57]"
                 }`}
@@ -329,13 +400,15 @@ function ProductStoryPage() {
                     <button
                       type="button"
                       onClick={() => setOpenDetail(open ? "" : id)}
+                      aria-expanded={open}
+                      aria-controls={`product-detail-${id}`}
                       className="flex w-full items-center justify-between gap-4 py-5 text-start"
                     >
                       <span className="text-xl">{title}</span>
                       <ChevronDown size={18} className={`transition ${open ? "rotate-180 text-[#B08A57]" : ""}`} />
                     </button>
                     <div className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr] pb-5" : "grid-rows-[0fr]"}`}>
-                      <div className="overflow-hidden">
+                      <div id={`product-detail-${id}`} className="overflow-hidden">
                         <p className="max-w-xl text-base leading-9 text-[var(--ink-muted)]">{body}</p>
                       </div>
                     </div>
@@ -366,6 +439,26 @@ function ProductStoryPage() {
                 {text.consultation}
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="mt-24">
+          <div className="text-center">
+            <p className="text-xs tracking-[0.24em] text-[#B08A57]">OWNERSHIP SERVICES</p>
+            <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">
+              {language === "fa" ? "خدمات مالکیت این قطعه" : "Ownership services for this creation"}
+            </h2>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {ownershipServices.map(({ title, description, icon: Icon }) => (
+              <article key={title} className="border border-[var(--line)] bg-[var(--surface-raised)] p-6 text-start transition duration-300 hover:-translate-y-1 hover:border-[#B08A57]">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#B08A57]/45 text-[#B08A57]">
+                  <Icon size={19} strokeWidth={1.4} />
+                </span>
+                <h3 className="mt-5 text-xl">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]">{description}</p>
+              </article>
+            ))}
           </div>
         </section>
 

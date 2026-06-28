@@ -12,7 +12,7 @@ import { useJournal } from "../hooks/useJournal";
 export const fallbackArticles = [
   {
     slug: "gold-in-cultural-memory",
-    image: "/images/brand-story.png",
+    image: "/images/didar-ui/journal-01.jpg",
     category: "culture",
     pillar: "Culture & Inspiration",
     date: "۱۴۰۴/۰۳/۰۸",
@@ -28,7 +28,7 @@ export const fallbackArticles = [
   },
   {
     slug: "from-idea-to-form",
-    image: "/images/world-craft.webp",
+    image: "/images/IMG_7944.JPG",
     category: "craft",
     pillar: "Product Story",
     date: "۱۴۰۴/۰۳/۱۲",
@@ -76,7 +76,7 @@ export const fallbackArticles = [
   },
   {
     slug: "why-in-person-viewing-matters",
-    image: "/images/gallery-main.JPG",
+    image: "/images/didar-ui/gallery-accent.jpg",
     category: "experience",
     pillar: "Experience",
     date: "۱۴۰۴/۰۱/۲۹",
@@ -251,7 +251,7 @@ function JournalPage() {
       <section className="relative min-h-[680px] overflow-hidden bg-[#020b17] lg:min-h-[790px]">
         <Header />
         <img
-          src="/images/brand-story.png"
+          src="/images/didar-ui/journal-01.jpg"
           alt={text.heroTitle}
           className="absolute inset-0 h-full w-full object-cover object-[48%_center]"
         />
@@ -421,7 +421,7 @@ function JournalPage() {
             </form>
 
             <div className="relative min-h-[320px] overflow-hidden border border-[var(--line)] bg-[#020b17] text-white">
-              <img src="/images/gallery-main.JPG" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover opacity-78" />
+              <img src="/images/didar-ui/service-accent.jpg" alt={text.ctaTitle} className="absolute inset-0 h-full w-full object-cover opacity-78" />
               <div
                 className={`absolute inset-0 ${
                   language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"

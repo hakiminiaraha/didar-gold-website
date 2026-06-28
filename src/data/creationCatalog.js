@@ -1,7 +1,7 @@
 export const creationCatalog = [
   {
     id: "atrin-necklace",
-    image: "/images/Product-01.png",
+    image: "/images/didar-ui/product-01.jpg",
     collection: { fa: "امضای دیدار", en: "Signature" },
     category: { fa: "گردنبند", en: "Necklace" },
     name: { fa: "گردنبند آترین", en: "Atrin Necklace" },
@@ -9,7 +9,7 @@ export const creationCatalog = [
   },
   {
     id: "vira-bracelet",
-    image: "/images/Product-02.png",
+    image: "/images/didar-ui/product-02.jpg",
     collection: { fa: "امضای دیدار", en: "Signature" },
     category: { fa: "دستبند", en: "Bracelet" },
     name: { fa: "دستبند ویرا", en: "Vira Bracelet" },
@@ -17,7 +17,7 @@ export const creationCatalog = [
   },
   {
     id: "mahtab-ring",
-    image: "/images/Product-03.png",
+    image: "/images/didar-ui/product-03.jpg",
     collection: { fa: "میراث", en: "Heritage" },
     category: { fa: "انگشتر", en: "Ring" },
     name: { fa: "انگشتر مهتاب", en: "Mahtab Ring" },
@@ -25,7 +25,7 @@ export const creationCatalog = [
   },
   {
     id: "nadia-earrings",
-    image: "/images/Product-04.png",
+    image: "/images/didar-ui/product-04.jpg",
     collection: { fa: "مراسم", en: "Ceremony" },
     category: { fa: "گوشواره", en: "Earrings" },
     name: { fa: "گوشواره نادیا", en: "Nadia Earrings" },
@@ -33,7 +33,7 @@ export const creationCatalog = [
   },
   {
     id: "leila-ring",
-    image: "/images/Product-05.png",
+    image: "/images/didar-ui/product-05.jpg",
     collection: { fa: "امضای دیدار", en: "Signature" },
     category: { fa: "انگشتر", en: "Ring" },
     name: { fa: "انگشتر لیلا", en: "Leila Ring" },
@@ -41,7 +41,7 @@ export const creationCatalog = [
   },
   {
     id: "raha-necklace",
-    image: "/images/Product-06.png",
+    image: "/images/didar-ui/product-06.jpg",
     collection: { fa: "مراسم", en: "Ceremony" },
     category: { fa: "گردنبند", en: "Necklace" },
     name: { fa: "گردنبند رها", en: "Raha Necklace" },

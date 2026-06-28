@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 
 const galleryImages = [
-  "/images/gallery-main.JPG",
+  "/images/IMG_7948.JPG",
   "/images/gallery-1.JPG",
   "/images/gallery-2.JPG",
   "/images/gallery-3.JPG",

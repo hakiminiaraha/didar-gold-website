@@ -18,7 +18,7 @@ function ShopSection() {
             <a href="/contact#appointment" className="flex h-[58px] w-[220px] items-center justify-center rounded-xl border border-[#B08A57] text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">{text[3]}</a>
           </div>
         </div>
-        <img src="/images/shop-section.JPG" alt={text[0]} className="h-[420px] w-full rounded-[28px] object-cover lg:h-[520px]" />
+        <img src="/images/gallery-2.JPG" alt={text[0]} loading="lazy" className="h-[420px] w-full rounded-[28px] object-cover lg:h-[520px]" />
       </div>
     </section>
   );

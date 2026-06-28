@@ -469,7 +469,7 @@ function CollectionsPage() {
         <div className="mx-auto grid max-w-[1450px] items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
           <div className="relative">
             <div className="overflow-hidden rounded-[30px]">
-              <img src="/images/shop-section.JPG" alt="Didar collection design world" loading="lazy" className="aspect-[4/3] h-full w-full object-cover" />
+              <img src="/images/IMG_7948.JPG" alt="Didar collection design world" loading="lazy" className="aspect-[4/3] h-full w-full object-cover" />
             </div>
             <div className="absolute -bottom-6 -start-3 hidden w-52 rounded-[22px] border border-[var(--line)] bg-[var(--surface-raised)] p-5 shadow-[0_18px_45px_rgba(4,30,66,0.12)] sm:block lg:-start-8">
               <Sparkles className="text-[#B08A57]" size={24} strokeWidth={1.3} />
@@ -511,7 +511,7 @@ function CollectionsPage() {
               </div>
             </div>
             <div className="relative min-h-[390px] lg:min-h-[570px]">
-              <img src="/images/gallery-main.JPG" alt="Didar private gallery" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/images/didar-ui/gallery-accent.jpg" alt="Didar private gallery" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
               <div className={`absolute inset-0 ${language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-transparent via-transparent to-[#041E42]/80`} />
             </div>
           </div>

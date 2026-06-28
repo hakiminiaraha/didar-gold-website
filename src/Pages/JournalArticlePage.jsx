@@ -329,7 +329,7 @@ function JournalArticlePage() {
         </section>
 
         <section className="relative mx-auto mt-16 min-h-[360px] max-w-[1250px] overflow-hidden bg-[#020b17] text-white lg:mt-24">
-          <img src="/images/gallery-main.JPG" alt={text.consultation} className="absolute inset-0 h-full w-full object-cover opacity-60" />
+          <img src="/images/didar-ui/gallery-accent.jpg" alt={text.consultation} className="absolute inset-0 h-full w-full object-cover opacity-60" />
           <div className={`absolute inset-0 ${language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-[#020b17]/98 via-[#020b17]/80 to-transparent`} />
           <div className="relative flex min-h-[360px] max-w-2xl flex-col justify-center p-8 text-start sm:p-12">
             <h2 className="text-3xl leading-[1.6] sm:text-5xl">{text.consultation}</h2>

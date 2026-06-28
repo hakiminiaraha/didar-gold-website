@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth";
 import RequireAdmin from "./components/RequireAdmin";
 import CmsRuntime from "./components/CmsRuntime";
+import SeoManager from "./components/SeoManager";
 import { AuthProvider } from "./context/AuthProvider";
 import { SelectionProvider } from "./context/SelectionProvider";
 import { SitePreferencesProvider } from "./context/SitePreferences";
@@ -45,6 +46,7 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <main dir={direction} data-theme={theme} className="min-h-screen bg-[var(--surface)] font-doran text-[var(--ink)] transition-colors duration-500">
+        <SeoManager />
         <CmsRuntime />
         <Suspense fallback={<PageLoader />}>
           <Routes>
