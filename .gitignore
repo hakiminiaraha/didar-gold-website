@@ -14,6 +14,7 @@ dist-ssr
 server/data/
 .env
 tmp/
+local-assets/
 *-capture.png
 *-capture-*.png
 design-qa.md
