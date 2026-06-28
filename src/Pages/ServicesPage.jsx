@@ -79,7 +79,7 @@ function ServicesPage() {
     <div dir="rtl" className="w-full max-w-full overflow-x-clip bg-[var(--surface)] text-[var(--ink)] transition-colors duration-500">
       <section className="relative min-h-[720px] overflow-hidden lg:min-h-screen">
         <Header />
-        <img src="/images/Product-03.png" alt="انگشتر دیدار" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <img src="/images/didar-ui/product-03.jpg" alt="انگشتر دیدار" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div className="absolute inset-0 bg-[#041E42]/78" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#041E42] via-[#041E42]/88 to-[#041E42]/35" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/80 via-transparent to-[#041E42]/40" />

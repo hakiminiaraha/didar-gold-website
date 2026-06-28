@@ -158,7 +158,7 @@ export default function LoginPage() {
     <div dir={direction} className="min-h-screen bg-[#041E42] text-white">
       <div className="grid min-h-screen lg:grid-cols-[0.9fr_1.1fr]">
         <section className="relative hidden overflow-hidden lg:block">
-          <img src="/images/Collection-01.png" alt="Didar Gold" className="absolute inset-0 h-full w-full object-cover" />
+          <img src="/images/didar-ui/collection-01.jpg" alt="Didar Gold" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#041E42] via-[#041E42]/35 to-[#041E42]/15" />
           <div className="absolute inset-x-0 bottom-0 p-14 text-start">
             <ShieldCheck size={38} strokeWidth={1.2} className="text-[#D9B985]" />

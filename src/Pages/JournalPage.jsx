@@ -44,7 +44,7 @@ export const fallbackArticles = [
   },
   {
     slug: "didar-design-language",
-    image: "/images/Collection-02.png",
+    image: "/images/didar-ui/collection-02.jpg",
     category: "design",
     pillar: "Brand World",
     date: "۱۴۰۴/۰۲/۲۶",
@@ -60,7 +60,7 @@ export const fallbackArticles = [
   },
   {
     slug: "choosing-for-an-occasion",
-    image: "/images/Product-03.png",
+    image: "/images/didar-ui/product-03.jpg",
     category: "buying",
     pillar: "Experience",
     date: "۱۴۰۴/۰۲/۲۰",
@@ -92,7 +92,7 @@ export const fallbackArticles = [
   },
   {
     slug: "digital-product-passport",
-    image: "/images/Product-06.png",
+    image: "/images/didar-ui/product-06.jpg",
     category: "trust",
     pillar: "Trust",
     date: "۱۴۰۴/۰۱/۱۸",

@@ -9,8 +9,8 @@ import { useCatalog } from "../hooks/useCatalog";
 const collectionData = {
   signature: {
     code: "SIGNATURE",
-    hero: "/images/Collection-01.png",
-    storyImage: "/images/Product-02.png",
+    hero: "/images/didar-ui/collection-01.jpg",
+    storyImage: "/images/didar-ui/product-02.jpg",
     fa: {
       name: "امضای دیدار",
       positioning: "فرم هایی خالص برای حضوری آرام و ماندگار.",
@@ -31,8 +31,8 @@ const collectionData = {
   },
   heritage: {
     code: "HERITAGE",
-    hero: "/images/Collection-02.png",
-    storyImage: "/images/collection-heritage.jpg",
+    hero: "/images/didar-ui/collection-02.jpg",
+    storyImage: "/images/didar-ui/collection-02.jpg",
     fa: {
       name: "میراث",
       positioning: "حافظه ایرانی، با بیانی برای امروز.",
@@ -53,8 +53,8 @@ const collectionData = {
   },
   ceremony: {
     code: "CEREMONY",
-    hero: "/images/Collection-03.png",
-    storyImage: "/images/Product-04.png",
+    hero: "/images/didar-ui/collection-03.jpg",
+    storyImage: "/images/didar-ui/product-04.jpg",
     fa: {
       name: "مراسم",
       positioning: "برای لحظه هایی که در حافظه می مانند.",
@@ -76,12 +76,12 @@ const collectionData = {
 };
 
 const fallbackCollectionProducts = {
-  "atrin-necklace": { image: "/images/Product-01.png", fa: ["گردنبند آترین", "گردنبند"], en: ["Atrin Necklace", "Necklace"] },
-  "vira-bracelet": { image: "/images/Product-02.png", fa: ["دستبند ویرا", "دستبند"], en: ["Vira Bracelet", "Bracelet"] },
-  "mahtab-ring": { image: "/images/Product-03.png", fa: ["انگشتر مهتاب", "انگشتر"], en: ["Mahtab Ring", "Ring"] },
-  "nadia-earrings": { image: "/images/Product-04.png", fa: ["گوشواره نادیا", "گوشواره"], en: ["Nadia Earrings", "Earrings"] },
-  "leila-ring": { image: "/images/Product-05.png", fa: ["انگشتر لیلا", "انگشتر"], en: ["Leila Ring", "Ring"] },
-  "raha-necklace": { image: "/images/Product-06.png", fa: ["گردنبند رها", "گردنبند"], en: ["Raha Necklace", "Necklace"] },
+  "atrin-necklace": { image: "/images/didar-ui/product-01.jpg", fa: ["گردنبند آترین", "گردنبند"], en: ["Atrin Necklace", "Necklace"] },
+  "vira-bracelet": { image: "/images/didar-ui/product-02.jpg", fa: ["دستبند ویرا", "دستبند"], en: ["Vira Bracelet", "Bracelet"] },
+  "mahtab-ring": { image: "/images/didar-ui/product-03.jpg", fa: ["انگشتر مهتاب", "انگشتر"], en: ["Mahtab Ring", "Ring"] },
+  "nadia-earrings": { image: "/images/didar-ui/product-04.jpg", fa: ["گوشواره نادیا", "گوشواره"], en: ["Nadia Earrings", "Earrings"] },
+  "leila-ring": { image: "/images/didar-ui/product-05.jpg", fa: ["انگشتر لیلا", "انگشتر"], en: ["Leila Ring", "Ring"] },
+  "raha-necklace": { image: "/images/didar-ui/product-06.jpg", fa: ["گردنبند رها", "گردنبند"], en: ["Raha Necklace", "Necklace"] },
 };
 
 const copy = {

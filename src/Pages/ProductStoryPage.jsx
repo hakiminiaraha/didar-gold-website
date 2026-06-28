@@ -23,8 +23,8 @@ import { useAuth } from "../context/AuthContext";
 const fallbackCreations = [
   {
     id: "atrin-necklace",
-    image: "/images/Product-01.png",
-    gallery: ["/images/Product-01.png", "/images/Collection-01.png", "/images/gallery-1.JPG"],
+    image: "/images/didar-ui/product-01.jpg",
+    gallery: ["/images/didar-ui/product-01.jpg", "/images/didar-ui/collection-01.jpg", "/images/gallery-1.JPG"],
     category: { fa: "گردنبند", en: "Necklace" },
     collection: { fa: "امضای دیدار", en: "Signature" },
     name: { fa: "گردنبند آترین", en: "Atrin Necklace" },
@@ -44,8 +44,8 @@ const fallbackCreations = [
   },
   {
     id: "vira-bracelet",
-    image: "/images/Product-02.png",
-    gallery: ["/images/Product-02.png", "/images/Collection-01.png", "/images/gallery-2.JPG"],
+    image: "/images/didar-ui/product-02.jpg",
+    gallery: ["/images/didar-ui/product-02.jpg", "/images/didar-ui/collection-01.jpg", "/images/gallery-2.JPG"],
     category: { fa: "دستبند", en: "Bracelet" },
     collection: { fa: "امضای دیدار", en: "Signature" },
     name: { fa: "دستبند ویرا", en: "Vira Bracelet" },
@@ -62,8 +62,8 @@ const fallbackCreations = [
   },
   {
     id: "mahtab-ring",
-    image: "/images/Product-03.png",
-    gallery: ["/images/Product-03.png", "/images/Collection-02.png", "/images/world-craft.webp"],
+    image: "/images/didar-ui/product-03.jpg",
+    gallery: ["/images/didar-ui/product-03.jpg", "/images/didar-ui/collection-02.jpg", "/images/world-craft.webp"],
     category: { fa: "انگشتر", en: "Ring" },
     collection: { fa: "میراث", en: "Heritage" },
     name: { fa: "انگشتر مهتاب", en: "Mahtab Ring" },
@@ -80,8 +80,8 @@ const fallbackCreations = [
   },
   {
     id: "nadia-earrings",
-    image: "/images/Product-04.png",
-    gallery: ["/images/Product-04.png", "/images/Collection-03.png", "/images/gallery-3.JPG"],
+    image: "/images/didar-ui/product-04.jpg",
+    gallery: ["/images/didar-ui/product-04.jpg", "/images/didar-ui/collection-03.jpg", "/images/gallery-3.JPG"],
     category: { fa: "گوشواره", en: "Earrings" },
     collection: { fa: "مراسم", en: "Ceremony" },
     name: { fa: "گوشواره نادیا", en: "Nadia Earrings" },
@@ -98,8 +98,8 @@ const fallbackCreations = [
   },
   {
     id: "leila-ring",
-    image: "/images/Product-05.png",
-    gallery: ["/images/Product-05.png", "/images/Collection-01.png", "/images/gallery-4.JPG"],
+    image: "/images/didar-ui/product-05.jpg",
+    gallery: ["/images/didar-ui/product-05.jpg", "/images/didar-ui/collection-01.jpg", "/images/gallery-4.JPG"],
     category: { fa: "انگشتر", en: "Ring" },
     collection: { fa: "امضای دیدار", en: "Signature" },
     name: { fa: "انگشتر لیلا", en: "Leila Ring" },
@@ -116,8 +116,8 @@ const fallbackCreations = [
   },
   {
     id: "raha-necklace",
-    image: "/images/Product-06.png",
-    gallery: ["/images/Product-06.png", "/images/Collection-03.png", "/images/gallery-main.JPG"],
+    image: "/images/didar-ui/product-06.jpg",
+    gallery: ["/images/didar-ui/product-06.jpg", "/images/didar-ui/collection-03.jpg", "/images/gallery-main.JPG"],
     category: { fa: "گردنبند", en: "Necklace" },
     collection: { fa: "مراسم", en: "Ceremony" },
     name: { fa: "گردنبند رها", en: "Raha Necklace" },

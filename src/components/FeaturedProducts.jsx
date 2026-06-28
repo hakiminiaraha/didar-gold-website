@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useCatalog } from "../hooks/useCatalog";
 
 const fallbackProducts = [
-  { id: "atrin-necklace", image: "/images/Product-01.png", fa: ["گردنبند آترین", "۷.۲۴۰ گرم"], en: ["Atrin Necklace", "7.240 gr"] },
-  { id: "vira-bracelet", image: "/images/Product-02.png", fa: ["دستبند ویرا", "۱۱.۵۰۰ گرم"], en: ["Vira Bracelet", "11.500 gr"] },
-  { id: "mahtab-ring", image: "/images/Product-03.png", fa: ["انگشتر مهتاب", "۶.۱۸۰ گرم"], en: ["Mahtab Ring", "6.180 gr"] },
-  { id: "nadia-earrings", image: "/images/Product-04.png", fa: ["گوشواره نادیا", "۵.۳۶۰ گرم"], en: ["Nadia Earrings", "5.360 gr"] },
-  { id: "leila-ring", image: "/images/Product-05.png", fa: ["انگشتر لیلا", "۸.۷۹۰ گرم"], en: ["Leila Ring", "8.790 gr"] },
+  { id: "atrin-necklace", image: "/images/didar-ui/product-01.jpg", fa: ["گردنبند آترین", "۷.۲۴۰ گرم"], en: ["Atrin Necklace", "7.240 gr"] },
+  { id: "vira-bracelet", image: "/images/didar-ui/product-02.jpg", fa: ["دستبند ویرا", "۱۱.۵۰۰ گرم"], en: ["Vira Bracelet", "11.500 gr"] },
+  { id: "mahtab-ring", image: "/images/didar-ui/product-03.jpg", fa: ["انگشتر مهتاب", "۶.۱۸۰ گرم"], en: ["Mahtab Ring", "6.180 gr"] },
+  { id: "nadia-earrings", image: "/images/didar-ui/product-04.jpg", fa: ["گوشواره نادیا", "۵.۳۶۰ گرم"], en: ["Nadia Earrings", "5.360 gr"] },
+  { id: "leila-ring", image: "/images/didar-ui/product-05.jpg", fa: ["انگشتر لیلا", "۸.۷۹۰ گرم"], en: ["Leila Ring", "8.790 gr"] },
 ];
 
 function FeaturedProducts() {

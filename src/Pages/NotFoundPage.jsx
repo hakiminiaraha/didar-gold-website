@@ -9,7 +9,7 @@ export default function NotFoundPage() {
 
   return (
     <main dir={direction} className="relative flex min-h-screen items-center overflow-hidden bg-[#020b17] px-5 text-white">
-      <img src="/images/Collection-02.png" alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+      <img src="/images/didar-ui/collection-02.jpg" alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#020b17] via-[#020b17]/92 to-[#020b17]/55" />
       <div className="relative mx-auto w-full max-w-[1200px] text-start">
         <p className="text-sm tracking-[0.35em] text-[#D9B985]">404 / DIDAR</p>

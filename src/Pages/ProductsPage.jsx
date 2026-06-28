@@ -31,7 +31,7 @@ const categories = [
 const fallbackProducts = [
   {
     id: "atrin-necklace",
-    image: "/images/Product-01.png",
+    image: "/images/didar-ui/product-01.jpg",
     category: "necklaces",
     collection: "SIGNATURE",
     fa: { name: "گردنبند آترین", type: "گردنبند" },
@@ -39,7 +39,7 @@ const fallbackProducts = [
   },
   {
     id: "vira-bracelet",
-    image: "/images/Product-02.png",
+    image: "/images/didar-ui/product-02.jpg",
     category: "bracelets",
     collection: "SIGNATURE",
     fa: { name: "دستبند ویرا", type: "دستبند" },
@@ -47,7 +47,7 @@ const fallbackProducts = [
   },
   {
     id: "mahtab-ring",
-    image: "/images/Product-03.png",
+    image: "/images/didar-ui/product-03.jpg",
     category: "rings",
     collection: "HERITAGE",
     fa: { name: "انگشتر مهتاب", type: "انگشتر" },
@@ -55,7 +55,7 @@ const fallbackProducts = [
   },
   {
     id: "nadia-earrings",
-    image: "/images/Product-04.png",
+    image: "/images/didar-ui/product-04.jpg",
     category: "earrings",
     collection: "CEREMONY",
     fa: { name: "گوشواره نادیا", type: "گوشواره" },
@@ -63,7 +63,7 @@ const fallbackProducts = [
   },
   {
     id: "leila-ring",
-    image: "/images/Product-05.png",
+    image: "/images/didar-ui/product-05.jpg",
     category: "rings",
     collection: "SIGNATURE",
     fa: { name: "انگشتر لیلا", type: "انگشتر" },
@@ -71,7 +71,7 @@ const fallbackProducts = [
   },
   {
     id: "raha-necklace",
-    image: "/images/Product-06.png",
+    image: "/images/didar-ui/product-06.jpg",
     category: "necklaces",
     collection: "CEREMONY",
     fa: { name: "گردنبند رها", type: "گردنبند" },
@@ -378,7 +378,7 @@ function ProductsPage() {
         <div className="mx-auto grid max-w-[1450px] items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="relative overflow-hidden rounded-[30px]">
             <img
-              src="/images/Product-01.png"
+              src="/images/didar-ui/product-01.jpg"
               alt="Atrin Necklace"
               loading="lazy"
               className="aspect-[4/4.5] h-full w-full object-cover"

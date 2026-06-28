@@ -3,9 +3,9 @@ import { useSitePreferences } from "../context/SitePreferencesContext";
 import { useCatalog } from "../hooks/useCatalog";
 
 const fallbackCollections = [
-  { id: "ceremony", title: "CEREMONY", fa: "مراسم خاص", en: "Ceremonial moments", image: "/images/Collection-03.png" },
-  { id: "signature", title: "SIGNATURE", fa: "امضای دیدار", en: "The Didar signature", image: "/images/Collection-01.png" },
-  { id: "heritage", title: "HERITAGE", fa: "میراث جاودانه", en: "An enduring heritage", image: "/images/collection-heritage.jpg" },
+  { id: "ceremony", title: "CEREMONY", fa: "مراسم خاص", en: "Ceremonial moments", image: "/images/didar-ui/collection-03.jpg" },
+  { id: "signature", title: "SIGNATURE", fa: "امضای دیدار", en: "The Didar signature", image: "/images/didar-ui/collection-01.jpg" },
+  { id: "heritage", title: "HERITAGE", fa: "میراث جاودانه", en: "An enduring heritage", image: "/images/didar-ui/collection-02.jpg" },
 ];
 
 function Collections() {

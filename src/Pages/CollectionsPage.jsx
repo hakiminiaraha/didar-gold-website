@@ -21,7 +21,7 @@ const fallbackCollections = [
   {
     id: "signature",
     englishName: "SIGNATURE",
-    image: "/images/Collection-01.png",
+    image: "/images/didar-ui/collection-01.jpg",
     fa: {
       name: "امضای دیدار",
       description: "فرم‌هایی ماندگار که زبان طراحی دیدار را روایت می‌کنند.",
@@ -40,7 +40,7 @@ const fallbackCollections = [
   {
     id: "heritage",
     englishName: "HERITAGE",
-    image: "/images/Collection-02.png",
+    image: "/images/didar-ui/collection-02.jpg",
     fa: {
       name: "میراث",
       description: "بازخوانی ظریف نقش‌ها و خاطره‌های آشنا در بیانی معاصر.",
@@ -59,7 +59,7 @@ const fallbackCollections = [
   {
     id: "ceremony",
     englishName: "CEREMONY",
-    image: "/images/Collection-03.png",
+    image: "/images/didar-ui/collection-03.jpg",
     fa: {
       name: "مراسم",
       description: "آفریده‌هایی برای لحظه‌هایی که در حافظه می‌مانند.",
@@ -79,32 +79,32 @@ const fallbackCollections = [
 
 const featuredPieces = [
   {
-    image: "/images/Product-01.png",
+    image: "/images/didar-ui/product-01.jpg",
     fa: { name: "گردنبند آترین", type: "گردنبند" },
     en: { name: "Atrin Necklace", type: "Necklace" },
   },
   {
-    image: "/images/Product-02.png",
+    image: "/images/didar-ui/product-02.jpg",
     fa: { name: "دستبند ویرا", type: "دستبند" },
     en: { name: "Vira Bracelet", type: "Bracelet" },
   },
   {
-    image: "/images/Product-03.png",
+    image: "/images/didar-ui/product-03.jpg",
     fa: { name: "انگشتر مهتاب", type: "انگشتر" },
     en: { name: "Mahtab Ring", type: "Ring" },
   },
   {
-    image: "/images/Product-04.png",
+    image: "/images/didar-ui/product-04.jpg",
     fa: { name: "گوشواره نادیا", type: "گوشواره" },
     en: { name: "Nadia Earrings", type: "Earrings" },
   },
   {
-    image: "/images/Product-05.png",
+    image: "/images/didar-ui/product-05.jpg",
     fa: { name: "انگشتر لیلا", type: "انگشتر" },
     en: { name: "Leila Ring", type: "Ring" },
   },
   {
-    image: "/images/Product-06.png",
+    image: "/images/didar-ui/product-06.jpg",
     fa: { name: "گردنبند رها", type: "گردنبند" },
     en: { name: "Raha Necklace", type: "Necklace" },
   },
@@ -273,7 +273,7 @@ function CollectionsPage() {
     <div dir={direction} className="w-screen max-w-[100vw] overflow-x-hidden bg-[var(--surface)] text-[var(--ink)] transition-colors duration-500">
       <section className="relative min-h-[760px] overflow-hidden lg:min-h-screen">
         <Header />
-        <img src="/images/collection-heritage.jpg" alt="Didar Gold Collections" className="absolute inset-0 h-full w-full object-cover object-[62%_center]" />
+        <img src="/images/didar-ui/collection-02.jpg" alt="Didar Gold Collections" className="absolute inset-0 h-full w-full object-cover object-[62%_center]" />
         <div className={`absolute inset-0 ${language === "fa" ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-[#041E42]/95 via-[#041E42]/58 to-[#041E42]/10`} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/45 via-transparent to-transparent" />
 

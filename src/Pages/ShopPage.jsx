@@ -25,7 +25,7 @@ import { useCatalog } from "../hooks/useCatalog";
 const fallbackProducts = [
   {
     id: "atrin-necklace",
-    image: "/images/Product-01.png",
+    image: "/images/didar-ui/product-01.jpg",
     category: "necklaces",
     collection: "signature",
     occasion: "gift",
@@ -42,7 +42,7 @@ const fallbackProducts = [
   },
   {
     id: "vira-bracelet",
-    image: "/images/Product-02.png",
+    image: "/images/didar-ui/product-02.jpg",
     category: "bracelets",
     collection: "signature",
     occasion: "daily",
@@ -59,7 +59,7 @@ const fallbackProducts = [
   },
   {
     id: "mahtab-ring",
-    image: "/images/Product-03.png",
+    image: "/images/didar-ui/product-03.jpg",
     category: "rings",
     collection: "heritage",
     occasion: "signature",
@@ -76,7 +76,7 @@ const fallbackProducts = [
   },
   {
     id: "nadia-earrings",
-    image: "/images/Product-04.png",
+    image: "/images/didar-ui/product-04.jpg",
     category: "earrings",
     collection: "ceremony",
     occasion: "ceremony",
@@ -93,7 +93,7 @@ const fallbackProducts = [
   },
   {
     id: "leila-ring",
-    image: "/images/Product-05.png",
+    image: "/images/didar-ui/product-05.jpg",
     category: "rings",
     collection: "signature",
     occasion: "daily",
@@ -110,7 +110,7 @@ const fallbackProducts = [
   },
   {
     id: "raha-necklace",
-    image: "/images/Product-06.png",
+    image: "/images/didar-ui/product-06.jpg",
     category: "necklaces",
     collection: "ceremony",
     occasion: "gift",
@@ -313,16 +313,16 @@ const copy = {
 };
 
 const categoryImages = {
-  rings: "/images/Product-03.png",
-  necklaces: "/images/Product-01.png",
-  bracelets: "/images/Product-02.png",
-  earrings: "/images/Product-04.png",
+  rings: "/images/didar-ui/product-03.jpg",
+  necklaces: "/images/didar-ui/product-01.jpg",
+  bracelets: "/images/didar-ui/product-02.jpg",
+  earrings: "/images/didar-ui/product-04.jpg",
 };
 
 const collectionImages = {
-  signature: "/images/Collection-01.png",
-  heritage: "/images/Collection-02.png",
-  ceremony: "/images/Collection-03.png",
+  signature: "/images/didar-ui/collection-01.jpg",
+  heritage: "/images/didar-ui/collection-02.jpg",
+  ceremony: "/images/didar-ui/collection-03.jpg",
 };
 
 function ShopPage() {

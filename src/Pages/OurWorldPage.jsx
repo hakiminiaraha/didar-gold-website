@@ -135,10 +135,10 @@ const content = {
 };
 
 const processImages = [
-  "/images/Collection-01.png",
-  "/images/Collection-02.png",
+  "/images/didar-ui/collection-01.jpg",
+  "/images/didar-ui/collection-02.jpg",
   "/images/world-craft.webp",
-  "/images/Product-05.png",
+  "/images/didar-ui/product-05.jpg",
   "/images/brand-story.png",
 ];
 
@@ -244,7 +244,7 @@ function OurWorldPage() {
               </p>
               <div className="mt-10 overflow-hidden rounded-[30px]">
                 <img
-                  src="/images/Collection-02.png"
+                  src="/images/didar-ui/collection-02.jpg"
                   alt={text.philosophyTitle}
                   className="aspect-[16/10] h-full w-full object-cover transition duration-700 hover:scale-105"
                 />

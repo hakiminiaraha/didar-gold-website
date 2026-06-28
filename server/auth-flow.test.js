@@ -141,7 +141,7 @@ test("admin endpoints reject members and expose operational data to admins", asy
     slug: "api-test-ring",
     status: "draft",
     sortOrder: 999,
-    data: { image: "/images/Product-03.png", name: { fa: "حلقه تست", en: "Test Ring" }, category: "rings" },
+    data: { image: "/images/didar-ui/product-03.jpg", name: { fa: "حلقه تست", en: "Test Ring" }, category: "rings" },
   };
   const createCatalog = await fetch(`${baseUrl}/api/admin/catalog`, {
     method: "POST",

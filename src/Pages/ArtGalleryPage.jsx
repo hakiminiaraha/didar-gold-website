@@ -7,27 +7,27 @@ import Header from "../components/Header";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 
 const galleryItems = [
-  { image: "/images/Collection-01.png", category: "necklace", span: "md:row-span-2", href: "/collections/signature" },
-  { image: "/images/Collection-02.png", category: "ring", span: "", href: "/collections/heritage" },
-  { image: "/images/Collection-03.png", category: "earring", span: "", href: "/collections/ceremony" },
-  { image: "/images/Product-01.png", category: "necklace", span: "md:col-span-2", href: "/products/atrin-necklace" },
-  { image: "/images/Product-02.png", category: "bracelet", span: "", href: "/products/vira-bracelet" },
-  { image: "/images/Product-03.png", category: "ring", span: "", href: "/products/mahtab-ring" },
-  { image: "/images/Product-04.png", category: "earring", span: "", href: "/products/nadia-earrings" },
-  { image: "/images/Product-05.png", category: "necklace", span: "", href: "/products/leila-ring" },
-  { image: "/images/Product-06.png", category: "bracelet", span: "", href: "/products/raha-necklace" },
+  { image: "/images/didar-ui/collection-01.jpg", category: "necklace", span: "md:row-span-2", href: "/collections/signature" },
+  { image: "/images/didar-ui/collection-02.jpg", category: "ring", span: "", href: "/collections/heritage" },
+  { image: "/images/didar-ui/collection-03.jpg", category: "earring", span: "", href: "/collections/ceremony" },
+  { image: "/images/didar-ui/product-01.jpg", category: "necklace", span: "md:col-span-2", href: "/products/atrin-necklace" },
+  { image: "/images/didar-ui/product-02.jpg", category: "bracelet", span: "", href: "/products/vira-bracelet" },
+  { image: "/images/didar-ui/product-03.jpg", category: "ring", span: "", href: "/products/mahtab-ring" },
+  { image: "/images/didar-ui/product-04.jpg", category: "earring", span: "", href: "/products/nadia-earrings" },
+  { image: "/images/didar-ui/product-05.jpg", category: "necklace", span: "", href: "/products/leila-ring" },
+  { image: "/images/didar-ui/product-06.jpg", category: "bracelet", span: "", href: "/products/raha-necklace" },
 ];
 
 const collectionCards = [
-  { image: "/images/Collection-03.png", en: "Ceremony", fa: "مراسم" },
-  { image: "/images/Collection-01.png", en: "Signature", fa: "امضای دیدار" },
-  { image: "/images/collection-heritage.jpg", en: "Heritage", fa: "میراث" },
+  { image: "/images/didar-ui/collection-03.jpg", en: "Ceremony", fa: "مراسم" },
+  { image: "/images/didar-ui/collection-01.jpg", en: "Signature", fa: "امضای دیدار" },
+  { image: "/images/didar-ui/collection-02.jpg", en: "Heritage", fa: "میراث" },
 ];
 
 const processImages = [
   "/images/brand-story.png",
   "/images/IMG_7944.JPG",
-  "/images/Collection-02.png",
+  "/images/didar-ui/collection-02.jpg",
   "/images/gallery-3.JPG",
   "/images/world-craft.webp",
 ];
@@ -202,7 +202,7 @@ function ArtGalleryPage() {
           <div className="mx-auto grid max-w-[1450px] overflow-hidden border border-[var(--line)] bg-[var(--surface-raised)] lg:grid-cols-[1.08fr_0.92fr]">
             <div className="min-h-[430px] overflow-hidden lg:min-h-[620px]">
               <img
-                src="/images/Collection-02.png"
+                src="/images/didar-ui/collection-02.jpg"
                 alt={text.storyTitle}
                 className="h-full w-full object-cover transition duration-700 hover:scale-105"
               />
@@ -291,7 +291,7 @@ function ArtGalleryPage() {
         <section className="px-4 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="relative mx-auto min-h-[300px] max-w-[1450px] overflow-hidden border border-[var(--line)]">
             <img
-              src="/images/Collection-03.png"
+              src="/images/didar-ui/collection-03.jpg"
               alt=""
               className="absolute inset-0 h-full w-full object-cover opacity-25"
             />
