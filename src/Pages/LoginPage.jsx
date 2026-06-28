@@ -83,7 +83,7 @@ const adminCopy = {
 };
 
 function getSafeReturnTo(value) {
-  return value?.startsWith("/") && !value.startsWith("//") ? value : "/wishlist";
+  return value?.startsWith("/") && !value.startsWith("//") ? value : "/account";
 }
 
 export default function LoginPage() {

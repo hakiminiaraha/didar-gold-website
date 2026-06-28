@@ -13,7 +13,6 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { useAuth } from "../context/AuthContext";
 import { useSelection } from "../context/SelectionContext";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 import { creationCatalog } from "../data/creationCatalog";
@@ -26,7 +25,6 @@ function Header() {
   const [query, setQuery] = useState("");
   const { language, theme, setLanguage, setTheme } = useSitePreferences();
   const { wishlist, selection } = useSelection();
-  const { isAuthenticated } = useAuth();
   const location = useLocation();
   const Arrow = language === "fa" ? ArrowLeft : ArrowRight;
 
@@ -86,7 +84,7 @@ function Header() {
             <ClipboardList size={18} strokeWidth={1.5} />
             {selection.length > 0 && <span className="absolute end-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#041E42] px-1 text-[9px] text-white">{selection.length}</span>}
           </Link>
-          <Link to={isAuthenticated ? "/account" : "/login"} aria-label={language === "fa" ? "حساب کاربری" : "Account"} className="hidden h-10 w-10 items-center justify-center rounded-full hover:bg-[#B08A57]/15 lg:flex">
+          <Link to="/account" aria-label={language === "fa" ? "حساب کاربری" : "Account"} className="hidden h-10 w-10 items-center justify-center rounded-full hover:bg-[#B08A57]/15 lg:flex">
             <UserRound size={18} strokeWidth={1.5} />
           </Link>
           <button type="button" onClick={() => setSearchOpen(true)} aria-label={language === "fa" ? "جستجو" : "Search"} className="hidden h-10 w-10 items-center justify-center rounded-full hover:bg-[#B08A57]/15 sm:flex">
@@ -128,7 +126,7 @@ function Header() {
             <div className="grid grid-cols-3 gap-2 pt-6 text-xs">
               <Link to="/wishlist" onClick={() => setMenuOpen(false)} className="flex flex-col items-center gap-2 border border-[var(--line)] p-3"><Heart size={18} />{language === "fa" ? "علاقه مندی" : "Wishlist"}</Link>
               <Link to="/selection" onClick={() => setMenuOpen(false)} className="flex flex-col items-center gap-2 border border-[var(--line)] p-3"><ClipboardList size={18} />{language === "fa" ? "بررسی" : "Review"}</Link>
-              <Link to={isAuthenticated ? "/account" : "/login"} onClick={() => setMenuOpen(false)} className="flex flex-col items-center gap-2 border border-[var(--line)] p-3"><UserRound size={18} />{language === "fa" ? "حساب" : "Account"}</Link>
+              <Link to="/account" onClick={() => setMenuOpen(false)} className="flex flex-col items-center gap-2 border border-[var(--line)] p-3"><UserRound size={18} />{language === "fa" ? "حساب" : "Account"}</Link>
             </div>
             <div className="mt-5 flex items-center justify-between border-t border-[var(--line)] pt-5">
               <button type="button" onClick={() => setLanguage(language === "fa" ? "en" : "fa")} className="text-sm text-[#B08A57]">{language === "fa" ? "English" : "فارسی"}</button>

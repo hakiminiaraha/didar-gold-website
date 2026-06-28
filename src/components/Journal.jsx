@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { useJournal } from "../hooks/useJournal";
 
 const fallbackArticles = [
-  { slug: "choosing-for-an-occasion", image: "/images/article-1.jpg", fa: ["راهنمای انتخاب انگشتر", "۵ دقیقه مطالعه"], en: ["A Guide to Choosing Rings", "5 min read"] },
-  { slug: "from-idea-to-form", image: "/images/article-2.jpg", fa: ["هنر دست‌ساز", "۷ دقیقه مطالعه"], en: ["The Art of Handcraft", "7 min read"] },
-  { slug: "digital-product-passport", image: "/images/article-3.jpg", fa: ["راهنمای نگهداری طلا", "۶ دقیقه مطالعه"], en: ["Caring for Gold", "6 min read"] },
-  { slug: "gold-in-cultural-memory", image: "/images/article-4.jpg", fa: ["داستان طلا", "۴ دقیقه مطالعه"], en: ["The Story of Gold", "4 min read"] },
+  { slug: "choosing-for-an-occasion", image: "/images/Product-03.png", fa: ["راهنمای انتخاب انگشتر", "۵ دقیقه مطالعه"], en: ["A Guide to Choosing Rings", "5 min read"] },
+  { slug: "from-idea-to-form", image: "/images/world-craft.webp", fa: ["هنر دست‌ساز", "۷ دقیقه مطالعه"], en: ["The Art of Handcraft", "7 min read"] },
+  { slug: "digital-product-passport", image: "/images/Product-06.png", fa: ["راهنمای نگهداری طلا", "۶ دقیقه مطالعه"], en: ["Caring for Gold", "6 min read"] },
+  { slug: "gold-in-cultural-memory", image: "/images/brand-story.png", fa: ["داستان طلا", "۴ دقیقه مطالعه"], en: ["The Story of Gold", "4 min read"] },
 ];
 
 function Journal() {

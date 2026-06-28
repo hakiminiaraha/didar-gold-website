@@ -25,7 +25,7 @@ const collectionCards = [
 ];
 
 const processImages = [
-  "/images/article-1.jpg",
+  "/images/brand-story.png",
   "/images/IMG_7944.JPG",
   "/images/Collection-02.png",
   "/images/gallery-3.JPG",

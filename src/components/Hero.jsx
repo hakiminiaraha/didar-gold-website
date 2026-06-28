@@ -29,7 +29,8 @@ function Hero() {
         muted
         loop
         playsInline
-        poster="/images/article-2.jpg"
+        preload="metadata"
+        poster="/images/world-hero.webp"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>

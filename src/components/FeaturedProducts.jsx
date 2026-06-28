@@ -30,7 +30,7 @@ function FeaturedProducts() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-8">
           {products.map((product) => (
             <article key={product.en[0]} className="overflow-hidden rounded-[24px] border border-[var(--line)] bg-[var(--surface-raised)] transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-              <img src={product.image} alt={product[language][0]} className="h-[220px] w-full object-cover sm:h-[240px]" />
+              <img src={product.image} alt={product[language][0]} loading="lazy" decoding="async" className="h-[220px] w-full object-cover sm:h-[240px]" />
               <div className="px-5 py-5 text-center">
                 <h3 className="text-lg text-[var(--ink)]">{product[language][0]}</h3>
                 <p className="mt-2 text-sm text-[var(--ink-muted)]">{product[language][1]}</p>

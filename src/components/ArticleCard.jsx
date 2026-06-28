@@ -4,6 +4,8 @@ function ArticleCard({ image, title, readTime }) {
       <img
         src={image}
         alt={title}
+        loading="lazy"
+        decoding="async"
         className="h-[180px] w-full object-cover"
       />
 
