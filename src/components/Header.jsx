@@ -17,29 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useSelection } from "../context/SelectionContext";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 import { creationCatalog } from "../data/creationCatalog";
-
-const navigation = {
-  fa: [
-    ["خانه", "/"],
-    ["کالکشن ها", "/collections"],
-    ["محصولات", "/products"],
-    ["خدمات", "/services"],
-    ["جهان دیدار", "/our-world"],
-    ["آرت گالری", "/art-gallery"],
-    ["مجله دیدار", "/journal"],
-    ["شاپ", "/shop"],
-  ],
-  en: [
-    ["Home", "/"],
-    ["Collections", "/collections"],
-    ["Products", "/products"],
-    ["Services", "/services"],
-    ["Our World", "/our-world"],
-    ["Art Gallery", "/art-gallery"],
-    ["Journal", "/journal"],
-    ["Shop", "/shop"],
-  ],
-};
+import { siteNavigation } from "../data/siteContent";
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -78,7 +56,7 @@ function Header() {
   const searchResults = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase();
     if (!normalized) return [];
-    const pageResults = navigation[language]
+    const pageResults = siteNavigation[language]
       .filter(([label]) => label.toLocaleLowerCase().includes(normalized))
       .map(([label, href]) => ({ id: href, label, meta: language === "fa" ? "صفحه" : "Page", href }));
     const creationResults = creationCatalog
@@ -120,8 +98,8 @@ function Header() {
         </div>
 
         <nav className="hidden items-center justify-center gap-5 whitespace-nowrap rounded-full border border-[var(--line)] bg-[var(--surface)]/78 px-8 py-3 text-[13px] font-medium text-[var(--ink)] shadow-sm backdrop-blur-xl md:flex xl:gap-7 xl:px-11 xl:text-sm">
-          {navigation[language].map(([label, href]) => (
-            <Link key={label} to={href} className={`transition hover:text-[#B08A57] ${href === location.pathname ? "text-[#B08A57]" : ""}`}>{label}</Link>
+          {siteNavigation[language].map(([label, href]) => (
+            <Link key={label} to={href} aria-current={href === location.pathname ? "page" : undefined} className={`transition hover:text-[#B08A57] ${href === location.pathname ? "text-[#B08A57]" : ""}`}>{label}</Link>
           ))}
         </nav>
 
@@ -141,7 +119,7 @@ function Header() {
               <Search size={17} />{language === "fa" ? "جستجو در دیدار" : "Search Didar"}
             </button>
             <nav className="mt-10 flex-1 overflow-y-auto border-t border-[var(--line)]">
-              {navigation[language].map(([label, href], index) => (
+              {siteNavigation[language].map(([label, href], index) => (
                 <Link key={href} to={href} onClick={() => setMenuOpen(false)} className="flex items-center justify-between border-b border-[var(--line)] py-5 text-xl transition hover:text-[#B08A57]">
                   <span>{label}</span><span className="text-xs text-[#B08A57]">0{index + 1}</span>
                 </Link>
