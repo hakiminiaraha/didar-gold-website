@@ -7,7 +7,7 @@ test("PostgreSQL adapter supports schema, transactions, and cascades", { skip: !
   process.env.DATABASE_URL = testDatabaseUrl;
   process.env.DATABASE_SSL = process.env.TEST_DATABASE_SSL || "false";
 
-  const { db } = await import(`./db.js?postgres-smoke=${Date.now()}`);
+  const { db } = await import(`../db.js?postgres-smoke=${Date.now()}`);
   const mobile = `0912${String(Date.now()).slice(-7)}`;
   const now = Date.now();
 

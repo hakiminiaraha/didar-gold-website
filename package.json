@@ -10,9 +10,9 @@
     "dev": "vite",
     "dev:api": "node --watch --env-file-if-exists=.env server/index.js",
     "start:api": "node --env-file-if-exists=.env server/index.js",
-    "test:api": "node --test --env-file-if-exists=.env server/auth-flow.test.js server/postgres-smoke.test.js",
-    "db:migrate:postgres": "node --env-file-if-exists=.env server/migrate-sqlite-to-postgres.js",
-    "db:seed:production": "node --env-file-if-exists=.env server/seed-production.js",
+    "test:api": "node --test --env-file-if-exists=.env server/tests/auth-flow.test.js server/tests/postgres-smoke.test.js",
+    "db:migrate:postgres": "node --env-file-if-exists=.env server/scripts/migrate-sqlite-to-postgres.js",
+    "db:seed:production": "node --env-file-if-exists=.env server/scripts/seed-production.js",
     "audit:launch": "node --env-file-if-exists=.env scripts/audit-launch.mjs",
     "audit:production": "node scripts/post-deploy-smoke.mjs",
     "build": "vite build",
@@ -36,9 +36,12 @@
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "ffmpeg-static": "^5.3.0",
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
+    "sharp": "^0.35.2",
     "tailwindcss": "^3.4.19",
+    "ttf2woff2": "^8.0.1",
     "vite": "^8.0.12"
   }
 }

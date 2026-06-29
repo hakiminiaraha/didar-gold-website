@@ -11,10 +11,10 @@ process.env.AUTH_HASH_SECRET = "test-auth-hash-secret-with-more-than-32-characte
 process.env.SESSION_SECRET = "test-session-secret-with-more-than-32-characters";
 process.env.ADMIN_MOBILES = "09120000000";
 
-const { server } = await import("./index.js");
-const { db } = await import("./db.js");
-const { config } = await import("./config.js");
-const { sendOtp } = await import("./otpProvider.js");
+const { server } = await import("../index.js");
+const { db } = await import("../db.js");
+const { config } = await import("../config.js");
+const { sendOtp } = await import("../otpProvider.js");
 
 if (!server.listening) await new Promise((resolve) => server.once("listening", resolve));
 const baseUrl = `http://127.0.0.1:${server.address().port}`;

@@ -48,9 +48,24 @@ server/
 │   ├── catalog.handlers.js
 │   ├── journal.handlers.js
 │   └── inquiries.handlers.js
+├── seeds/                # seed DATA (exported arrays, no side effects)
+│   ├── catalog.seed.js
+│   ├── journal.seed.js
+│   └── production.seed.js
+├── scripts/              # runnable maintenance tools (executed via npm scripts)
+│   ├── seed-production.js          # db:seed:production
+│   └── migrate-sqlite-to-postgres.js  # db:migrate:postgres
+├── tests/                # node:test suites
+│   ├── auth-flow.test.js
+│   └── postgres-smoke.test.js
 └── schema/
     └── postgres.sql      # PostgreSQL schema (SQLite schema is inline in db.js)
 ```
+
+**File-naming conventions:** request handlers are `<domain>.handlers.js`, seed
+data is `<name>.seed.js`, tests are `<name>.test.js`. Seeds under `seeds/` only
+**export data** (consumed by `db.js` auto-seed and by `scripts/`); anything that
+**runs** and mutates state lives in `scripts/`.
 
 **Layering rule (strict, one direction):**
 `index.js → app.js → routes → module handler → (middleware/auth, db, http helpers)`.
@@ -364,12 +379,12 @@ early on misconfiguration.
 ## 15. Testing
 
 - **`node:test`** + `node:assert/strict` — no extra runner.
-- `server/auth-flow.test.js` is an **integration suite**: it imports the real
-  `server` (`export { server }`), runs against in-memory SQLite
+- `server/tests/auth-flow.test.js` is an **integration suite**: it imports the
+  real `server` (`export { server }`), runs against in-memory SQLite
   (`DATABASE_PATH=:memory:`), and drives endpoints with `fetch()` — covering the
   OTP→session→wishlist flow, RBAC, and CRUD across all domains.
-- `server/postgres-smoke.test.js` exercises the PostgreSQL adapter (skipped
-  without a `DATABASE_URL`).
+- `server/tests/postgres-smoke.test.js` exercises the PostgreSQL adapter
+  (skipped without a `TEST_DATABASE_URL`).
 - Run with `npm run test:api`. Add endpoint coverage to the integration suite
   when adding a route — a green suite is the contract that refactors preserve.
 ```
