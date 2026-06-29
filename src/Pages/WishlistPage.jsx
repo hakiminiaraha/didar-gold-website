@@ -58,11 +58,11 @@ export default function WishlistPage() {
         <section className="mx-auto max-w-[1450px] border-b border-[var(--line)] pb-10 text-start">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs tracking-[0.28em] text-[#B08A57]">{text.eyebrow}</p>
+              <p className="text-xs tracking-[0.28em] text-[var(--gold-text)]">{text.eyebrow}</p>
               <h1 className="mt-5 text-4xl font-normal leading-[1.5] sm:text-6xl">{text.title}</h1>
               <p className="mt-5 text-lg leading-9 text-[var(--ink-muted)]">{text.description}</p>
             </div>
-            <Link to="/selection" className="inline-flex h-13 w-fit items-center gap-3 border border-[#B08A57] px-6 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">
+            <Link to="/selection" className="inline-flex h-13 w-fit items-center gap-3 border border-[#B08A57] px-6 text-sm text-[var(--gold-text)] transition hover:bg-[#B08A57] hover:text-white">
               <ListPlus size={18} strokeWidth={1.5} />{text.selection}<span>{selection.length}</span>
             </Link>
           </div>
@@ -82,14 +82,14 @@ export default function WishlistPage() {
                       </button>
                     </div>
                     <div className="p-6">
-                      <p className="text-xs text-[#B08A57]">{creation.collection[language]} / {creation.category[language]}</p>
+                      <p className="text-xs text-[var(--gold-text)]">{creation.collection[language]} / {creation.category[language]}</p>
                       <h2 className="mt-3 text-3xl">{creation.name[language]}</h2>
                       <p className="mt-3 min-h-14 text-sm leading-7 text-[var(--ink-muted)]">{creation.note[language]}</p>
                       <div className="mt-6 flex flex-col gap-3 border-t border-[var(--line)] pt-5 sm:flex-row">
                         <button type="button" onClick={() => addSelection(creation.id)} className={`inline-flex h-11 flex-1 items-center justify-center gap-2 text-sm transition ${selected ? "bg-[#B08A57] text-white" : "bg-[#041E42] text-white hover:bg-[#B08A57]"}`}>
                           <ListPlus size={16} />{selected ? text.added : text.add}
                         </button>
-                        <Link to={`/products/${creation.id}`} className="inline-flex h-11 items-center justify-center gap-2 border border-[var(--line)] px-4 text-sm hover:border-[#B08A57] hover:text-[#B08A57]">
+                        <Link to={`/products/${creation.id}`} className="inline-flex h-11 items-center justify-center gap-2 border border-[var(--line)] px-4 text-sm hover:border-[#B08A57] hover:text-[var(--gold-text)]">
                           {text.view}<Arrow size={15} />
                         </Link>
                       </div>
@@ -100,7 +100,7 @@ export default function WishlistPage() {
             </div>
           ) : (
             <div className="flex min-h-[430px] flex-col items-center justify-center border border-[var(--line)] bg-[var(--surface-raised)] px-6 text-center">
-              <Heart size={38} strokeWidth={1.2} className="text-[#B08A57]" />
+              <Heart size={38} strokeWidth={1.2} className="text-[var(--gold-text)]" />
               <p className="mt-6 text-xl text-[var(--ink-muted)]">{text.empty}</p>
               <Link to="/products" className="mt-7 inline-flex h-12 items-center gap-3 bg-[#041E42] px-7 text-sm text-white hover:bg-[#B08A57]">{text.explore}<Arrow size={16} /></Link>
             </div>

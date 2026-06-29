@@ -34,11 +34,11 @@ export default function AccountPage() {
           <div className="flex flex-col justify-center p-8 text-start sm:p-12">
             <p className="text-sm text-[var(--ink-muted)]">{language === "fa" ? "هویت تأییدشده" : "Verified identity"}</p>
             <p className="mt-3 text-3xl">{user?.mobileMasked || (language === "fa" ? "کاربر دیدار" : "Didar member")}</p>
-            {user?.demo && <span className="mt-4 w-fit border border-[#B08A57] px-3 py-1 text-xs text-[#B08A57]">{language === "fa" ? "نشست نمایشی" : "Demo session"}</span>}
+            {user?.demo && <span className="mt-4 w-fit border border-[#B08A57] px-3 py-1 text-xs text-[var(--gold-text)]">{language === "fa" ? "نشست نمایشی" : "Demo session"}</span>}
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               {new Set(["admin", "editor", "support"]).has(user?.role) && <Link to="/admin" className="inline-flex h-12 items-center justify-center gap-3 bg-[#B08A57] px-7 text-sm text-white transition hover:bg-[#041E42]"><LayoutDashboard size={17} />{language === "fa" ? "ورود به پنل مدیریت" : "Open admin dashboard"}</Link>}
               <Link to="/wishlist" className="inline-flex h-12 items-center justify-center gap-3 bg-[#041E42] px-7 text-sm text-white hover:bg-[#B08A57]"><Heart size={17} />{language === "fa" ? "علاقه مندی ها" : "Wishlist"}</Link>
-              <button type="button" onClick={handleLogout} className="inline-flex h-12 items-center justify-center gap-3 border border-[var(--line)] px-7 text-sm hover:border-[#B08A57] hover:text-[#B08A57]"><LogOut size={17} />{language === "fa" ? "خروج" : "Sign out"}</button>
+              <button type="button" onClick={handleLogout} className="inline-flex h-12 items-center justify-center gap-3 border border-[var(--line)] px-7 text-sm hover:border-[#B08A57] hover:text-[var(--gold-text)]"><LogOut size={17} />{language === "fa" ? "خروج" : "Sign out"}</button>
             </div>
           </div>
         </section>

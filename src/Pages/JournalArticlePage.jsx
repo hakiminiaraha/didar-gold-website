@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, Clock, Link2, Share2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import JsonLd from "../components/JsonLd";
 import { useSitePreferences } from "../context/SitePreferencesContext";
+import { setRouteMeta } from "../utils/headMeta";
 import { useJournal } from "../hooks/useJournal";
 import { fallbackArticles } from "./JournalPage";
 
@@ -178,7 +180,7 @@ function JournalArticlePage() {
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const { articles: journalArticles, available: journalAvailable, loaded: journalLoaded } = useJournal();
-  const articles = journalLoaded && journalAvailable ? journalArticles.map((item) => ({
+  const mappedArticles = journalLoaded && journalAvailable ? journalArticles.map((item) => ({
     slug: item.slug,
     image: item.image,
     category: item.category,
@@ -187,17 +189,43 @@ function JournalArticlePage() {
     read: item.readLabel?.[language] || "",
     fa: [item.content.fa.title, item.content.fa.excerpt],
     en: [item.content.en.title, item.content.en.excerpt],
-  })) : fallbackArticles;
+  })) : [];
+  // Fall back to the sample set when the API is unavailable or returns nothing.
+  const articles = mappedArticles.length ? mappedArticles : fallbackArticles;
   const article = articles.find((item) => item.slug === articleId);
   const apiArticle = journalArticles.find((item) => item.slug === articleId);
   const body = apiArticle?.content?.[language] || articleBodies[articleId]?.[language];
   const text = ui[language];
   const Arrow = language === "fa" ? ArrowLeft : ArrowRight;
 
-  const related = useMemo(
-    () => articles.filter((item) => item.slug !== articleId).slice(0, 3),
-    [articleId, articles],
-  );
+  // Plain const: the React Compiler memoizes derived values; manual useMemo here
+  // is rejected because `articles` is a freshly-mapped array each render.
+  const related = articles.filter((item) => item.slug !== articleId).slice(0, 3);
+
+  const hasArticle = Boolean(article && body);
+  const articleTitle = article ? article[language][0] : "";
+  const articleExcerpt = article ? (article[language][1] || "") : "";
+  const absoluteImage = article?.image?.startsWith("http") ? article.image : `https://didargold.com${article?.image || ""}`;
+  const canonical = `https://didargold.com/journal/${articleId}`;
+  // Plain const: the React Compiler memoizes it from the values below.
+  const articleSchema = hasArticle ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: articleTitle,
+    description: articleExcerpt,
+    image: absoluteImage,
+    articleSection: article.category,
+    url: canonical,
+    inLanguage: language === "fa" ? "fa-IR" : "en-US",
+    author: { "@type": "Organization", name: "Didar Gold" },
+    publisher: { "@type": "Organization", name: "Didar Gold", logo: { "@type": "ImageObject", url: "https://didargold.com/images/logo-didar.png" } },
+  } : null;
+
+  useEffect(() => {
+    if (!hasArticle) return;
+    // Override the generic journal meta (set by SeoManager) with this article's.
+    setRouteMeta({ title: `${articleTitle} | دیدار گلد`, description: articleExcerpt, image: absoluteImage, url: canonical });
+  }, [hasArticle, articleTitle, articleExcerpt, absoluteImage, canonical]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -230,7 +258,7 @@ function JournalArticlePage() {
         <Header />
         <main className="mx-auto flex min-h-[65vh] max-w-3xl flex-col items-center justify-center px-5 text-center">
           <p className="text-4xl">{text.notFound}</p>
-          <Link to="/journal" className="mt-8 border-b border-[#B08A57] pb-2 text-[#B08A57]">{text.back}</Link>
+          <Link to="/journal" className="mt-8 border-b border-[#B08A57] pb-2 text-[var(--gold-text)]">{text.back}</Link>
         </main>
         <Footer />
       </div>
@@ -239,6 +267,7 @@ function JournalArticlePage() {
 
   return (
     <div dir={direction} className="min-h-screen overflow-x-clip bg-[var(--surface)] text-[var(--ink)] transition-colors duration-500">
+      <JsonLd id="article" data={articleSchema} />
       <div className="fixed inset-x-0 top-0 z-[80] h-1 bg-black/10">
         <div className="h-full bg-[#B08A57] transition-[width] duration-150" style={{ width: `${progress}%` }} />
       </div>
@@ -276,17 +305,17 @@ function JournalArticlePage() {
       <main className="px-5 py-16 sm:px-8 lg:py-24">
         <div className="mx-auto grid max-w-[1250px] gap-12 lg:grid-cols-[260px_minmax(0,780px)] lg:justify-center">
           <aside className="h-fit border-y border-[var(--line)] py-7 text-start lg:sticky lg:top-28">
-            <p className="text-xs tracking-[0.2em] text-[#B08A57]">{text.contents}</p>
+            <p className="text-xs tracking-[0.2em] text-[var(--gold-text)]">{text.contents}</p>
             <ol className="mt-5 space-y-4">
               {body.sections.map(([title], index) => (
                 <li key={title}>
-                  <a href={`#section-${index + 1}`} className="flex items-center gap-3 text-sm text-[var(--ink-muted)] transition hover:text-[#B08A57]">
-                    <span className="text-xs text-[#B08A57]">0{index + 1}</span>{title}
+                  <a href={`#section-${index + 1}`} className="flex items-center gap-3 text-sm text-[var(--ink-muted)] transition hover:text-[var(--gold-text)]">
+                    <span className="text-xs text-[var(--gold-text)]">0{index + 1}</span>{title}
                   </a>
                 </li>
               ))}
             </ol>
-            <button type="button" onClick={shareArticle} className="mt-8 inline-flex items-center gap-2 text-sm text-[#B08A57]">
+            <button type="button" onClick={shareArticle} className="mt-8 inline-flex items-center gap-2 text-sm text-[var(--gold-text)]">
               <Link2 size={16} strokeWidth={1.5} />{copied ? text.copied : text.share}
             </button>
           </aside>
@@ -299,7 +328,7 @@ function JournalArticlePage() {
             {body.sections.map(([title, paragraph], index) => (
               <section key={title} id={`section-${index + 1}`} className="scroll-mt-28 border-t border-[var(--line)] py-10 first:border-t-0">
                 <div className="flex items-center gap-4">
-                  <span className="text-xs tracking-[0.16em] text-[#B08A57]">0{index + 1}</span>
+                  <span className="text-xs tracking-[0.16em] text-[var(--gold-text)]">0{index + 1}</span>
                   <span className="h-px w-12 bg-[#B08A57]" />
                 </div>
                 <h2 className="mt-5 text-3xl font-normal leading-[1.6] sm:text-4xl">{title}</h2>
@@ -312,16 +341,16 @@ function JournalArticlePage() {
         <section className="mx-auto mt-16 max-w-[1250px] border-t border-[var(--line)] pt-12 lg:mt-24">
           <div className="flex items-end justify-between gap-6 text-start">
             <h2 className="text-3xl font-normal sm:text-5xl">{text.related}</h2>
-            <Link to="/journal" className="hidden items-center gap-2 text-sm text-[#B08A57] sm:inline-flex">{text.journal}<Arrow size={16} /></Link>
+            <Link to="/journal" className="hidden items-center gap-2 text-sm text-[var(--gold-text)] sm:inline-flex">{text.journal}<Arrow size={16} /></Link>
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {related.map((item) => (
               <Link key={item.slug} to={`/journal/${item.slug}`} className="group border border-[var(--line)] bg-[var(--surface-raised)]">
                 <div className="h-60 overflow-hidden"><img src={item.image} alt={item[language][0]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" /></div>
                 <div className="p-6 text-start">
-                  <p className="text-xs text-[#B08A57]">{item.pillar}</p>
+                  <p className="text-xs text-[var(--gold-text)]">{item.pillar}</p>
                   <h3 className="mt-3 text-2xl leading-[1.6]">{item[language][0]}</h3>
-                  <span className="mt-5 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] group-hover:text-[#B08A57]">{text.readNext}<Arrow size={15} /></span>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] group-hover:text-[var(--gold-text)]">{text.readNext}<Arrow size={15} /></span>
                 </div>
               </Link>
             ))}

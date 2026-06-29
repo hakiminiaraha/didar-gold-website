@@ -1,9 +1,13 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import Header from "./Header";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 import { trackLink } from "../utils/tracking";
 
 function Hero() {
   const { language } = useSitePreferences();
+  const [reduceMotion] = useState(() => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   const text = language === "fa"
     ? {
         eyebrow: "DIDAR GOLD · INTERNATIONAL GROUP",
@@ -24,17 +28,27 @@ function Hero() {
     <section id="home" className="relative flex min-h-[820px] items-center overflow-hidden lg:min-h-screen">
       <Header />
 
-      <video
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/images/world-hero.webp"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      {reduceMotion ? (
+        <img
+          src="/images/world-hero.webp"
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+      ) : (
+        <video
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/world-hero.webp"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      )}
 
       <div
         className={`absolute inset-0 ${
@@ -45,7 +59,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1450px] px-5 pb-36 pt-40 sm:px-8 lg:px-12">
         <div className="w-full max-w-[650px] text-start">
-          <div className="mb-5 flex items-center gap-4 text-[#B08A57]">
+          <div className="mb-5 flex items-center gap-4 text-[var(--gold-text)]">
             <span className="h-px w-12 bg-[#B08A57]" />
             <span className="text-[11px] tracking-[0.24em] sm:text-xs">{text.eyebrow}</span>
           </div>
@@ -64,20 +78,20 @@ function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <a
-              href="/collections"
+            <Link
+              to="/collections"
               onClick={trackLink("click_hero_cta", { cta: "collections" })}
               className="flex h-[58px] w-[220px] items-center justify-center rounded-2xl bg-[#041E42] text-base font-medium text-white transition duration-300 hover:-translate-y-1 hover:bg-[#B08A57]"
             >
               {text.collections}
-            </a>
-            <a
-              href="/contact#appointment"
+            </Link>
+            <Link
+              to="/contact#appointment"
               onClick={trackLink("click_reserve_appointment", { source: "home_hero" })}
               className="flex h-[58px] w-[220px] items-center justify-center rounded-2xl bg-[#B08A57] text-base font-medium text-white transition duration-300 hover:-translate-y-1 hover:bg-[#041E42]"
             >
               {text.appointment}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

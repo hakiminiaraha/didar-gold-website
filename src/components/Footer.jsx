@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-9 text-start sm:grid-cols-2 lg:grid-cols-5">
           {copy.columns.map((column) => (
             <div key={column.title}>
-              <h4 className="mb-5 text-lg text-[#D9B985]">{column.title}</h4>
+              <h3 className="mb-5 text-lg text-[#D9B985]">{column.title}</h3>
               <ul className="space-y-3 text-sm text-white/60">
                 {column.links.map(([label, href]) => <li key={label}><FooterLink href={href}>{label}</FooterLink></li>)}
               </ul>
@@ -37,7 +37,7 @@ export default function Footer() {
 
         <div className="my-9 h-px bg-[#B08A57]/20" />
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-          <p className="text-sm text-white/40">{copy.copyright}</p>
+          <p className="text-sm text-white/65">{copy.copyright}</p>
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-white/55">
             {copy.utility.map(([label, href]) => <FooterLink key={label} href={href}>{label}</FooterLink>)}
           </nav>

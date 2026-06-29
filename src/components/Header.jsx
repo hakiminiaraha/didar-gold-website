@@ -10,6 +10,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
+import { FocusTrap } from "focus-trap-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -97,7 +98,7 @@ function Header() {
 
         <nav className="hidden items-center justify-center gap-5 whitespace-nowrap rounded-full border border-[var(--line)] bg-[var(--surface)]/78 px-8 py-3 text-[13px] font-medium text-[var(--ink)] shadow-sm backdrop-blur-xl md:flex xl:gap-7 xl:px-11 xl:text-sm">
           {siteNavigation[language].map(([label, href]) => (
-            <Link key={label} to={href} aria-current={href === location.pathname ? "page" : undefined} className={`transition hover:text-[#B08A57] ${href === location.pathname ? "text-[#B08A57]" : ""}`}>{label}</Link>
+            <Link key={label} to={href} aria-current={href === location.pathname ? "page" : undefined} className={`transition hover:text-[var(--gold-text)] ${href === location.pathname ? "text-[var(--gold-text)]" : ""}`}>{label}</Link>
           ))}
         </nav>
 
@@ -108,18 +109,19 @@ function Header() {
 
       {menuOpen && (
         <div className="fixed inset-0 z-[60] bg-[#020b17]/70 backdrop-blur-sm" onMouseDown={() => setMenuOpen(false)}>
+          <FocusTrap focusTrapOptions={{ returnFocusOnDeactivate: true, escapeDeactivates: false, clickOutsideDeactivates: false, allowOutsideClick: true }}>
           <aside className="absolute inset-y-0 end-0 flex w-full max-w-[440px] flex-col bg-[var(--surface)] p-6 text-[var(--ink)] shadow-2xl sm:p-9" onMouseDown={(event) => event.stopPropagation()}>
             <div className="flex items-center justify-between">
               <img src="/images/logo-didar.png" alt="Didar Gold" className={`h-16 object-contain ${theme === "dark" ? "brightness-0 invert" : ""}`} />
               <button type="button" onClick={() => setMenuOpen(false)} aria-label={language === "fa" ? "بستن منو" : "Close menu"} className="flex h-11 w-11 items-center justify-center border border-[var(--line)]"><X size={19} /></button>
             </div>
-            <button type="button" onClick={() => { setMenuOpen(false); setSearchOpen(true); }} className="mt-7 flex h-12 w-full items-center gap-3 border border-[var(--line)] px-4 text-sm text-[var(--ink-muted)] transition hover:border-[#B08A57] hover:text-[#B08A57]">
+            <button type="button" onClick={() => { setMenuOpen(false); setSearchOpen(true); }} className="mt-7 flex h-12 w-full items-center gap-3 border border-[var(--line)] px-4 text-sm text-[var(--ink-muted)] transition hover:border-[#B08A57] hover:text-[var(--gold-text)]">
               <Search size={17} />{language === "fa" ? "جستجو در دیدار" : "Search Didar"}
             </button>
             <nav className="mt-10 flex-1 overflow-y-auto border-t border-[var(--line)]">
               {siteNavigation[language].map(([label, href], index) => (
-                <Link key={href} to={href} onClick={() => setMenuOpen(false)} className="flex items-center justify-between border-b border-[var(--line)] py-5 text-xl transition hover:text-[#B08A57]">
-                  <span>{label}</span><span className="text-xs text-[#B08A57]">0{index + 1}</span>
+                <Link key={href} to={href} onClick={() => setMenuOpen(false)} className="flex items-center justify-between border-b border-[var(--line)] py-5 text-xl transition hover:text-[var(--gold-text)]">
+                  <span>{label}</span><span className="text-xs text-[var(--gold-text)]">0{index + 1}</span>
                 </Link>
               ))}
             </nav>
@@ -129,14 +131,16 @@ function Header() {
               <Link to="/account" onClick={() => setMenuOpen(false)} className="flex flex-col items-center gap-2 border border-[var(--line)] p-3"><UserRound size={18} />{language === "fa" ? "حساب" : "Account"}</Link>
             </div>
             <div className="mt-5 flex items-center justify-between border-t border-[var(--line)] pt-5">
-              <button type="button" onClick={() => setLanguage(language === "fa" ? "en" : "fa")} className="text-sm text-[#B08A57]">{language === "fa" ? "English" : "فارسی"}</button>
+              <button type="button" onClick={() => setLanguage(language === "fa" ? "en" : "fa")} className="text-sm text-[var(--gold-text)]">{language === "fa" ? "English" : "فارسی"}</button>
               <button type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} className="flex items-center gap-2 text-sm">{theme === "light" ? <Moon size={16} /> : <Sun size={16} />}{theme === "light" ? "Dark" : "Light"}</button>
             </div>
           </aside>
+          </FocusTrap>
         </div>
       )}
 
       {searchOpen && (
+        <FocusTrap focusTrapOptions={{ returnFocusOnDeactivate: true, escapeDeactivates: false, clickOutsideDeactivates: false, initialFocus: false }}>
         <div className="fixed inset-0 z-[65] bg-[#020b17]/88 p-4 text-white backdrop-blur-xl sm:p-8">
           <div className="mx-auto flex h-full max-w-4xl flex-col pt-10 sm:pt-20">
             <div className="flex items-center justify-between gap-5">
@@ -160,6 +164,7 @@ function Header() {
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
     </header>
   );

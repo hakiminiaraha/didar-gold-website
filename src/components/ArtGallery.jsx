@@ -51,6 +51,10 @@ function ArtGallery() {
                 key={image}
                 src={image}
                 alt={`Didar Art Gallery ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+                width={900}
+                height={560}
                 className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${
                   currentIndex === index ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"
                 }`}
@@ -92,14 +96,14 @@ function ArtGallery() {
         </div>
 
         <div className="text-start">
-          <p className="text-xs tracking-[0.25em] text-[#B08A57]">DIDAR ART GALLERY</p>
+          <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">DIDAR ART GALLERY</p>
           <h2 className="mt-4 text-4xl leading-tight text-[var(--ink)] sm:text-5xl">{text[0]}</h2>
           <p className="mt-6 text-lg leading-9 text-[var(--ink-muted)]">{text[1]}</p>
           <Link to="/contact#appointment" className="mt-8 inline-flex h-14 items-center rounded-xl bg-[#041E42] px-10 text-white transition hover:-translate-y-1 hover:bg-[#B08A57]">
             {text[2]}
           </Link>
           <div className="mt-8 flex items-center gap-3 text-xs text-[var(--ink-muted)]">
-            <span className="text-[#B08A57]">0{currentIndex + 1}</span>
+            <span className="text-[var(--gold-text)]">0{currentIndex + 1}</span>
             <span className="h-px w-14 bg-[var(--line)]" />
             <span>0{galleryImages.length}</span>
           </div>

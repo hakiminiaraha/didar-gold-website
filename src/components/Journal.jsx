@@ -25,7 +25,7 @@ function Journal() {
       <div className="mx-auto grid max-w-[1450px] items-center gap-8 lg:grid-cols-[300px_1fr]">
         <div className="text-start">
           <h2 className="text-5xl font-normal text-[var(--ink)]">{language === "fa" ? "مجله دیدار" : "Didar Journal"}</h2>
-          <Link to="/journal" className="mt-6 inline-flex text-lg text-[#B08A57]">{language === "fa" ? "مطالعه همه مقالات" : "Read all stories"}</Link>
+          <Link to="/journal" className="mt-6 inline-flex text-lg text-[var(--gold-text)]">{language === "fa" ? "مطالعه همه مقالات" : "Read all stories"}</Link>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {articles.map((article) => <Link key={article.slug} to={`/journal/${article.slug}`}><ArticleCard image={article.image} title={article[language][0]} readTime={article[language][1]} /></Link>)}

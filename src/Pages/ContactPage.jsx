@@ -184,7 +184,7 @@ function ContactPage() {
           <div className="max-w-[740px] text-start text-white">
             <div className="flex items-center gap-3 text-xs text-white/72 sm:text-sm">
               <Link to="/" className="transition hover:text-[#D9B985]">{text.breadcrumb[0]}</Link>
-              <span className="text-[#B08A57]">/</span>
+              <span className="text-[var(--gold-text)]">/</span>
               <span>{text.breadcrumb[1]}</span>
             </div>
             <p className="mt-12 text-xs tracking-[0.28em] text-[#D9B985]">{text.eyebrow}</p>
@@ -201,7 +201,7 @@ function ContactPage() {
         <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto max-w-[1450px]">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.introEyebrow}</p>
+              <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.introEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.introTitle}</h2>
               <p className="mt-5 text-base leading-9 text-[var(--ink-muted)] sm:text-lg">{text.introText}</p>
             </div>
@@ -217,7 +217,7 @@ function ContactPage() {
                       : "border-[var(--line)] bg-[var(--surface-raised)] hover:-translate-y-1 hover:border-[#B08A57]"
                   }`}
                 >
-                  <span className={`text-xs ${reason === id ? "text-[#D9B985]" : "text-[#B08A57]"}`}>0{index + 1}</span>
+                  <span className={`text-xs ${reason === id ? "text-[#D9B985]" : "text-[var(--gold-text)]"}`}>0{index + 1}</span>
                   <h3 className="mt-6 text-2xl">{title}</h3>
                   <p className={`mt-3 text-sm leading-7 ${reason === id ? "text-white/68" : "text-[var(--ink-muted)]"}`}>{description}</p>
                 </button>
@@ -239,7 +239,7 @@ function ContactPage() {
 
             <div className="flex flex-col justify-center p-6 text-start sm:p-10 lg:p-14">
               {!submitted ? (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} aria-describedby={submitError ? "contact-error" : undefined}>
                   <p className="text-sm leading-8 text-[var(--ink-muted)]">{text.formText}</p>
                   <div className="mt-7 grid gap-5 sm:grid-cols-2">
                     <Field label={text.fields.name}>
@@ -260,7 +260,7 @@ function ContactPage() {
                   <Field label={text.fields.message} className="mt-5">
                     <textarea value={form.message} onChange={(event) => updateField("message", event.target.value)} placeholder={text.placeholders.message} rows={4} className="form-control min-h-28 py-4" />
                   </Field>
-                  {submitError && <p role="alert" className="mt-5 border-s-2 border-red-500 ps-3 text-sm text-red-600">{submitError}</p>}
+                  {submitError && <p id="contact-error" role="alert" className="mt-5 border-s-2 border-red-500 ps-3 text-sm text-red-600">{submitError}</p>}
                   <button type="submit" disabled={submitting} className="mt-6 inline-flex h-14 w-full items-center justify-center gap-3 bg-[#041E42] px-8 text-sm text-white transition hover:bg-[#B08A57] disabled:opacity-55 sm:w-fit">
                     {submitting ? (language === "fa" ? "در حال ثبت..." : "Submitting...") : text.submit}<Arrow size={17} />
                   </button>
@@ -270,8 +270,8 @@ function ContactPage() {
                   <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#B08A57] text-white"><Check size={28} /></span>
                   <h3 className="mt-6 text-3xl">{text.successTitle}</h3>
                   <p className="mt-4 max-w-md text-sm leading-8 text-[var(--ink-muted)]">{text.successText}</p>
-                  <p className="mt-4 border border-[#B08A57]/35 bg-[#B08A57]/5 px-5 py-3 text-sm text-[#B08A57]" dir="ltr">{text.reference}: {referenceCode}</p>
-                  <button type="button" onClick={resetForm} className="mt-7 border border-[#B08A57] px-7 py-3 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">{text.newRequest}</button>
+                  <p className="mt-4 border border-[#B08A57]/35 bg-[#B08A57]/5 px-5 py-3 text-sm text-[var(--gold-text)]" dir="ltr">{text.reference}: {referenceCode}</p>
+                  <button type="button" onClick={resetForm} className="mt-7 border border-[#B08A57] px-7 py-3 text-sm text-[var(--gold-text)] transition hover:bg-[#B08A57] hover:text-white">{text.newRequest}</button>
                 </div>
               )}
             </div>
@@ -281,7 +281,7 @@ function ContactPage() {
         <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto grid max-w-[1450px] gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
             <div className="text-start">
-              <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.contactEyebrow}</p>
+              <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.contactEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.contactTitle}</h2>
               <p className="mt-5 text-sm leading-8 text-[var(--ink-muted)]">{text.sampleNotice}</p>
             </div>
@@ -290,7 +290,7 @@ function ContactPage() {
                 const Icon = [Phone, Mail, MapPin][index];
                 return (
                   <article key={title} className={`p-6 text-start sm:p-8 ${index < 2 ? "border-b border-[var(--line)] sm:border-b-0 sm:border-e" : ""}`}>
-                    <Icon size={25} className="text-[#B08A57]" strokeWidth={1.3} />
+                    <Icon size={25} className="text-[var(--gold-text)]" strokeWidth={1.3} />
                     <h3 className="mt-5 text-lg">{title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]" dir="ltr">{value}</p>
                   </article>
@@ -321,10 +321,10 @@ function ContactPage() {
               <img src="/images/gallery-2.JPG" alt={text.experienceTitle} className="absolute inset-0 h-full w-full object-cover" />
             </div>
             <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
-              <Sparkles size={27} className="text-[#B08A57]" strokeWidth={1.3} />
+              <Sparkles size={27} className="text-[var(--gold-text)]" strokeWidth={1.3} />
               <h2 className="mt-5 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.experienceTitle}</h2>
               <p className="mt-5 text-base leading-9 text-[var(--ink-muted)]">{text.experienceText}</p>
-              <Link to="/art-gallery" className="mt-8 inline-flex w-fit items-center gap-3 text-sm text-[#B08A57] transition hover:gap-5">{text.gallery}<Arrow size={16} /></Link>
+              <Link to="/art-gallery" className="mt-8 inline-flex w-fit items-center gap-3 text-sm text-[var(--gold-text)] transition hover:gap-5">{text.gallery}<Arrow size={16} /></Link>
             </div>
           </div>
         </section>

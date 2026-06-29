@@ -8,7 +8,7 @@ export function useJournal() {
   useEffect(() => {
     let active = true;
     fetch("/api/journal")
-      .then((response) => response.ok ? response.json() : { articles: [] })
+      .then((response) => { if (!response.ok) throw new Error("JOURNAL_UNAVAILABLE"); return response.json(); })
       .then((data) => { if (active) { setArticles(data.articles || []); setLoaded(true); } })
       .catch(() => { if (active) { setAvailable(false); setLoaded(true); } });
     return () => { active = false; };
