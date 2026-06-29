@@ -1,4 +1,4 @@
-import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
 import { config } from "./config.js";
 
@@ -11,7 +11,7 @@ export function hashSessionToken(token) {
 }
 
 export function hashIp(value) {
-  return createHash("sha256").update(value || "unknown").digest("hex");
+  return hmac(value || "unknown", "ip");
 }
 
 export function randomToken(bytes = 32) {

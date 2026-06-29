@@ -21,6 +21,7 @@ export const config = {
   databaseProvider: databaseUrl ? "postgres" : "sqlite",
   databaseSsl: process.env.DATABASE_SSL === "true",
   databaseSeed: process.env.DATABASE_SEED !== "false",
+  trustProxy: process.env.TRUST_PROXY === "true",
   appOrigins: (process.env.APP_ORIGINS || "http://localhost:5173,http://127.0.0.1:5173")
     .split(",")
     .map((origin) => origin.trim())
@@ -31,6 +32,8 @@ export const config = {
   otpTtlSeconds: Number(process.env.OTP_TTL_SECONDS || 120),
   otpCooldownSeconds: Number(process.env.OTP_COOLDOWN_SECONDS || 60),
   otpMaxAttempts: Number(process.env.OTP_MAX_ATTEMPTS || 5),
+  otpIpWindowSeconds: Number(process.env.OTP_IP_WINDOW_SECONDS || 3600),
+  otpIpMaxRequests: Number(process.env.OTP_IP_MAX_REQUESTS || 20),
   sessionTtlDays: Number(process.env.SESSION_TTL_DAYS || 30),
   adminMobiles: new Set((process.env.ADMIN_MOBILES || "").split(",").map((value) => value.trim()).filter(Boolean)),
   smsApiUrl: process.env.SMS_API_URL || "",
