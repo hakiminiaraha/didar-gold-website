@@ -21,6 +21,7 @@ import { useSitePreferences } from "../context/SitePreferencesContext";
 import { useSelection } from "../context/SelectionContext";
 import { useAuth } from "../context/AuthContext";
 import { useCatalog } from "../hooks/useCatalog";
+import { trackEvent, trackLink } from "../utils/tracking";
 
 const fallbackProducts = [
   {
@@ -570,7 +571,10 @@ function ShopPage() {
                           <img src={product.image} alt={product[language][0]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                           <button
                             type="button"
-                            onClick={() => toggleFavorite(product.id)}
+                            onClick={() => {
+                              trackEvent("click_wishlist", { product_slug: product.id, source: "shop_catalog", authenticated: isAuthenticated });
+                              toggleFavorite(product.id);
+                            }}
                             className={`absolute end-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-md transition ${
                               isFavorite
                                 ? "border-[#B08A57] bg-[#B08A57] text-white"
@@ -621,7 +625,10 @@ function ShopPage() {
                             </span>
                             <button
                               type="button"
-                              onClick={() => addToBag(product.id)}
+                              onClick={() => {
+                                trackEvent("click_product_inquiry", { product_slug: product.id, source: "shop_catalog" });
+                                addToBag(product.id);
+                              }}
                               className={`inline-flex h-11 items-center gap-2 px-4 text-sm transition ${
                                 isAdded
                                   ? "bg-[#B08A57] text-white"
@@ -632,7 +639,7 @@ function ShopPage() {
                               {isAdded ? text.added : text.add}
                             </button>
                           </div>
-                          <Link to={`/products/${product.id}`} className="mt-4 inline-flex items-center gap-2 text-xs text-[#B08A57] transition hover:gap-3">
+                          <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "shop_catalog" })} className="mt-4 inline-flex items-center gap-2 text-xs text-[#B08A57] transition hover:gap-3">
                             {text.viewStory}
                             <Arrow size={14} strokeWidth={1.5} />
                           </Link>
@@ -676,7 +683,7 @@ function ShopPage() {
                       </div>
                     </article>
                   ))}
-                  <Link to="/selection" className="mt-2 flex h-12 w-full items-center justify-center bg-[#B08A57] text-sm text-white transition hover:bg-[#D9B985] hover:text-[#041E42]">
+                  <Link to="/selection" onClick={trackLink("click_product_inquiry", { source: "shop_selection_panel", count: selectedProducts.length })} className="mt-2 flex h-12 w-full items-center justify-center bg-[#B08A57] text-sm text-white transition hover:bg-[#D9B985] hover:text-[#041E42]">
                     {text.checkout}
                   </Link>
                   <button type="button" onClick={clearSelection} className="h-10 w-full text-xs text-white/50 transition hover:text-white">
@@ -733,7 +740,7 @@ function ShopPage() {
               <Sparkles size={26} className="text-[#D9B985]" strokeWidth={1.4} />
               <h2 className="mt-5 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.ctaTitle}</h2>
               <p className="mt-4 text-base leading-8 text-white/68">{text.ctaText}</p>
-              <Link to="/contact#appointment" className="mt-7 inline-flex h-12 w-fit items-center gap-3 bg-[#B08A57] px-7 text-sm transition hover:bg-[#F7F3EE] hover:text-[#041E42]">
+              <Link to="/contact#appointment" onClick={trackLink("click_reserve_appointment", { source: "shop_cta" })} className="mt-7 inline-flex h-12 w-fit items-center gap-3 bg-[#B08A57] px-7 text-sm transition hover:bg-[#F7F3EE] hover:text-[#041E42]">
                 <Arrow size={17} strokeWidth={1.5} />
                 {text.ctaButton}
               </Link>

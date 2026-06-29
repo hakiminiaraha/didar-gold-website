@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useSitePreferences } from "../context/SitePreferencesContext";
+import { trackEvent, trackLink } from "../utils/tracking";
 
 const copy = {
   fa: {
@@ -157,6 +158,7 @@ function ContactPage() {
       const result = await response.json();
       setReferenceCode(result.referenceCode);
       setSubmitted(true);
+      trackEvent("submit_lead_form", { reason, preferred_channel: form.channel, reference_code: result.referenceCode });
     } catch {
       setSubmitError(text.submitError);
     } finally {
@@ -188,7 +190,7 @@ function ContactPage() {
             <p className="mt-12 text-xs tracking-[0.28em] text-[#D9B985]">{text.eyebrow}</p>
             <h1 className="mt-5 text-5xl font-normal leading-[1.45] drop-shadow-[0_3px_18px_rgba(0,0,0,0.45)] sm:text-7xl lg:text-[82px]">{text.title}</h1>
             <p className="mt-6 max-w-2xl text-lg leading-10 text-white/88 sm:text-xl">{text.heroText}</p>
-            <a href="#appointment" className="mt-9 inline-flex h-14 items-center justify-center gap-3 bg-[#B08A57] px-8 text-sm text-white transition hover:bg-[#F7F3EE] hover:text-[#041E42]">
+            <a href="#appointment" onClick={trackLink("click_reserve_appointment", { source: "contact_hero" })} className="mt-9 inline-flex h-14 items-center justify-center gap-3 bg-[#B08A57] px-8 text-sm text-white transition hover:bg-[#F7F3EE] hover:text-[#041E42]">
               {text.heroCta}<Arrow size={17} strokeWidth={1.5} />
             </a>
           </div>

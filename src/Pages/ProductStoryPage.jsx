@@ -19,6 +19,7 @@ import { useSitePreferences } from "../context/SitePreferencesContext";
 import { useCatalog } from "../hooks/useCatalog";
 import { useSelection } from "../context/SelectionContext";
 import { useAuth } from "../context/AuthContext";
+import { trackEvent, trackLink } from "../utils/tracking";
 
 const fallbackCreations = [
   {
@@ -376,7 +377,10 @@ function ProductStoryPage() {
               </p>
               <button
                 type="button"
-                onClick={() => isAuthenticated ? toggleWishlist(product.id) : navigate(`/login?returnTo=${encodeURIComponent(`/wishlist?add=${product.id}`)}`)}
+                onClick={() => {
+                  trackEvent("click_wishlist", { product_slug: product.id, source: "pdp", authenticated: isAuthenticated });
+                  isAuthenticated ? toggleWishlist(product.id) : navigate(`/login?returnTo=${encodeURIComponent(`/wishlist?add=${product.id}`)}`);
+                }}
                 aria-label={favorite ? (language === "fa" ? "حذف از علاقه‌مندی‌ها" : "Remove from wishlist") : (language === "fa" ? "افزودن به علاقه‌مندی‌ها" : "Add to wishlist")}
                 className={`flex h-12 w-12 items-center justify-center rounded-full border transition ${
                   favorite ? "border-[#B08A57] bg-[#B08A57] text-white" : "border-[var(--line)] hover:border-[#B08A57]"
@@ -432,10 +436,10 @@ function ProductStoryPage() {
 
             <p className="mt-4 text-xs leading-6 text-[var(--ink-muted)]">{text.craftText}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button type="button" onClick={() => addSelection(product.id)} className={`inline-flex h-14 items-center justify-center gap-3 px-8 text-sm text-white transition ${selected ? "bg-[#B08A57]" : "bg-[#041E42] hover:bg-[#B08A57]"}`}>
+              <button type="button" onClick={() => { trackEvent("click_product_inquiry", { product_slug: product.id, source: "pdp_selection" }); addSelection(product.id); }} className={`inline-flex h-14 items-center justify-center gap-3 px-8 text-sm text-white transition ${selected ? "bg-[#B08A57]" : "bg-[#041E42] hover:bg-[#B08A57]"}`}>
                 {selected ? text.selected : text.purchase}<Arrow size={17} strokeWidth={1.5} />
               </button>
-              <Link to="/contact#appointment" className="inline-flex h-14 items-center justify-center border border-[#B08A57] px-8 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">
+              <Link to="/contact#appointment" onClick={trackLink("click_reserve_appointment", { source: "pdp", product_slug: product.id })} className="inline-flex h-14 items-center justify-center border border-[#B08A57] px-8 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">
                 {text.consultation}
               </Link>
             </div>
@@ -512,7 +516,7 @@ function ProductStoryPage() {
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {related.map((item) => (
-              <Link key={item.id} to={`/products/${item.id}`} className="group text-start">
+              <Link key={item.id} to={`/products/${item.id}`} onClick={trackLink("click_product_card", { product_slug: item.id, source: "pdp_related" })} className="group text-start">
                 <div className="aspect-square overflow-hidden rounded-[28px] bg-[var(--media-surface)]">
                   <img src={item.image} alt={item.name[language]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 </div>

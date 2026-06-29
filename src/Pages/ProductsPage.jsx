@@ -17,6 +17,7 @@ import { useSitePreferences } from "../context/SitePreferencesContext";
 import { useSelection } from "../context/SelectionContext";
 import { useAuth } from "../context/AuthContext";
 import { useCatalog } from "../hooks/useCatalog";
+import { trackEvent, trackLink } from "../utils/tracking";
 
 const categories = [
   { id: "all", fa: "همه محصولات", en: "All creations" },
@@ -227,6 +228,7 @@ function ProductsPage() {
             <div className="mt-8 flex w-full flex-col gap-3 sm:mt-9 sm:w-auto sm:flex-row">
               <a
                 href="#product-grid"
+                onClick={trackLink("click_hero_cta", { cta: "product_grid", source: "products_hero" })}
                 className="inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#B08A57] px-8 text-sm font-medium text-white transition duration-300 hover:-translate-y-1 hover:bg-[#F7F3EE] hover:text-[#041E42] sm:w-auto"
               >
                 {text.discover}
@@ -234,6 +236,7 @@ function ProductsPage() {
               </a>
               <a
                 href="#product-consultation"
+                onClick={trackLink("click_reserve_appointment", { source: "products_hero" })}
                 className="inline-flex h-14 w-full items-center justify-center rounded-full border border-white/55 bg-[#041E42]/15 px-8 text-sm text-white backdrop-blur-sm transition hover:border-[#B08A57] hover:bg-[#B08A57]/15 sm:w-auto"
               >
                 {text.appointment}
@@ -331,7 +334,10 @@ function ProductsPage() {
                       />
                       <button
                         type="button"
-                        onClick={() => isAuthenticated ? toggleWishlist(product.id) : navigate(`/login?returnTo=${encodeURIComponent(`/wishlist?add=${product.id}`)}`)}
+                        onClick={() => {
+                          trackEvent("click_wishlist", { product_slug: product.id, source: "products_grid", authenticated: isAuthenticated });
+                          isAuthenticated ? toggleWishlist(product.id) : navigate(`/login?returnTo=${encodeURIComponent(`/wishlist?add=${product.id}`)}`);
+                        }}
                         aria-label={`Favorite ${product.en.name}`}
                         className={`absolute end-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border backdrop-blur-md transition ${
                           favorite
@@ -352,6 +358,7 @@ function ProductsPage() {
                       </div>
                       <Link
                         to={`/products/${product.id}`}
+                        onClick={trackLink("click_product_card", { product_slug: product.id, source: "products_grid" })}
                         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--line)] transition hover:border-[#B08A57] hover:bg-[#B08A57] hover:text-white"
                         aria-label={text.details}
                       >
@@ -359,7 +366,7 @@ function ProductsPage() {
                       </Link>
                     </div>
                     <div className="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4">
-                      <Link to={`/products/${product.id}`} className="text-xs text-[var(--ink-muted)] transition hover:text-[#B08A57]">{text.details}</Link>
+                      <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "products_grid_text" })} className="text-xs text-[var(--ink-muted)] transition hover:text-[#B08A57]">{text.details}</Link>
                       <span className="text-xs text-[var(--ink-muted)]">0{index + 1}</span>
                     </div>
                   </article>
@@ -410,6 +417,7 @@ function ProductsPage() {
             </div>
             <Link
               to="/products/atrin-necklace"
+              onClick={trackLink("click_product_card", { product_slug: "atrin-necklace", source: "products_featured" })}
               className="mt-9 inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[#B08A57] px-8 text-sm text-white transition hover:bg-[#F7F3EE] hover:text-[#041E42]"
             >
               {text.featureCta}
@@ -473,6 +481,7 @@ function ProductsPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="/contact#appointment"
+                onClick={trackLink("click_reserve_appointment", { source: "products_cta" })}
                 className="inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[#B08A57] px-8 text-sm transition hover:bg-[#F7F3EE] hover:text-[#041E42]"
               >
                 {text.ctaPrimary}

@@ -5,6 +5,7 @@ import RequireAuth from "./components/RequireAuth";
 import RequireAdmin from "./components/RequireAdmin";
 import CmsRuntime from "./components/CmsRuntime";
 import SeoManager from "./components/SeoManager";
+import TrackingManager from "./components/TrackingManager";
 import { AuthProvider } from "./context/AuthProvider";
 import { SelectionProvider } from "./context/SelectionProvider";
 import { SitePreferencesProvider } from "./context/SitePreferences";
@@ -47,6 +48,7 @@ function AppRoutes() {
     <BrowserRouter>
       <main dir={direction} data-theme={theme} className="min-h-screen bg-[var(--surface)] font-doran text-[var(--ink)] transition-colors duration-500">
         <SeoManager />
+        <TrackingManager />
         <CmsRuntime />
         <Suspense fallback={<PageLoader />}>
           <Routes>

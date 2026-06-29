@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSitePreferences } from "../context/SitePreferencesContext";
 import { useCatalog } from "../hooks/useCatalog";
+import { trackLink } from "../utils/tracking";
 
 const fallbackCollections = [
   { id: "ceremony", title: "CEREMONY", fa: "مراسم خاص", en: "Ceremonial moments", image: "/images/didar-ui/collection-03.jpg" },
@@ -30,7 +31,7 @@ function Collections() {
               <div className="absolute bottom-6 start-6 text-white">
                 <h3 className="text-[34px] font-normal tracking-[0.08em]">{item.title}</h3>
                 <p className="mt-1 text-base text-white/85">{item[language]}</p>
-                <Link to={`/collections/${item.id}`} className="mt-4 inline-block border border-[#CFA76A] px-5 py-2 text-sm transition hover:bg-[#CFA76A]">
+                <Link to={`/collections/${item.id}`} onClick={trackLink("click_collection_card", { collection_slug: item.id, source: "home_collections" })} className="mt-4 inline-block border border-[#CFA76A] px-5 py-2 text-sm transition hover:bg-[#CFA76A]">
                   {language === "fa" ? "مشاهده" : "Explore"}
                 </Link>
               </div>

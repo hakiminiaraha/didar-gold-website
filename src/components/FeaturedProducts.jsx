@@ -1,6 +1,7 @@
 import { useSitePreferences } from "../context/SitePreferencesContext";
 import { Link } from "react-router-dom";
 import { useCatalog } from "../hooks/useCatalog";
+import { trackLink } from "../utils/tracking";
 
 const fallbackProducts = [
   { id: "atrin-necklace", image: "/images/didar-ui/product-01.jpg", fa: ["گردنبند آترین", "۷.۲۴۰ گرم"], en: ["Atrin Necklace", "7.240 gr"] },
@@ -34,7 +35,7 @@ function FeaturedProducts() {
               <div className="px-5 py-5 text-center">
                 <h3 className="text-lg text-[var(--ink)]">{product[language][0]}</h3>
                 <p className="mt-2 text-sm text-[var(--ink-muted)]">{product[language][1]}</p>
-                <Link to={`/products/${product.id}`} className="mt-4 inline-flex text-sm text-[#B08A57]">{language === "fa" ? "مشاهده جزئیات" : "View details"}</Link>
+                <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "home_featured" })} className="mt-4 inline-flex text-sm text-[#B08A57]">{language === "fa" ? "مشاهده جزئیات" : "View details"}</Link>
               </div>
             </article>
           ))}

@@ -1,5 +1,6 @@
 import Header from "./Header";
 import { useSitePreferences } from "../context/SitePreferencesContext";
+import { trackLink } from "../utils/tracking";
 
 function Hero() {
   const { language } = useSitePreferences();
@@ -65,12 +66,14 @@ function Hero() {
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <a
               href="/collections"
+              onClick={trackLink("click_hero_cta", { cta: "collections" })}
               className="flex h-[58px] w-[220px] items-center justify-center rounded-2xl bg-[#041E42] text-base font-medium text-white transition duration-300 hover:-translate-y-1 hover:bg-[#B08A57]"
             >
               {text.collections}
             </a>
             <a
               href="/contact#appointment"
+              onClick={trackLink("click_reserve_appointment", { source: "home_hero" })}
               className="flex h-[58px] w-[220px] items-center justify-center rounded-2xl bg-[#B08A57] text-base font-medium text-white transition duration-300 hover:-translate-y-1 hover:bg-[#041E42]"
             >
               {text.appointment}
