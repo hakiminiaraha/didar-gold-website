@@ -4,9 +4,9 @@ import { DatabaseSync } from "node:sqlite";
 
 import pg from "pg";
 
-import { catalogSeed } from "./catalogSeed.js";
+import { catalogSeed } from "./seeds/catalog.seed.js";
 import { config } from "./config.js";
-import { journalSeed } from "./journalSeed.js";
+import { journalSeed } from "./seeds/journal.seed.js";
 
 const { Pool, types } = pg;
 types.setTypeParser(20, Number);

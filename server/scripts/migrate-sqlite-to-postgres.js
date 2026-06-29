@@ -38,7 +38,7 @@ const pool = new Pool({
 const client = await pool.connect();
 
 try {
-  await client.query(fs.readFileSync(new URL("./schema/postgres.sql", import.meta.url), "utf8"));
+  await client.query(fs.readFileSync(new URL("../schema/postgres.sql", import.meta.url), "utf8"));
   const occupied = [];
   for (const { name } of tables) {
     const { rows } = await client.query(`SELECT COUNT(*)::int AS count FROM ${name}`);

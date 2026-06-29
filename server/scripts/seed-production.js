@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { db, transaction } from "./db.js";
-import { cmsContentSeed, productionCatalogSeed } from "./productionSeed.js";
+import { db, transaction } from "../db.js";
+import { cmsContentSeed, productionCatalogSeed } from "../seeds/production.seed.js";
 
 const publicRoot = path.resolve("public");
 const mediaFolders = ["images", "videos", "icons"];

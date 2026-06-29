@@ -1,4 +1,4 @@
-import { catalogSeed } from "./catalogSeed.js";
+import { catalogSeed } from "./catalog.seed.js";
 
 const productAssets = Array.from({ length: 12 }, (_, index) => `/images/didar-products/product-${String(index + 7).padStart(2, "0")}.jpg`);
 

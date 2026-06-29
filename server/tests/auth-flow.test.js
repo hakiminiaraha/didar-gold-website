@@ -11,10 +11,10 @@ process.env.AUTH_HASH_SECRET = "test-auth-hash-secret-with-more-than-32-characte
 process.env.SESSION_SECRET = "test-session-secret-with-more-than-32-characters";
 process.env.ADMIN_MOBILES = "09120000000";
 
-const { server } = await import("./index.js");
-const { db } = await import("./db.js");
-const { config } = await import("./config.js");
-const { sendOtp } = await import("./otpProvider.js");
+const { server } = await import("../index.js");
+const { db } = await import("../db.js");
+const { config } = await import("../config.js");
+const { sendOtp } = await import("../otpProvider.js");
 
 if (!server.listening) await new Promise((resolve) => server.once("listening", resolve));
 const baseUrl = `http://127.0.0.1:${server.address().port}`;
@@ -61,6 +61,12 @@ test("OTP creates a session and protects server-side wishlist", async () => {
 
   const rejectedResponse = await fetch(`${baseUrl}/api/wishlist`, { headers: { Cookie: cookie } });
   assert.equal(rejectedResponse.status, 401);
+});
+
+test("health check reports service identity", async () => {
+  const response = await fetch(`${baseUrl}/api/health`);
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true, service: "didar-api" });
 });
 
 test("invalid mobile is rejected before issuing OTP", async () => {
@@ -126,14 +132,36 @@ test("admin endpoints reject members and expose operational data to admins", asy
   const publicContent = await fetch(`${baseUrl}/api/content?route=%2F&locale=fa`);
   assert.deepEqual((await publicContent.json()).entries[0].value, contentEntry.value);
 
+  const deleteContent = await fetch(`${baseUrl}/api/admin/content`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json", Cookie: admin.cookie },
+    body: JSON.stringify({ routePath: "/", locale: "fa", contentKey: contentEntry.contentKey, contentType: contentEntry.contentType }),
+  });
+  assert.equal(deleteContent.status, 200);
+  const afterDelete = await fetch(`${baseUrl}/api/content?route=%2F&locale=fa`);
+  assert.equal((await afterDelete.json()).entries.length, 0);
+
+  const pngBytes = Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), Buffer.from("didar-test-image")]);
   const upload = await fetch(`${baseUrl}/api/admin/media`, {
     method: "POST",
     headers: { "Content-Type": "image/png", "X-File-Name": "cms-test.png", Cookie: admin.cookie },
-    body: Buffer.from("didar-test-image"),
+    body: pngBytes,
   });
   assert.equal(upload.status, 201);
+
+  const rejectedUpload = await fetch(`${baseUrl}/api/admin/media`, {
+    method: "POST",
+    headers: { "Content-Type": "image/png", "X-File-Name": "evil.png", Cookie: admin.cookie },
+    body: Buffer.from("<svg onload=alert(1)></svg>"),
+  });
+  assert.equal(rejectedUpload.status, 415);
   const uploadedAsset = await upload.json();
   assert.match(uploadedAsset.publicUrl, /^\/uploads\//);
+
+  const mediaList = await fetch(`${baseUrl}/api/admin/media`, { headers: { Cookie: admin.cookie } });
+  assert.equal(mediaList.status, 200);
+  assert.ok((await mediaList.json()).assets.some((asset) => asset.publicUrl === uploadedAsset.publicUrl));
+
   fs.unlinkSync(path.resolve("public", uploadedAsset.publicUrl.replace(/^\//, "")));
 
   const catalogDraft = {
@@ -182,6 +210,9 @@ test("admin endpoints reject members and expose operational data to admins", asy
   const createArticle = await fetch(`${baseUrl}/api/admin/journal`, { method: "POST", headers: { "Content-Type": "application/json", Cookie: admin.cookie }, body: JSON.stringify(articleDraft) });
   assert.equal(createArticle.status, 201);
   const createdArticle = await createArticle.json();
+  const adminJournalList = await fetch(`${baseUrl}/api/admin/journal`, { headers: { Cookie: admin.cookie } });
+  assert.equal(adminJournalList.status, 200);
+  assert.ok((await adminJournalList.json()).articles.some((article) => article.slug === articleDraft.slug));
   assert.equal((await fetch(`${baseUrl}/api/journal?slug=${articleDraft.slug}`)).status, 404);
   const publishArticle = await fetch(`${baseUrl}/api/admin/journal`, { method: "PUT", headers: { "Content-Type": "application/json", Cookie: admin.cookie }, body: JSON.stringify({ ...createdArticle, status: "published" }) });
   assert.equal(publishArticle.status, 200);
