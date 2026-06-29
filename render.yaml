@@ -6,7 +6,7 @@ services:
     region: frankfurt
     branch: main
     autoDeploy: true
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && npm run build && npm run db:seed:production
     startCommand: npm run start:api
     healthCheckPath: /api/health
     envVars:
@@ -21,7 +21,9 @@ services:
       - key: DATABASE_POOL_MAX
         value: "5"
       - key: DATABASE_SEED
-        value: "false"
+        value: "true"
+      - key: APP_ORIGINS
+        value: https://didargold.com,https://www.didargold.com
       - key: AUTH_HASH_SECRET
         generateValue: true
       - key: SESSION_SECRET
@@ -58,6 +60,18 @@ services:
         value: /api/auth
       - key: VITE_AUTH_DEMO
         value: "false"
+      - key: VITE_TRACKING_ENABLED
+        value: "true"
+      - key: VITE_GA4_MEASUREMENT_ID
+        sync: false
+      - key: VITE_GTM_ID
+        sync: false
+      - key: VITE_META_PIXEL_ID
+        sync: false
+      - key: VITE_LINKEDIN_PARTNER_ID
+        sync: false
+      - key: VITE_CLARITY_PROJECT_ID
+        sync: false
 
 databases:
   - name: didar-gold-db

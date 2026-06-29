@@ -12,7 +12,9 @@
     "start:api": "node --env-file-if-exists=.env server/index.js",
     "test:api": "node --test --env-file-if-exists=.env server/auth-flow.test.js server/postgres-smoke.test.js",
     "db:migrate:postgres": "node --env-file-if-exists=.env server/migrate-sqlite-to-postgres.js",
+    "db:seed:production": "node --env-file-if-exists=.env server/seed-production.js",
     "audit:launch": "node --env-file-if-exists=.env scripts/audit-launch.mjs",
+    "audit:production": "node scripts/post-deploy-smoke.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
