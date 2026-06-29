@@ -1,7 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 
 import { config } from "../config.js";
+
+// Already-compressed binaries (images/video/fonts) are skipped; only text assets
+// benefit from on-the-fly compression.
+const compressibleExtensions = new Set([".css", ".html", ".js", ".json", ".svg", ".xml", ".webmanifest", ".txt", ".map"]);
+
+function negotiateEncoding(acceptEncoding = "") {
+  if (/\bbr\b/.test(acceptEncoding)) return "br";
+  if (/\bgzip\b/.test(acceptEncoding)) return "gzip";
+  return null;
+}
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -42,18 +53,41 @@ export function serveFrontend(request, response, url) {
   if (path.extname(relativePath) && filePath.endsWith("index.html")) return false;
 
   const extension = path.extname(filePath).toLowerCase();
+  const isIndex = filePath.endsWith("index.html");
   const immutable = filePath.includes(`${path.sep}assets${path.sep}`);
+  // Vite-hashed /assets are immutable; index.html must always revalidate; other
+  // static media (images/font/videos copied from public/) have stable names so a
+  // moderate cache is safe.
+  const cacheControl = immutable
+    ? "public, max-age=31536000, immutable"
+    : isIndex
+      ? "no-cache"
+      : "public, max-age=604800";
+
+  const encoding = compressibleExtensions.has(extension)
+    ? negotiateEncoding(String(request.headers["accept-encoding"] || ""))
+    : null;
+
   response.writeHead(200, {
-    "Cache-Control": immutable ? "public, max-age=31536000, immutable" : "no-cache",
+    "Cache-Control": cacheControl,
     "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
     "Content-Type": mimeTypes[extension] || "application/octet-stream",
+    ...(encoding ? { "Content-Encoding": encoding, "Vary": "Accept-Encoding" } : {}),
     ...(config.isProduction ? { "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload" } : {}),
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
   });
-  if (request.method === "HEAD") response.end();
-  else fs.createReadStream(filePath).pipe(response);
+
+  if (request.method === "HEAD") {
+    response.end();
+    return true;
+  }
+
+  const fileStream = fs.createReadStream(filePath);
+  if (encoding === "br") fileStream.pipe(zlib.createBrotliCompress()).pipe(response);
+  else if (encoding === "gzip") fileStream.pipe(zlib.createGzip()).pipe(response);
+  else fileStream.pipe(response);
   return true;
 }
