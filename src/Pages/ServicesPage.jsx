@@ -48,7 +48,7 @@ const qrCells = [0, 1, 2, 4, 6, 7, 8, 9, 11, 13, 15, 17, 18, 19, 20, 22, 24, 25,
 function SectionHeading({ eyebrow, title, description, align = "center", contrast = false }) {
   return (
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-2xl text-start"}>
-      <p className="text-xs tracking-[0.25em] text-[#B08A57] sm:text-sm">{eyebrow}</p>
+      <p className="text-xs tracking-[0.25em] text-[var(--gold-text)] sm:text-sm">{eyebrow}</p>
       <h2 className={`mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl ${contrast ? "text-[var(--contrast-ink)]" : "text-[var(--ink)]"}`}>
         {title}
       </h2>
@@ -87,7 +87,7 @@ function ServicesPage() {
           <div className="box-border w-[calc(100vw-2.5rem)] max-w-3xl overflow-hidden text-start text-white sm:w-full">
             <div className="flex max-w-full items-center gap-3 text-xs text-white/60 sm:text-sm">
               <Link to="/" className="transition hover:text-[#D9B985]">خانه</Link>
-              <span className="text-[#B08A57]">/</span><span>خدمات</span>
+              <span className="text-[var(--gold-text)]">/</span><span>خدمات</span>
             </div>
             <p className="mt-12 text-[10px] tracking-[0.2em] text-[#D9B985] sm:mt-14 sm:text-sm sm:tracking-[0.28em]">SERVICES & TRUST</p>
             <h1 className="mt-5 max-w-full text-[34px] font-normal leading-[1.55] sm:text-6xl lg:text-[76px]">خدمات و اعتماد دیدار</h1>
@@ -108,10 +108,10 @@ function ServicesPage() {
             {services.map(([number, symbol, title, description], index) => (
               <article key={title} className={`group relative min-h-[210px] overflow-hidden rounded-[22px] border border-[var(--line)] bg-[var(--surface-raised)] p-5 text-start transition duration-300 hover:-translate-y-1 hover:border-[#B08A57] hover:shadow-[0_18px_45px_rgba(4,30,66,0.12)] ${index === 6 ? "lg:col-span-2" : ""}`}>
                 <span className="absolute end-5 top-4 text-[10px] text-[var(--ink-muted)] opacity-50">{number}</span>
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#B08A57]/45 bg-[#B08A57]/10 text-xs font-medium text-[#B08A57] transition duration-300 group-hover:bg-[#B08A57] group-hover:text-white">{symbol}</div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#B08A57]/45 bg-[#B08A57]/10 text-xs font-medium text-[var(--gold-text)] transition duration-300 group-hover:bg-[#B08A57] group-hover:text-white">{symbol}</div>
                 <h3 className="mt-5 text-xl font-normal leading-[1.45]">{title}</h3>
                 <p className="mt-3 max-w-lg text-xs leading-6 text-[var(--ink-muted)]">{description}</p>
-                <a href="#trust-journey" className="mt-4 inline-flex items-center gap-2 text-xs text-[#B08A57] transition group-hover:gap-4">بیشتر بدانید <span>←</span></a>
+                <a href="#trust-journey" className="mt-4 inline-flex items-center gap-2 text-xs text-[var(--gold-text)] transition group-hover:gap-4">بیشتر بدانید <span>←</span></a>
                 <span className="absolute inset-x-0 bottom-0 h-1 origin-right scale-x-0 bg-[#B08A57] transition duration-500 group-hover:scale-x-100" />
               </article>
             ))}
@@ -140,7 +140,7 @@ function ServicesPage() {
             <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.04] p-7 text-start sm:p-10">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs tracking-[0.22em] text-[#B08A57]">مرحله {journeySteps[activeJourney][0]}</p>
+                  <p className="text-xs tracking-[0.22em] text-[var(--gold-text)]">مرحله {journeySteps[activeJourney][0]}</p>
                   <h3 className="mt-3 text-3xl">{journeySteps[activeJourney][1]}</h3>
                   <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--contrast-muted)]">{journeySteps[activeJourney][2]}</p>
                 </div>
@@ -197,8 +197,8 @@ function ServicesPage() {
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {warrantyItems.map(([number, title, summary, details]) => (
               <article key={title} className="group relative min-h-[330px] overflow-hidden rounded-[28px] border border-[var(--line)] bg-[var(--surface-raised)] p-7 text-start">
-                <span className="text-xs text-[#B08A57]">{number}</span>
-                <div className="absolute end-7 top-7 flex h-12 w-12 items-center justify-center rounded-full border border-[#B08A57]/35 text-[#B08A57] transition duration-500 group-hover:rotate-45 group-hover:bg-[#B08A57] group-hover:text-white">+</div>
+                <span className="text-xs text-[var(--gold-text)]">{number}</span>
+                <div className="absolute end-7 top-7 flex h-12 w-12 items-center justify-center rounded-full border border-[#B08A57]/35 text-[var(--gold-text)] transition duration-500 group-hover:rotate-45 group-hover:bg-[#B08A57] group-hover:text-white">+</div>
                 <div className="absolute inset-x-7 bottom-7 transition duration-500 group-hover:-translate-y-28"><h3 className="text-3xl">{title}</h3><p className="mt-3 text-sm text-[var(--ink-muted)]">{summary}</p></div>
                 <div className="absolute inset-x-7 bottom-7 translate-y-24 opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100"><p className="text-sm leading-8 text-[var(--ink-muted)]">{details}</p></div>
                 <span className="absolute inset-x-0 bottom-0 h-1 origin-right scale-x-0 bg-[#B08A57] transition duration-500 group-hover:scale-x-100" />
@@ -211,7 +211,7 @@ function ServicesPage() {
       <section id="ownership" className="scroll-mt-28 px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto grid max-w-[1450px] gap-8 lg:grid-cols-2">
           <div className="rounded-[32px] border border-[var(--line)] bg-[var(--surface-raised)] p-6 sm:p-9">
-            <p className="text-xs tracking-[0.25em] text-[#B08A57]">ورودی اولیه بازخرید و ارتقا</p>
+            <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">ورودی اولیه بازخرید و ارتقا</p>
             <h2 className="mt-4 text-3xl leading-[1.5] sm:text-4xl">یک ارزیابی اولیه و شفاف</h2>
             <p className="mt-4 text-sm leading-8 text-[var(--ink-muted)]">اطلاعات تقریبی قطعه را وارد کنید تا درخواست بررسی اولیه آماده شود. نتیجه نهایی فقط پس از ارزیابی تخصصی اعلام می شود.</p>
             <div className="mt-8 grid gap-4">
@@ -273,7 +273,7 @@ function ServicesPage() {
           <SectionHeading eyebrow="از دیدار بپرسید" title="پاسخ‌های روشن برای تصمیمی مطمئن" description="موضوع موردنظر را جست‌وجو کنید یا سوال‌ها را برای مشاهده پاسخ باز کنید." />
           <div className="relative mx-auto mt-10 max-w-2xl">
             <input type="search" value={faqSearch} onChange={(event) => setFaqSearch(event.target.value)} placeholder="جست‌وجو در سوالات..." className="h-16 w-full rounded-full border border-[var(--line)] bg-[var(--surface-raised)] px-6 pe-16 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-muted)] focus:border-[#B08A57]" />
-            <span className="absolute end-6 top-1/2 -translate-y-1/2 text-[#B08A57]">⌕</span>
+            <span className="absolute end-6 top-1/2 -translate-y-1/2 text-[var(--gold-text)]">⌕</span>
           </div>
           <div className="mt-8 space-y-3">
             {filteredFaqs.map(([question, answer], index) => {
@@ -282,7 +282,7 @@ function ServicesPage() {
                 <article key={question} className="overflow-hidden rounded-[22px] border border-[var(--line)] bg-[var(--surface-raised)]">
                   <button type="button" onClick={() => setOpenFaq(open ? -1 : index)} className="flex w-full items-center justify-between gap-5 p-5 text-start sm:p-6">
                     <span className="text-base sm:text-lg">{question}</span>
-                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--line)] text-[#B08A57] transition duration-300 ${open ? "rotate-45 border-[#B08A57] bg-[#B08A57] text-white" : ""}`}>+</span>
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--line)] text-[var(--gold-text)] transition duration-300 ${open ? "rotate-45 border-[#B08A57] bg-[#B08A57] text-white" : ""}`}>+</span>
                   </button>
                   <div className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}><div className="overflow-hidden"><p className="border-t border-[var(--line)] px-5 py-5 text-sm leading-8 text-[var(--ink-muted)] sm:px-6">{answer}</p></div></div>
                 </article>

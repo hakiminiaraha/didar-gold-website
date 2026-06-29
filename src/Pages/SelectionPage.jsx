@@ -50,7 +50,7 @@ export default function SelectionPage() {
       <Header />
       <main className="px-5 pb-24 pt-36 sm:px-8 lg:px-12 lg:pt-44">
         <section className="mx-auto max-w-[1450px] text-start">
-          <p className="text-xs tracking-[0.28em] text-[#B08A57]">{text.eyebrow}</p>
+          <p className="text-xs tracking-[0.28em] text-[var(--gold-text)]">{text.eyebrow}</p>
           <h1 className="mt-5 text-4xl font-normal leading-[1.5] sm:text-6xl">{text.title}</h1>
           <p className="mt-5 max-w-3xl text-lg leading-9 text-[var(--ink-muted)]">{text.description}</p>
         </section>
@@ -64,20 +64,20 @@ export default function SelectionPage() {
                     <img src={creation.image} alt={creation.name[language]} className="h-full w-full object-cover transition duration-500 hover:scale-105" />
                   </Link>
                   <div>
-                    <p className="text-xs text-[#B08A57]">0{index + 1} / {creation.collection[language]}</p>
+                    <p className="text-xs text-[var(--gold-text)]">0{index + 1} / {creation.collection[language]}</p>
                     <h2 className="mt-3 text-3xl">{creation.name[language]}</h2>
                     <p className="mt-2 text-sm leading-7 text-[var(--ink-muted)]">{creation.note[language]}</p>
                   </div>
-                  <button type="button" onClick={() => removeSelection(creation.id)} aria-label={text.remove} className="flex h-11 w-11 items-center justify-center border border-[var(--line)] transition hover:border-[#B08A57] hover:text-[#B08A57]">
+                  <button type="button" onClick={() => removeSelection(creation.id)} aria-label={text.remove} className="flex h-11 w-11 items-center justify-center border border-[var(--line)] transition hover:border-[#B08A57] hover:text-[var(--gold-text)]">
                     <X size={17} />
                   </button>
                 </article>
               ))}
-              <button type="button" onClick={clearSelection} className="mt-5 text-sm text-[var(--ink-muted)] transition hover:text-[#B08A57]">{text.clear}</button>
+              <button type="button" onClick={clearSelection} className="mt-5 text-sm text-[var(--ink-muted)] transition hover:text-[var(--gold-text)]">{text.clear}</button>
             </div>
           ) : (
             <div className="flex min-h-[420px] flex-col items-center justify-center border border-[var(--line)] bg-[var(--surface-raised)] px-6 text-center">
-              <ClipboardList size={40} strokeWidth={1.2} className="text-[#B08A57]" />
+              <ClipboardList size={40} strokeWidth={1.2} className="text-[var(--gold-text)]" />
               <p className="mt-6 text-xl text-[var(--ink-muted)]">{text.empty}</p>
               <Link to="/products" className="mt-7 inline-flex h-12 items-center gap-3 bg-[#041E42] px-7 text-sm text-white hover:bg-[#B08A57]">{text.explore}<Arrow size={16} /></Link>
             </div>

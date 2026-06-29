@@ -200,10 +200,10 @@ export default function LoginPage() {
                   <span className="mb-2 block text-sm text-white/72">{text.mobile}</span>
                   <span className="flex h-14 items-center gap-3 border border-white/16 bg-white/5 px-4 focus-within:border-[#B08A57]">
                     <Phone size={18} className="text-[#D9B985]" strokeWidth={1.4} />
-                    <input value={mobile} onChange={(event) => setMobile(normalizeMobile(event.target.value).slice(0, 11))} inputMode="numeric" autoComplete="tel" placeholder={text.mobilePlaceholder} className="w-full bg-transparent text-start outline-none placeholder:text-white/28" />
+                    <input id="login-mobile" value={mobile} onChange={(event) => setMobile(normalizeMobile(event.target.value).slice(0, 11))} inputMode="numeric" autoComplete="tel" aria-required="true" aria-invalid={error ? "true" : undefined} aria-describedby={error ? "login-mobile-error" : undefined} placeholder={text.mobilePlaceholder} className="w-full bg-transparent text-start outline-none placeholder:text-white/28" />
                   </span>
                 </label>
-                {error && <p role="alert" className="border-s-2 border-red-400 ps-3 text-start text-sm text-red-300">{error}</p>}
+                {error && <p id="login-mobile-error" role="alert" className="border-s-2 border-red-400 ps-3 text-start text-sm text-red-300">{error}</p>}
                 <button disabled={submitting} className="flex h-14 w-full items-center justify-center gap-3 bg-[#B08A57] text-sm transition hover:bg-[#D9B985] hover:text-[#041E42] disabled:opacity-55">{text.request}<Arrow size={17} /></button>
               </form>
             ) : (
@@ -212,10 +212,10 @@ export default function LoginPage() {
                   <span className="mb-2 block text-sm text-white/72">{text.otp}</span>
                   <span className="flex h-16 items-center gap-3 border border-white/16 bg-white/5 px-4 focus-within:border-[#B08A57]">
                     <KeyRound size={19} className="text-[#D9B985]" strokeWidth={1.4} />
-                    <input value={otp} onChange={(event) => setOtp(toEnglishDigits(event.target.value).replace(/\D/g, "").slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" autoFocus placeholder="------" className="w-full bg-transparent text-center text-2xl tracking-[0.45em] outline-none placeholder:text-white/20" />
+                    <input id="login-otp" value={otp} onChange={(event) => setOtp(toEnglishDigits(event.target.value).replace(/\D/g, "").slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" aria-required="true" aria-invalid={error ? "true" : undefined} aria-describedby={error ? "login-otp-error" : undefined} autoFocus placeholder="------" className="w-full bg-transparent text-center text-2xl tracking-[0.45em] outline-none placeholder:text-white/20" />
                   </span>
                 </label>
-                {error && <p role="alert" className="mt-5 border-s-2 border-red-400 ps-3 text-start text-sm text-red-300">{error}</p>}
+                {error && <p id="login-otp-error" role="alert" className="mt-5 border-s-2 border-red-400 ps-3 text-start text-sm text-red-300">{error}</p>}
                 <button disabled={submitting || otp.length !== 6} className="mt-6 flex h-14 w-full items-center justify-center gap-3 bg-[#B08A57] text-sm transition hover:bg-[#D9B985] hover:text-[#041E42] disabled:opacity-55"><CheckCircle2 size={18} />{text.verify}</button>
                 <div className="mt-5 flex items-center justify-between gap-5 text-xs">
                   <button type="button" onClick={() => { setStep("identity"); setError(""); }} className="text-white/55 transition hover:text-white">{text.edit}</button>

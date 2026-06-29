@@ -249,7 +249,7 @@ function ProductsPage() {
       <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto max-w-[1450px]">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs tracking-[0.28em] text-[#B08A57] sm:text-sm">
+            <p className="text-xs tracking-[0.28em] text-[var(--gold-text)] sm:text-sm">
               {text.categoryEyebrow}
             </p>
             <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">
@@ -277,7 +277,7 @@ function ProductsPage() {
                   size={27}
                   strokeWidth={1.15}
                   className={`mx-auto mt-4 ${
-                    activeCategory === category.id ? "text-white" : "text-[#B08A57]"
+                    activeCategory === category.id ? "text-white" : "text-[var(--gold-text)]"
                   }`}
                 />
                 <span className="mt-5 block text-sm sm:text-base">{category[language]}</span>
@@ -291,7 +291,7 @@ function ProductsPage() {
         <div className="mx-auto max-w-[1450px]">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl text-start">
-              <p className="text-xs tracking-[0.28em] text-[#B08A57] sm:text-sm">
+              <p className="text-xs tracking-[0.28em] text-[var(--gold-text)] sm:text-sm">
                 {text.piecesEyebrow}
               </p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">
@@ -310,7 +310,7 @@ function ProductsPage() {
                   className={`shrink-0 rounded-full border px-5 py-2.5 text-xs transition ${
                     activeCategory === category.id
                       ? "border-[#B08A57] bg-[#B08A57] text-white"
-                      : "border-[var(--line)] text-[var(--ink-muted)] hover:border-[#B08A57] hover:text-[#B08A57]"
+                      : "border-[var(--line)] text-[var(--ink-muted)] hover:border-[#B08A57] hover:text-[var(--gold-text)]"
                   }`}
                 >
                   {category[language]}
@@ -353,7 +353,7 @@ function ProductsPage() {
                     </div>
                     <div className="mt-5 flex items-end justify-between gap-4">
                       <div>
-                        <p className="text-xs text-[#B08A57]">{product[language].type}</p>
+                        <p className="text-xs text-[var(--gold-text)]">{product[language].type}</p>
                         <h3 className="mt-1 text-2xl font-normal">{productName}</h3>
                       </div>
                       <Link
@@ -366,7 +366,7 @@ function ProductsPage() {
                       </Link>
                     </div>
                     <div className="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4">
-                      <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "products_grid_text" })} className="text-xs text-[var(--ink-muted)] transition hover:text-[#B08A57]">{text.details}</Link>
+                      <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "products_grid_text" })} className="text-xs text-[var(--ink-muted)] transition hover:text-[var(--gold-text)]">{text.details}</Link>
                       <span className="text-xs text-[var(--ink-muted)]">0{index + 1}</span>
                     </div>
                   </article>
@@ -396,7 +396,7 @@ function ProductsPage() {
             </span>
           </div>
           <div className="text-start">
-            <p className="text-xs tracking-[0.28em] text-[#B08A57] sm:text-sm">
+            <p className="text-xs tracking-[0.28em] text-[var(--gold-text)] sm:text-sm">
               {text.featureEyebrow}
             </p>
             <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">
@@ -408,7 +408,7 @@ function ProductsPage() {
             <div className="mt-8 space-y-4">
               {text.featurePoints.map((point) => (
                 <div key={point} className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#B08A57]/60 text-[#B08A57]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#B08A57]/60 text-[var(--gold-text)]">
                     <Check size={14} />
                   </span>
                   <span className="text-sm">{point}</span>
@@ -431,7 +431,7 @@ function ProductsPage() {
         <div className="mx-auto max-w-[1450px] rounded-[36px] border border-[var(--line)] bg-[var(--surface-raised)] p-6 shadow-[0_24px_70px_rgba(4,30,66,0.12)] sm:p-9 lg:p-12">
         <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
           <div className="text-start">
-            <p className="text-xs tracking-[0.28em] text-[#B08A57] sm:text-sm">
+            <p className="text-xs tracking-[0.28em] text-[var(--gold-text)] sm:text-sm">
               {text.craftEyebrow}
             </p>
             <h2 className="mt-4 text-4xl font-normal leading-[1.5] sm:text-6xl">
@@ -447,7 +447,7 @@ function ProductsPage() {
                 key={text.standards[index][0]}
                 className="min-h-[260px] rounded-[30px] border border-[var(--line)] bg-[var(--surface)] p-8 text-start transition duration-300 hover:-translate-y-1 hover:border-[#B08A57] hover:shadow-xl"
               >
-                <Icon size={38} strokeWidth={1.15} className="text-[#B08A57]" />
+                <Icon size={38} strokeWidth={1.15} className="text-[var(--gold-text)]" />
                 <h3 className="mt-8 text-2xl leading-[1.5]">{text.standards[index][0]}</h3>
                 <p className="mt-4 text-base leading-8 text-[var(--ink)] opacity-76">
                   {text.standards[index][1]}

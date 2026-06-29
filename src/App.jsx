@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth";
 import RequireAdmin from "./components/RequireAdmin";
 import CmsRuntime from "./components/CmsRuntime";
+import RouteAnnouncer from "./components/RouteAnnouncer";
 import SeoManager from "./components/SeoManager";
 import TrackingManager from "./components/TrackingManager";
 import { AuthProvider } from "./context/AuthProvider";
@@ -33,7 +34,7 @@ const AdminPage = lazy(() => import("./Pages/AdminPage"));
 function PageLoader() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--surface)]">
-      <div className="text-center text-[#B08A57]">
+      <div className="text-center text-[var(--gold-text)]">
         <span className="mx-auto block h-10 w-10 animate-spin rounded-full border border-[#B08A57]/25 border-t-[#B08A57]" />
         <span className="mt-4 block text-xs tracking-[0.3em]">DIDAR</span>
       </div>
@@ -46,9 +47,16 @@ function AppRoutes() {
 
   return (
     <BrowserRouter>
-      <main dir={direction} data-theme={theme} className="min-h-screen bg-[var(--surface)] font-doran text-[var(--ink)] transition-colors duration-500">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#041E42] focus:px-4 focus:py-2 focus:text-white"
+      >
+        {direction === "rtl" ? "پرش به محتوا" : "Skip to content"}
+      </a>
+      <main id="main" tabIndex={-1} dir={direction} data-theme={theme} className="min-h-screen bg-[var(--surface)] font-doran text-[var(--ink)] outline-none transition-colors duration-500">
         <SeoManager />
         <TrackingManager />
+        <RouteAnnouncer />
         <CmsRuntime />
         <Suspense fallback={<PageLoader />}>
           <Routes>

@@ -87,8 +87,6 @@ export default function SeoManager() {
     const canonical = `${SITE_URL}${pathname === "/" ? "/" : pathname}`;
     const image = meta.image || DEFAULT_IMAGE;
 
-    document.documentElement.lang = "fa";
-    document.documentElement.dir = "rtl";
     document.title = meta.title;
     setCanonical(canonical);
     setMeta('meta[name="description"]', ["name", "description"], meta.description);

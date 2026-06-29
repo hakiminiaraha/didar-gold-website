@@ -319,7 +319,7 @@ function ProductStoryPage() {
   ] : [];
 
   if (!product) {
-    return <div dir={direction} className="min-h-screen bg-[var(--surface)] text-[var(--ink)]"><Header /><main className="grid min-h-[75vh] place-items-center px-5 pt-32 text-center"><div><p className="text-xs tracking-[0.2em] text-[#B08A57]">DIDAR CATALOG</p><h1 className="mt-4 text-4xl">{language === "fa" ? "این محصول در دسترس نیست" : "This creation is not available"}</h1><Link to="/products" className="mt-7 inline-flex border border-[#B08A57] px-6 py-3 text-sm text-[#B08A57]">{language === "fa" ? "بازگشت به محصولات" : "Back to creations"}</Link></div></main><Footer /></div>;
+    return <div dir={direction} className="min-h-screen bg-[var(--surface)] text-[var(--ink)]"><Header /><main className="grid min-h-[75vh] place-items-center px-5 pt-32 text-center"><div><p className="text-xs tracking-[0.2em] text-[var(--gold-text)]">DIDAR CATALOG</p><h1 className="mt-4 text-4xl">{language === "fa" ? "این محصول در دسترس نیست" : "This creation is not available"}</h1><Link to="/products" className="mt-7 inline-flex border border-[#B08A57] px-6 py-3 text-sm text-[var(--gold-text)]">{language === "fa" ? "بازگشت به محصولات" : "Back to creations"}</Link></div></main><Footer /></div>;
   }
 
   return (
@@ -328,10 +328,10 @@ function ProductStoryPage() {
 
       <main className="mx-auto max-w-[1450px] px-5 pb-20 pt-32 sm:px-8 lg:px-12 lg:pb-28 lg:pt-40">
         <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--ink-muted)] sm:text-sm">
-          <Link to="/" className="transition hover:text-[#B08A57]">{text.breadcrumb[0]}</Link>
-          <span className="text-[#B08A57]">/</span>
-          <Link to="/products" className="transition hover:text-[#B08A57]">{text.breadcrumb[1]}</Link>
-          <span className="text-[#B08A57]">/</span>
+          <Link to="/" className="transition hover:text-[var(--gold-text)]">{text.breadcrumb[0]}</Link>
+          <span className="text-[var(--gold-text)]">/</span>
+          <Link to="/products" className="transition hover:text-[var(--gold-text)]">{text.breadcrumb[1]}</Link>
+          <span className="text-[var(--gold-text)]">/</span>
           <span>{product.name[language]}</span>
         </div>
 
@@ -372,7 +372,7 @@ function ProductStoryPage() {
 
           <div className="flex flex-col justify-center text-start">
             <div className="flex items-center justify-between gap-4">
-              <p className="text-xs tracking-[0.22em] text-[#B08A57]">
+              <p className="text-xs tracking-[0.22em] text-[var(--gold-text)]">
                 {product.collection[language]} / {product.category[language]}
               </p>
               <button
@@ -409,7 +409,7 @@ function ProductStoryPage() {
                       className="flex w-full items-center justify-between gap-4 py-5 text-start"
                     >
                       <span className="text-xl">{title}</span>
-                      <ChevronDown size={18} className={`transition ${open ? "rotate-180 text-[#B08A57]" : ""}`} />
+                      <ChevronDown size={18} className={`transition ${open ? "rotate-180 text-[var(--gold-text)]" : ""}`} />
                     </button>
                     <div className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr] pb-5" : "grid-rows-[0fr]"}`}>
                       <div id={`product-detail-${id}`} className="overflow-hidden">
@@ -439,7 +439,7 @@ function ProductStoryPage() {
               <button type="button" onClick={() => { trackEvent("click_product_inquiry", { product_slug: product.id, source: "pdp_selection" }); addSelection(product.id); }} className={`inline-flex h-14 items-center justify-center gap-3 px-8 text-sm text-white transition ${selected ? "bg-[#B08A57]" : "bg-[#041E42] hover:bg-[#B08A57]"}`}>
                 {selected ? text.selected : text.purchase}<Arrow size={17} strokeWidth={1.5} />
               </button>
-              <Link to="/contact#appointment" onClick={trackLink("click_reserve_appointment", { source: "pdp", product_slug: product.id })} className="inline-flex h-14 items-center justify-center border border-[#B08A57] px-8 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">
+              <Link to="/contact#appointment" onClick={trackLink("click_reserve_appointment", { source: "pdp", product_slug: product.id })} className="inline-flex h-14 items-center justify-center border border-[#B08A57] px-8 text-sm text-[var(--gold-text)] transition hover:bg-[#B08A57] hover:text-white">
                 {text.consultation}
               </Link>
             </div>
@@ -448,7 +448,7 @@ function ProductStoryPage() {
 
         <section className="mt-24">
           <div className="text-center">
-            <p className="text-xs tracking-[0.24em] text-[#B08A57]">OWNERSHIP SERVICES</p>
+            <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">OWNERSHIP SERVICES</p>
             <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">
               {language === "fa" ? "خدمات مالکیت این قطعه" : "Ownership services for this creation"}
             </h2>
@@ -456,7 +456,7 @@ function ProductStoryPage() {
           <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {ownershipServices.map(({ title, description, icon: Icon }) => (
               <article key={title} className="border border-[var(--line)] bg-[var(--surface-raised)] p-6 text-start transition duration-300 hover:-translate-y-1 hover:border-[#B08A57]">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#B08A57]/45 text-[#B08A57]">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#B08A57]/45 text-[var(--gold-text)]">
                   <Icon size={19} strokeWidth={1.4} />
                 </span>
                 <h3 className="mt-5 text-xl">{title}</h3>
@@ -494,13 +494,13 @@ function ProductStoryPage() {
         <section className="mt-24">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
             <div className="text-start">
-              <Sparkles size={28} className="text-[#B08A57]" strokeWidth={1.3} />
+              <Sparkles size={28} className="text-[var(--gold-text)]" strokeWidth={1.3} />
               <h2 className="mt-5 text-3xl font-normal sm:text-5xl">{text.processTitle}</h2>
             </div>
             <div className="grid border-y border-[var(--line)] sm:grid-cols-4">
               {text.process.map(([number, title, description], index) => (
                 <article key={title} className={`p-5 text-start sm:p-6 ${index < text.process.length - 1 ? "border-b border-[var(--line)] sm:border-b-0 sm:border-e" : ""}`}>
-                  <span className="text-xs text-[#B08A57]">{number}</span>
+                  <span className="text-xs text-[var(--gold-text)]">{number}</span>
                   <h3 className="mt-4 text-xl">{title}</h3>
                   <p className="mt-3 text-xs leading-6 text-[var(--ink-muted)]">{description}</p>
                 </article>
@@ -511,7 +511,7 @@ function ProductStoryPage() {
 
         <section className="mt-24">
           <div className="text-center">
-            <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.relatedEyebrow}</p>
+            <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.relatedEyebrow}</p>
             <h2 className="mt-4 text-3xl font-normal sm:text-5xl">{text.relatedTitle}</h2>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -520,9 +520,9 @@ function ProductStoryPage() {
                 <div className="aspect-square overflow-hidden rounded-[28px] bg-[var(--media-surface)]">
                   <img src={item.image} alt={item.name[language]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 </div>
-                <p className="mt-5 text-xs text-[#B08A57]">{item.collection[language]}</p>
+                <p className="mt-5 text-xs text-[var(--gold-text)]">{item.collection[language]}</p>
                 <h3 className="mt-2 text-2xl">{item.name[language]}</h3>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] group-hover:text-[#B08A57]">
+                <span className="mt-4 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] group-hover:text-[var(--gold-text)]">
                   {text.view}<Arrow size={15} />
                 </span>
               </Link>

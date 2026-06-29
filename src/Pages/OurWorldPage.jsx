@@ -173,7 +173,7 @@ function OurWorldPage() {
               <Link to="/" className="transition hover:text-[#D9B985]">
                 {text.breadcrumb[0]}
               </Link>
-              <span className="text-[#B08A57]">/</span>
+              <span className="text-[var(--gold-text)]">/</span>
               <span>{text.breadcrumb[1]}</span>
             </div>
             <div className="mt-12 flex items-center gap-4 text-[#D9B985]">
@@ -202,7 +202,7 @@ function OurWorldPage() {
           <div className="mx-auto max-w-[1450px] overflow-hidden rounded-[34px] border border-[var(--line)] bg-[var(--surface-raised)] shadow-[0_25px_75px_rgba(4,30,66,0.15)]">
             <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
               <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
-                <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.manifestoEyebrow}</p>
+                <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.manifestoEyebrow}</p>
                 <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">
                   {text.manifestoTitle}
                 </h2>
@@ -218,7 +218,7 @@ function OurWorldPage() {
                       index < text.maison.length - 1 ? "border-b border-[var(--line)]" : ""
                     }`}
                   >
-                    <span className="text-xs tracking-[0.18em] text-[#B08A57]">{number}</span>
+                    <span className="text-xs tracking-[0.18em] text-[var(--gold-text)]">{number}</span>
                     <div>
                       <h3 className="text-2xl font-normal">{title}</h3>
                       <p className="mt-3 max-w-2xl text-base leading-8 text-[var(--ink)] opacity-80">
@@ -235,7 +235,7 @@ function OurWorldPage() {
         <section className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="mx-auto grid max-w-[1450px] items-stretch gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
             <div className="flex flex-col justify-center text-start">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.philosophyEyebrow}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.philosophyEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">
                 {text.philosophyTitle}
               </h2>
@@ -259,9 +259,9 @@ function OurWorldPage() {
                     index < text.philosophyPoints.length - 1 ? "border-b border-[var(--line)]" : ""
                   }`}
                 >
-                  <span className="text-xs tracking-[0.2em] text-[#B08A57]">0{index + 1}</span>
+                  <span className="text-xs tracking-[0.2em] text-[var(--gold-text)]">0{index + 1}</span>
                   <div>
-                    <h3 className="text-2xl transition group-hover:text-[#B08A57] sm:text-3xl">{title}</h3>
+                    <h3 className="text-2xl transition group-hover:text-[var(--gold-text)] sm:text-3xl">{title}</h3>
                     <p className="mt-3 max-w-xl text-base leading-8 text-[var(--ink)] opacity-80">{description}</p>
                   </div>
                 </article>
@@ -340,7 +340,7 @@ function OurWorldPage() {
         <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto grid max-w-[1450px] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
             <div className="text-start">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.standardEyebrow}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.standardEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">
                 {text.standardTitle}
               </h2>
@@ -356,7 +356,7 @@ function OurWorldPage() {
                     index < text.standards.length - 1 ? "border-b border-[var(--line)]" : ""
                   }`}
                 >
-                  <h3 className="text-2xl text-[#B08A57]">{title}</h3>
+                  <h3 className="text-2xl text-[var(--gold-text)]">{title}</h3>
                   <p className="text-base leading-8 text-[var(--ink)] opacity-80">{description}</p>
                 </article>
               ))}
@@ -371,7 +371,7 @@ function OurWorldPage() {
               <span className="absolute inset-0 bg-[#041E42]/24" />
             </div>
             <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.galleryEyebrow}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.galleryEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">
                 {text.galleryTitle}
               </h2>
@@ -380,7 +380,7 @@ function OurWorldPage() {
               </p>
               <Link
                 to="/art-gallery"
-                className="mt-8 inline-flex h-12 w-fit items-center gap-3 border border-[#B08A57] px-7 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white"
+                className="mt-8 inline-flex h-12 w-fit items-center gap-3 border border-[#B08A57] px-7 text-sm text-[var(--gold-text)] transition hover:bg-[#B08A57] hover:text-white"
               >
                 {text.galleryCta}
                 <span>{arrow}</span>
@@ -392,16 +392,16 @@ function OurWorldPage() {
         <section className="px-5 pb-20 sm:px-8 lg:px-12 lg:pb-28">
           <div className="mx-auto max-w-[1450px]">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.valuesEyebrow}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.valuesEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.valuesTitle}</h2>
               <p className="mt-5 text-[17px] leading-10 text-[var(--ink)] opacity-85 sm:text-xl">{text.valuesText}</p>
             </div>
 
             <div className="mt-14 overflow-hidden rounded-[34px] border border-[var(--line)] bg-[var(--surface-soft)]">
               <blockquote className="px-7 py-14 text-center text-2xl font-normal leading-[1.9] text-[var(--ink)] sm:px-12 sm:text-4xl">
-                <span className="text-[#B08A57]">“</span>
+                <span className="text-[var(--gold-text)]">“</span>
                 {text.quote}
-                <span className="text-[#B08A57]">”</span>
+                <span className="text-[var(--gold-text)]">”</span>
               </blockquote>
             </div>
           </div>

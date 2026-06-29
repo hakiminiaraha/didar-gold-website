@@ -454,7 +454,7 @@ function ShopPage() {
         <div className="mx-auto max-w-[1450px] border border-[var(--line)] bg-[var(--surface-raised)] p-5 shadow-[0_28px_80px_rgba(2,11,23,0.16)] sm:p-8 lg:p-10">
           <section className="grid gap-8 border-b border-[var(--line)] pb-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
             <div className="text-start">
-              <p className="text-xs tracking-[0.28em] text-[#B08A57]">{text.introEyebrow}</p>
+              <p className="text-xs tracking-[0.28em] text-[var(--gold-text)]">{text.introEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.introTitle}</h2>
             </div>
             <p className="text-start text-base leading-9 text-[var(--ink-muted)]">{text.introText}</p>
@@ -512,7 +512,7 @@ function ShopPage() {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="inline-flex h-11 w-fit items-center gap-2 border border-[var(--line)] px-5 text-sm text-[var(--ink-muted)] transition hover:border-[#B08A57] hover:text-[#B08A57]"
+                  className="inline-flex h-11 w-fit items-center gap-2 border border-[var(--line)] px-5 text-sm text-[var(--ink-muted)] transition hover:border-[#B08A57] hover:text-[var(--gold-text)]"
                 >
                   <X size={15} strokeWidth={1.5} />
                   {text.clearFilters}
@@ -521,7 +521,7 @@ function ShopPage() {
 
               <div className="mt-7 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 <label className="flex h-12 items-center gap-3 border border-[var(--line)] bg-[var(--surface)] px-4 xl:col-span-2">
-                  <Search size={17} className="text-[#B08A57]" strokeWidth={1.5} />
+                  <Search size={17} className="text-[var(--gold-text)]" strokeWidth={1.5} />
                   <input
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
@@ -589,14 +589,14 @@ function ShopPage() {
                           </span>
                         </div>
                         <div className="p-6 text-start">
-                          <p className="text-xs text-[#B08A57]">
+                          <p className="text-xs text-[var(--gold-text)]">
                             {text.collections[product.collection]} / {text.categories[product.category]}
                           </p>
                           <h3 className="mt-3 text-2xl font-normal leading-[1.5]">{product[language][0]}</h3>
                           <p className="mt-2 min-h-[56px] text-sm leading-7 text-[var(--ink-muted)]">{product[language][1]}</p>
 
                           <div className="mt-5 border border-[var(--line)] bg-[var(--surface-raised)] p-4">
-                            <p className="text-[11px] uppercase tracking-[0.22em] text-[#B08A57]">{text.productMeta}</p>
+                            <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--gold-text)]">{text.productMeta}</p>
                             <p className="mt-2 text-[10px] leading-5 text-[var(--ink-muted)]">{text.metaNotice}</p>
                             <dl className="mt-3 grid grid-cols-3 gap-3 text-xs text-[var(--ink-muted)]">
                               <div>
@@ -632,14 +632,14 @@ function ShopPage() {
                               className={`inline-flex h-11 items-center gap-2 px-4 text-sm transition ${
                                 isAdded
                                   ? "bg-[#B08A57] text-white"
-                                  : "border border-[var(--line)] hover:border-[#B08A57] hover:text-[#B08A57]"
+                                  : "border border-[var(--line)] hover:border-[#B08A57] hover:text-[var(--gold-text)]"
                               }`}
                             >
                               <ShoppingBag size={16} strokeWidth={1.5} />
                               {isAdded ? text.added : text.add}
                             </button>
                           </div>
-                          <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "shop_catalog" })} className="mt-4 inline-flex items-center gap-2 text-xs text-[#B08A57] transition hover:gap-3">
+                          <Link to={`/products/${product.id}`} onClick={trackLink("click_product_card", { product_slug: product.id, source: "shop_catalog" })} className="mt-4 inline-flex items-center gap-2 text-xs text-[var(--gold-text)] transition hover:gap-3">
                             {text.viewStory}
                             <Arrow size={14} strokeWidth={1.5} />
                           </Link>
@@ -714,13 +714,13 @@ function ShopPage() {
               <span className="absolute inset-0 bg-[#020b17]/35" />
             </div>
             <div className="p-7 text-start sm:p-10 lg:p-12">
-              <p className="text-xs tracking-[0.28em] text-[#B08A57]">TRUST & LIFECYCLE</p>
+              <p className="text-xs tracking-[0.28em] text-[var(--gold-text)]">TRUST & LIFECYCLE</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.5] sm:text-5xl">{text.trustTitle}</h2>
               <p className="mt-4 text-base leading-9 text-[var(--ink-muted)]">{text.trustText}</p>
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 {text.trustItems.map(([title, description]) => (
                   <article key={title} className="border border-[var(--line)] bg-[var(--surface-raised)] p-5">
-                    <CheckCircle2 size={20} className="text-[#B08A57]" strokeWidth={1.5} />
+                    <CheckCircle2 size={20} className="text-[var(--gold-text)]" strokeWidth={1.5} />
                     <h3 className="mt-4 text-lg">{title}</h3>
                     <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]">{description}</p>
                   </article>
@@ -757,7 +757,7 @@ function ShopPage() {
 function FilterSelect({ value, onChange, children, label, icon }) {
   return (
     <label className="flex h-12 items-center gap-3 border border-[var(--line)] bg-[var(--surface)] px-4">
-      <span className="text-[#B08A57]">{icon || <SlidersHorizontal size={17} strokeWidth={1.5} />}</span>
+      <span className="text-[var(--gold-text)]">{icon || <SlidersHorizontal size={17} strokeWidth={1.5} />}</span>
       {label && <span className="text-xs text-[var(--ink-muted)]">{label}</span>}
       <select value={value} onChange={(event) => onChange(event.target.value)} className="w-full bg-transparent text-sm outline-none">
         {children}
@@ -769,7 +769,7 @@ function FilterSelect({ value, onChange, children, label, icon }) {
 function TrustBadge({ icon, label }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-[#B08A57]/35 px-3 py-1 text-[11px] text-[var(--ink-muted)]">
-      <span className="text-[#B08A57]">{icon}</span>
+      <span className="text-[var(--gold-text)]">{icon}</span>
       {label}
     </span>
   );

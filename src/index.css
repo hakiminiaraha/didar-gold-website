@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Doran';
-  src: url('/font/Doran-Light.ttf');
+  src: url('/font/Doran-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: 'Doran';
-  src: url('/font/Doran-Regular.ttf');
+  src: url('/font/Doran-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: 'Doran';
-  src: url('/font/Doran-Medium.ttf');
+  src: url('/font/Doran-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -28,7 +28,7 @@
 
 @font-face {
   font-family: 'Doran';
-  src: url('/font/Doran-Bold.ttf');
+  src: url('/font/Doran-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -57,6 +57,9 @@ body {
   --surface-raised: #fffaf3;
   --ink: #041e42;
   --ink-muted: rgba(4, 30, 66, 0.65);
+  /* Accessible gold for TEXT on light surfaces (#B08A57 only reaches ~2.8:1; this
+     clears AA 4.5:1 on the cream surfaces). Decorative gold lines/fills stay #B08A57. */
+  --gold-text: #835f26;
   --line: rgba(176, 138, 87, 0.25);
   --header: rgba(247, 243, 238, 0.9);
   --contrast: #041e42;
@@ -74,6 +77,8 @@ body {
   --surface-raised: #102b4d;
   --ink: #f7f3ee;
   --ink-muted: rgba(247, 243, 238, 0.66);
+  /* On dark surfaces the brand gold already clears AA, so keep it bright here. */
+  --gold-text: #c8a063;
   --line: rgba(217, 185, 133, 0.26);
   --header: rgba(7, 24, 47, 0.9);
   --contrast: #020b17;

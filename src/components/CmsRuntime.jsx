@@ -5,6 +5,9 @@ import { useSitePreferences } from "../context/SitePreferencesContext";
 
 const editableTextTags = new Set(["H1", "H2", "H3", "H4", "H5", "P", "SPAN", "A", "BUTTON", "LABEL", "LI", "SMALL", "STRONG", "TH", "TD", "FIGCAPTION"]);
 
+// Only allow href values that cannot execute script (blocks javascript:, data:, vbscript:, etc.).
+const SAFE_HREF = /^(https?:\/\/|\/(?!\/)|#|\?|mailto:|tel:)/i;
+
 function elementPath(element) {
   const parts = [];
   let current = element;
@@ -80,7 +83,7 @@ function applyEntry(entry) {
       if (element.tagName === "VIDEO") element.load();
     }
   } else if (entry.contentType === "poster" && element.getAttribute("poster") !== entry.value) element.setAttribute("poster", entry.value);
-  else if (entry.contentType === "link" && element.getAttribute("href") !== entry.value) element.setAttribute("href", entry.value);
+  else if (entry.contentType === "link" && SAFE_HREF.test(entry.value) && element.getAttribute("href") !== entry.value) element.setAttribute("href", entry.value);
   else if (entry.contentType === "alt" && element.getAttribute("alt") !== entry.value) element.setAttribute("alt", entry.value);
 }
 
@@ -93,6 +96,8 @@ export default function CmsRuntime() {
     let active = true;
     let entries = [];
     let timer;
+    let observer;
+    let highlighted;
     const editorMode = new URLSearchParams(location.search).get("cmsEditor") === "1";
 
     const applyAll = () => entries.forEach(applyEntry);
@@ -100,23 +105,32 @@ export default function CmsRuntime() {
       if (!editorMode || window.parent === window) return;
       window.parent.postMessage({ type: "didar-cms-inventory", routePath: location.pathname, locale: language, entries: inventoryPage() }, window.location.origin);
     };
+    // For ordinary visitors with no CMS overrides there is nothing to apply, so
+    // skip the debounce timer and DOM work entirely (avoids per-render main-thread cost).
+    const hasWork = () => editorMode || entries.length > 0;
     const schedule = () => {
+      if (!hasWork()) return;
       window.clearTimeout(timer);
       timer = window.setTimeout(() => { applyAll(); announceInventory(); }, 250);
+    };
+    // Only observe the DOM when there is a reason to re-apply (editor mode, or real overrides exist).
+    const ensureObserver = () => {
+      if (observer || !hasWork()) return;
+      const root = document.getElementById("root");
+      if (!root) return;
+      observer = new MutationObserver(schedule);
+      observer.observe(root, { childList: true, subtree: true });
     };
 
     fetch(`/api/content?route=${encodeURIComponent(location.pathname)}&locale=${language}`)
       .then((response) => response.ok ? response.json() : { entries: [] })
-      .then((data) => { if (active) { entries = data.entries || []; schedule(); } })
-      .catch(() => schedule());
+      .then((data) => { if (active) { entries = data.entries || []; ensureObserver(); schedule(); } })
+      .catch(() => {});
 
-    const observer = new MutationObserver(schedule);
-    observer.observe(document.getElementById("root"), { childList: true, subtree: true });
     const handleMessage = (event) => {
       if (event.origin === window.location.origin && event.data?.type === "didar-cms-request-inventory") announceInventory();
     };
     const handleEditorClick = (event) => {
-      if (!editorMode) return;
       const element = event.target.closest("h1,h2,h3,h4,h5,p,span,a,button,label,li,small,strong,th,td,figcaption,img,video,source");
       if (!element || element.closest("[data-cms-ignore]")) return;
       event.preventDefault();
@@ -125,9 +139,7 @@ export default function CmsRuntime() {
       const entry = inventoryPage().find((item) => item.contentKey.startsWith(`${path}::`));
       if (entry) window.parent.postMessage({ type: "didar-cms-select", entry }, window.location.origin);
     };
-    let highlighted;
     const handleEditorHover = (event) => {
-      if (!editorMode) return;
       const element = event.target.closest("h1,h2,h3,h4,h5,p,span,a,button,label,li,small,strong,th,td,figcaption,img,video");
       if (!element || element === highlighted) return;
       if (highlighted) highlighted.style.outline = "";
@@ -135,16 +147,23 @@ export default function CmsRuntime() {
       highlighted.style.outline = "2px solid #B08A57";
       highlighted.style.outlineOffset = "3px";
     };
-    window.addEventListener("message", handleMessage);
-    document.addEventListener("click", handleEditorClick, true);
-    document.addEventListener("mouseover", handleEditorHover, true);
-    schedule();
+
+    // Editor-only interaction listeners are attached solely in editor mode.
+    if (editorMode) {
+      ensureObserver();
+      window.addEventListener("message", handleMessage);
+      document.addEventListener("click", handleEditorClick, true);
+      document.addEventListener("mouseover", handleEditorHover, true);
+    }
+
     return () => {
       active = false;
-      observer.disconnect();
-      window.removeEventListener("message", handleMessage);
-      document.removeEventListener("click", handleEditorClick, true);
-      document.removeEventListener("mouseover", handleEditorHover, true);
+      if (observer) observer.disconnect();
+      if (editorMode) {
+        window.removeEventListener("message", handleMessage);
+        document.removeEventListener("click", handleEditorClick, true);
+        document.removeEventListener("mouseover", handleEditorHover, true);
+      }
       if (highlighted) highlighted.style.outline = "";
       window.clearTimeout(timer);
     };

@@ -7,7 +7,7 @@ export default function RequireAdmin({ children }) {
   const location = useLocation();
 
   if (loading) {
-    return <div className="flex min-h-screen items-center justify-center bg-[var(--surface)] text-[#B08A57]">DIDAR</div>;
+    return <div className="flex min-h-screen items-center justify-center bg-[var(--surface)] text-[var(--gold-text)]">DIDAR</div>;
   }
 
   if (!isAuthenticated) {

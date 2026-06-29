@@ -152,7 +152,7 @@ function ArtGalleryPage() {
                     onClick={() => setActiveFilter(value)}
                     className={`shrink-0 border-b px-4 py-3 text-sm transition ${
                       activeFilter === value
-                        ? "border-[#B08A57] text-[#B08A57]"
+                        ? "border-[#B08A57] text-[var(--gold-text)]"
                         : "border-transparent text-[var(--ink-muted)] hover:text-[var(--ink)]"
                     }`}
                   >
@@ -191,7 +191,7 @@ function ArtGalleryPage() {
 
             <Link
               to="/products"
-              className="mx-auto mt-9 flex items-center gap-3 text-sm text-[#B08A57] transition hover:gap-5"
+              className="mx-auto mt-9 flex items-center gap-3 text-sm text-[var(--gold-text)] transition hover:gap-5"
             >
               <Arrow size={17} strokeWidth={1.5} />
               {text.galleryCta}
@@ -209,12 +209,12 @@ function ArtGalleryPage() {
               />
             </div>
             <div className="flex flex-col justify-center p-7 text-start sm:p-12 lg:p-16">
-              <p className="text-xs tracking-[0.22em] text-[#B08A57]">{text.storyEyebrow}</p>
+              <p className="text-xs tracking-[0.22em] text-[var(--gold-text)]">{text.storyEyebrow}</p>
               <h2 className="mt-5 text-4xl font-normal leading-[1.5] sm:text-6xl">{text.storyTitle}</h2>
               <p className="mt-6 text-base leading-9 text-[var(--ink-muted)] sm:text-lg">
                 {text.storyText}
               </p>
-              <a href="#collections" className="mt-8 inline-flex items-center gap-3 text-sm text-[#B08A57]">
+              <a href="#collections" className="mt-8 inline-flex items-center gap-3 text-sm text-[var(--gold-text)]">
                 <Arrow size={17} strokeWidth={1.5} />
                 {text.readMore}
               </a>
@@ -263,7 +263,7 @@ function ArtGalleryPage() {
               <div className="text-start">
                 <h2 className="text-4xl font-normal leading-[1.55] sm:text-5xl">{text.processTitle}</h2>
                 <p className="mt-5 text-base leading-8 text-[var(--ink-muted)]">{text.processText}</p>
-                <Link to="/our-world" className="mt-8 inline-flex items-center gap-3 text-sm text-[#B08A57]">
+                <Link to="/our-world" className="mt-8 inline-flex items-center gap-3 text-sm text-[var(--gold-text)]">
                   <Arrow size={17} strokeWidth={1.5} />
                   {text.processCta}
                 </Link>
@@ -280,7 +280,7 @@ function ArtGalleryPage() {
                     </div>
                     <div className="mt-4 flex items-center justify-between gap-3">
                       <h3 className="text-sm">{text.process[index]}</h3>
-                      <span className="text-[10px] text-[#B08A57]">0{index + 1}</span>
+                      <span className="text-[10px] text-[var(--gold-text)]">0{index + 1}</span>
                     </div>
                   </article>
                 ))}
@@ -299,7 +299,7 @@ function ArtGalleryPage() {
             />
             <div className="absolute inset-0 bg-[var(--surface-raised)]/75" />
             <blockquote className="relative mx-auto flex min-h-[300px] max-w-4xl items-center justify-center px-8 text-center text-3xl leading-[1.8] sm:text-5xl">
-              <span className="absolute top-8 text-7xl text-[#B08A57]/60">“</span>
+              <span className="absolute top-8 text-7xl text-[var(--gold-text)]/60">“</span>
               {text.quote}
             </blockquote>
           </div>

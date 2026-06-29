@@ -216,7 +216,7 @@ function JournalPage() {
   const { articles: journalArticles, available: journalAvailable, loaded: journalLoaded } = useJournal();
   const text = copy[language];
   const Arrow = language === "fa" ? ArrowLeft : ArrowRight;
-  const articles = journalLoaded && journalAvailable ? journalArticles.map((article) => ({
+  const mappedArticles = journalLoaded && journalAvailable ? journalArticles.map((article) => ({
     slug: article.slug,
     image: article.image,
     category: article.category,
@@ -225,7 +225,10 @@ function JournalPage() {
     read: article.readLabel?.[language] || "",
     fa: [article.content.fa.title, article.content.fa.excerpt],
     en: [article.content.en.title, article.content.en.excerpt],
-  })) : fallbackArticles;
+  })) : [];
+  // Fall back to the sample set if the API is unavailable or returns nothing,
+  // so the page never renders with an undefined featured article.
+  const articles = mappedArticles.length ? mappedArticles : fallbackArticles;
   const featured = articles[0];
 
   const filteredArticles = useMemo(() => {
@@ -288,7 +291,7 @@ function JournalPage() {
               </span>
             </div>
             <div className="flex flex-col justify-center p-7 text-start sm:p-10 lg:p-14">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{featured.pillar}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{featured.pillar}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{featured[language][0]}</h2>
               <p className="mt-5 text-[17px] leading-10 text-[var(--ink)] opacity-85">{featured[language][1]}</p>
               <div className="mt-7 flex flex-wrap items-center gap-4 text-sm text-[var(--ink-muted)]">
@@ -298,7 +301,7 @@ function JournalPage() {
                 <span className="h-1 w-1 rounded-full bg-[#B08A57]" />
                 <span>{featured.read}</span>
               </div>
-              <Link to={`/journal/${featured.slug}`} className="mt-8 inline-flex h-12 w-fit items-center gap-3 border border-[#B08A57] px-7 text-sm text-[#B08A57] transition hover:bg-[#B08A57] hover:text-white">
+              <Link to={`/journal/${featured.slug}`} className="mt-8 inline-flex h-12 w-fit items-center gap-3 border border-[#B08A57] px-7 text-sm text-[var(--gold-text)] transition hover:bg-[#B08A57] hover:text-white">
                 {text.readArticle}
                 <Arrow size={16} strokeWidth={1.5} />
               </Link>
@@ -307,7 +310,7 @@ function JournalPage() {
 
           <section className="mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div className="text-start">
-              <p className="text-xs tracking-[0.24em] text-[#B08A57]">{text.editorialEyebrow}</p>
+              <p className="text-xs tracking-[0.24em] text-[var(--gold-text)]">{text.editorialEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.editorialTitle}</h2>
               <p className="mt-5 text-[17px] leading-10 text-[var(--ink)] opacity-85">{text.editorialText}</p>
             </div>
@@ -319,7 +322,7 @@ function JournalPage() {
                     index < text.pillars.length - 2 ? "border-b border-[var(--line)]" : ""
                   } ${index % 2 === 0 ? "sm:border-e sm:border-[var(--line)]" : ""}`}
                 >
-                  <span className="text-xs tracking-[0.18em] text-[#B08A57]">0{index + 1}</span>
+                  <span className="text-xs tracking-[0.18em] text-[var(--gold-text)]">0{index + 1}</span>
                   <h3 className="mt-4 text-2xl">{title}</h3>
                   <p className="mt-3 text-sm leading-8 text-[var(--ink)] opacity-76">{description}</p>
                 </article>
@@ -333,7 +336,7 @@ function JournalPage() {
                 <h2 className="text-3xl font-normal sm:text-5xl">{text.latestTitle}</h2>
               </div>
               <label className="flex h-12 w-full items-center gap-3 border border-[var(--line)] bg-[var(--surface)] px-4 lg:max-w-[360px]">
-                <Search size={18} className="text-[#B08A57]" strokeWidth={1.5} />
+                <Search size={18} className="text-[var(--gold-text)]" strokeWidth={1.5} />
                 <input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
@@ -351,7 +354,7 @@ function JournalPage() {
                   onClick={() => setActiveCategory(value)}
                   className={`shrink-0 border-b px-4 py-3 text-sm transition ${
                     activeCategory === value
-                      ? "border-[#B08A57] text-[#B08A57]"
+                      ? "border-[#B08A57] text-[var(--gold-text)]"
                       : "border-transparent text-[var(--ink-muted)] hover:text-[var(--ink)]"
                   }`}
                 >
@@ -376,7 +379,7 @@ function JournalPage() {
                       />
                     </div>
                     <div className="p-6 text-start">
-                      <p className="text-xs text-[#B08A57]">{text.categoryNames[article.category]}</p>
+                      <p className="text-xs text-[var(--gold-text)]">{text.categoryNames[article.category]}</p>
                       <h3 className="mt-4 text-2xl font-normal leading-[1.6]">{article[language][0]}</h3>
                       <p className="mt-3 min-h-[72px] text-sm leading-8 text-[var(--ink)] opacity-76">
                         {article[language][1]}
@@ -385,7 +388,7 @@ function JournalPage() {
                         <span className="text-xs text-[var(--ink-muted)]">
                           {article.date} / {article.read}
                         </span>
-                        <Arrow size={17} className="text-[#B08A57]" strokeWidth={1.5} />
+                        <Arrow size={17} className="text-[var(--gold-text)]" strokeWidth={1.5} />
                       </div>
                     </div>
                   </Link>

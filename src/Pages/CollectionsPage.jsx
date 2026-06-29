@@ -196,7 +196,7 @@ function SectionTitle({ eyebrow, title, description, align = "center", tone = "d
 
   return (
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-xl text-start"}>
-      <p className="text-xs font-medium tracking-[0.28em] text-[#B08A57] sm:text-sm">{eyebrow}</p>
+      <p className="text-xs font-medium tracking-[0.28em] text-[var(--gold-text)] sm:text-sm">{eyebrow}</p>
       <h2 className={`mt-4 text-3xl font-normal leading-[1.5] sm:text-4xl lg:text-5xl ${isContrast ? "text-[var(--contrast-ink)]" : "text-[var(--ink)]"}`}>
         {title}
       </h2>
@@ -346,10 +346,10 @@ function CollectionsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#041E42]/45 to-transparent" />
                 </div>
                 <div className="relative flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-                  <button type="button" onClick={() => setSelectedCollection(null)} aria-label={text.close} className="absolute end-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] transition hover:border-[#B08A57] hover:text-[#B08A57]">
+                  <button type="button" onClick={() => setSelectedCollection(null)} aria-label={text.close} className="absolute end-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] transition hover:border-[#B08A57] hover:text-[var(--gold-text)]">
                     <X size={18} />
                   </button>
-                  <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.detailLabel} · {selectedCollection.englishName}</p>
+                  <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.detailLabel} · {selectedCollection.englishName}</p>
                   <h3 className="mt-4 text-4xl font-normal sm:text-5xl">{selectedCollection[language].name}</h3>
                   <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--ink-muted)] sm:text-lg sm:leading-9">{selectedCollection[language].story}</p>
                   <div className="mt-7 flex flex-wrap gap-2">
@@ -357,7 +357,7 @@ function CollectionsPage() {
                       <span key={theme} className="rounded-full border border-[var(--line)] px-4 py-2 text-xs text-[var(--ink-muted)]">{theme}</span>
                     ))}
                   </div>
-                  <Link to={`/collections/${selectedCollection.id}`} className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-[#B08A57] transition hover:text-[var(--ink)]">
+                  <Link to={`/collections/${selectedCollection.id}`} className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-[var(--gold-text)] transition hover:text-[var(--ink)]">
                     {text.detailCta}
                     <DirectionArrow language={language} />
                   </Link>
@@ -395,7 +395,7 @@ function CollectionsPage() {
               >
                 <ChevronRight size={19} />
               </button>
-              <a href="#boutique" className="ms-2 hidden items-center gap-3 text-sm text-[#B08A57] transition hover:text-[var(--contrast-ink)] sm:inline-flex">
+              <a href="#boutique" className="ms-2 hidden items-center gap-3 text-sm text-[var(--gold-text)] transition hover:text-[var(--contrast-ink)] sm:inline-flex">
                 {text.viewAll}
                 <DirectionArrow language={language} />
               </a>
@@ -434,7 +434,7 @@ function CollectionsPage() {
                 </div>
                 <div className="mt-5 flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-[11px] tracking-[0.18em] text-[#B08A57]">{piece[language].type}</p>
+                    <p className="text-[11px] tracking-[0.18em] text-[var(--gold-text)]">{piece[language].type}</p>
                     <h3 className="mt-1 text-xl font-normal text-[var(--contrast-ink)]">{piece[language].name}</h3>
                   </div>
                   <span className="text-xs text-[var(--contrast-muted)]">0{index + 1}</span>
@@ -457,7 +457,7 @@ function CollectionsPage() {
                 />
               ))}
             </div>
-            <a href="#boutique" className="inline-flex items-center gap-3 text-sm text-[#B08A57] transition hover:text-[var(--contrast-ink)] sm:hidden">
+            <a href="#boutique" className="inline-flex items-center gap-3 text-sm text-[var(--gold-text)] transition hover:text-[var(--contrast-ink)] sm:hidden">
               {text.viewAll}
               <DirectionArrow language={language} />
             </a>
@@ -472,7 +472,7 @@ function CollectionsPage() {
               <img src="/images/IMG_7948.JPG" alt="Didar collection design world" loading="lazy" className="aspect-[4/3] h-full w-full object-cover" />
             </div>
             <div className="absolute -bottom-6 -start-3 hidden w-52 rounded-[22px] border border-[var(--line)] bg-[var(--surface-raised)] p-5 shadow-[0_18px_45px_rgba(4,30,66,0.12)] sm:block lg:-start-8">
-              <Sparkles className="text-[#B08A57]" size={24} strokeWidth={1.3} />
+              <Sparkles className="text-[var(--gold-text)]" size={24} strokeWidth={1.3} />
               <p className="mt-3 text-sm leading-7 text-[var(--ink-muted)]">{text.storyNote}</p>
             </div>
           </div>
@@ -485,7 +485,7 @@ function CollectionsPage() {
                 </div>
               ))}
             </div>
-            <a href="#private-consultation" className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-[var(--ink)] transition hover:text-[#B08A57]">
+            <a href="#private-consultation" className="mt-8 inline-flex items-center gap-3 text-sm font-medium text-[var(--ink)] transition hover:text-[var(--gold-text)]">
               {text.privateViewing}
               <DirectionArrow language={language} />
             </a>
@@ -497,7 +497,7 @@ function CollectionsPage() {
         <div className="mx-auto max-w-[1450px] overflow-hidden rounded-[32px] bg-[var(--contrast)] text-[var(--contrast-ink)] shadow-[0_24px_80px_rgba(4,30,66,0.18)] transition-colors duration-500">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
             <div className="flex flex-col justify-center px-6 py-14 sm:px-12 lg:px-16 lg:py-20">
-              <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.consultationEyebrow}</p>
+              <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.consultationEyebrow}</p>
               <h2 className="mt-5 text-3xl font-normal leading-[1.55] sm:text-5xl">{text.ctaTitle}</h2>
               <p className="mt-5 max-w-lg text-base leading-8 text-[var(--contrast-muted)] sm:text-lg sm:leading-9">{text.ctaDescription}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -518,7 +518,7 @@ function CollectionsPage() {
           <div className="grid border-t border-[var(--line)] sm:grid-cols-3">
             {[Gem, ShieldCheck, Sparkles].map((Icon, index) => (
               <div key={text.trust[index][0]} className={`flex items-center gap-4 px-6 py-6 sm:px-8 ${index < 2 ? "border-b border-[var(--line)] sm:border-b-0 sm:border-e" : ""}`}>
-                <Icon size={25} strokeWidth={1.25} className="shrink-0 text-[#B08A57]" />
+                <Icon size={25} strokeWidth={1.25} className="shrink-0 text-[var(--gold-text)]" />
                 <div>
                   <h3 className="text-sm font-medium">{text.trust[index][0]}</h3>
                   <p className="mt-1 text-xs text-[var(--contrast-muted)]">{text.trust[index][1]}</p>

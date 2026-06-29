@@ -29,7 +29,7 @@ function TrustBar() {
                   className="h-7 w-7 object-contain transition group-hover:brightness-0 group-hover:invert"
                 />
               </div>
-              <h3 className="mb-1 text-lg font-medium text-[var(--ink)]">{item[language][0]}</h3>
+              <h2 className="mb-1 text-lg font-medium text-[var(--ink)]">{item[language][0]}</h2>
               <p className="text-[13px] leading-6 text-[var(--ink-muted)]">{item[language][1]}</p>
             </article>
           ))}

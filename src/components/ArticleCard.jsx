@@ -6,6 +6,8 @@ function ArticleCard({ image, title, readTime }) {
         alt={title}
         loading="lazy"
         decoding="async"
+        width={320}
+        height={180}
         className="h-[180px] w-full object-cover"
       />
 
@@ -14,7 +16,7 @@ function ArticleCard({ image, title, readTime }) {
           {title}
         </h3>
 
-        <p className="mt-3 text-[15px] text-[#B08A57]">
+        <p className="mt-3 text-[15px] text-[var(--gold-text)]">
           {readTime}
         </p>
       </div>

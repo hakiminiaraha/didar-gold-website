@@ -139,7 +139,7 @@ function CollectionDetailPage() {
   const baseCollection = collectionData[collectionId] || collectionData.signature;
   const catalogCollection = collectionsLoaded && collectionsAvailable ? catalogCollections.find((item) => item.slug === collectionId) : null;
   if (collectionsLoaded && collectionsAvailable && !catalogCollection) {
-    return <div dir={direction} className="min-h-screen bg-[var(--surface)] text-[var(--ink)]"><Header /><main className="grid min-h-[75vh] place-items-center px-5 pt-32 text-center"><div><p className="text-xs tracking-[0.2em] text-[#B08A57]">DIDAR COLLECTIONS</p><h1 className="mt-4 text-4xl">{language === "fa" ? "این کالکشن در دسترس نیست" : "This collection is not available"}</h1><Link to="/collections" className="mt-7 inline-flex border border-[#B08A57] px-6 py-3 text-sm text-[#B08A57]">{language === "fa" ? "بازگشت به کالکشن‌ها" : "Back to collections"}</Link></div></main><Footer /></div>;
+    return <div dir={direction} className="min-h-screen bg-[var(--surface)] text-[var(--ink)]"><Header /><main className="grid min-h-[75vh] place-items-center px-5 pt-32 text-center"><div><p className="text-xs tracking-[0.2em] text-[var(--gold-text)]">DIDAR COLLECTIONS</p><h1 className="mt-4 text-4xl">{language === "fa" ? "این کالکشن در دسترس نیست" : "This collection is not available"}</h1><Link to="/collections" className="mt-7 inline-flex border border-[#B08A57] px-6 py-3 text-sm text-[var(--gold-text)]">{language === "fa" ? "بازگشت به کالکشن‌ها" : "Back to collections"}</Link></div></main><Footer /></div>;
   }
   const collection = catalogCollection ? {
     ...baseCollection,
@@ -188,9 +188,9 @@ function CollectionDetailPage() {
           <div className="max-w-[760px] text-start text-white">
             <div className="flex items-center gap-3 text-xs text-white/70 sm:text-sm">
               <Link to="/" className="transition hover:text-[#D9B985]">{text.breadcrumb[0]}</Link>
-              <span className="text-[#B08A57]">/</span>
+              <span className="text-[var(--gold-text)]">/</span>
               <Link to="/collections" className="transition hover:text-[#D9B985]">{text.breadcrumb[1]}</Link>
-              <span className="text-[#B08A57]">/</span>
+              <span className="text-[var(--gold-text)]">/</span>
               <span>{content.name}</span>
             </div>
             <p className="mt-12 text-xs tracking-[0.3em] text-[#D9B985]">DIDAR · {collection.code}</p>
@@ -212,7 +212,7 @@ function CollectionDetailPage() {
         <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto grid max-w-[1450px] gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20">
             <div className="text-start">
-              <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.introEyebrow}</p>
+              <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.introEyebrow}</p>
               <h2 className="mt-4 text-4xl font-normal leading-[1.55] sm:text-6xl">{content.positioning}</h2>
             </div>
             <div className="border-s border-[var(--line)] ps-7 sm:ps-10">
@@ -248,7 +248,7 @@ function CollectionDetailPage() {
         <section id="selected-creations" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
           <div className="mx-auto max-w-[1450px]">
             <div className="text-center">
-              <p className="text-xs tracking-[0.25em] text-[#B08A57]">{text.selectedEyebrow}</p>
+              <p className="text-xs tracking-[0.25em] text-[var(--gold-text)]">{text.selectedEyebrow}</p>
               <h2 className="mt-4 text-3xl font-normal sm:text-5xl">{text.selectedTitle}</h2>
             </div>
             <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -259,9 +259,9 @@ function CollectionDetailPage() {
                     <div className="aspect-square overflow-hidden rounded-[30px] bg-[var(--media-surface)]">
                       <img src={product.image} alt={product[language][0]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                     </div>
-                    <p className="mt-5 text-xs text-[#B08A57]">{product[language][1]}</p>
+                    <p className="mt-5 text-xs text-[var(--gold-text)]">{product[language][1]}</p>
                     <h3 className="mt-2 text-2xl">{product[language][0]}</h3>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] transition group-hover:text-[#B08A57]">
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm text-[var(--ink-muted)] transition group-hover:text-[var(--gold-text)]">
                       {text.productStory}<Arrow size={15} />
                     </span>
                   </Link>
@@ -283,7 +283,7 @@ function CollectionDetailPage() {
                   const Icon = [QrCode, ShieldCheck, Gem][index];
                   return (
                     <article key={title} className="border-s border-[var(--line)] ps-5 text-start">
-                      <Icon size={23} className="text-[#B08A57]" strokeWidth={1.3} />
+                      <Icon size={23} className="text-[var(--gold-text)]" strokeWidth={1.3} />
                       <h3 className="mt-4 text-lg">{title}</h3>
                       <p className="mt-2 text-xs leading-6 text-[var(--ink-muted)]">{description}</p>
                     </article>
