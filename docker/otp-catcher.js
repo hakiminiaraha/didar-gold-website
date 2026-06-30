@@ -8,6 +8,7 @@
 //   GET  /              -> HTML page listing recent codes (auto-refreshes)
 //   GET  /latest.json   -> most recent code as JSON
 import http from "node:http";
+import process from "node:process";
 
 const PORT = Number(process.env.PORT || 8025);
 const recent = []; // newest first, capped

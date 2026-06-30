@@ -1,4 +1,4 @@
-import { audit, db, transaction } from "../db.js";
+import { db, recordAudit, transaction } from "../db.js";
 import { hashIp } from "../security.js";
 import { HttpError } from "../http/http-error.js";
 import { sendJson } from "../http/respond.js";
@@ -24,6 +24,6 @@ export async function replaceWishlist({ request, response }) {
     const insert = tx.prepare("INSERT INTO wishlist_items (user_id, creation_id, created_at) VALUES (?, ?, ?)");
     for (const item of items) await insert.run(user.id, item, now);
   });
-  await audit({ userId: user.id, eventType: "wishlist.replaced", targetType: "wishlist", metadata: { count: items.length }, ipHash: hashIp(clientIp(request)) });
+  recordAudit({ userId: user.id, eventType: "wishlist.replaced", targetType: "wishlist", metadata: { count: items.length }, ipHash: hashIp(clientIp(request)) });
   sendJson(response, 200, { items });
 }

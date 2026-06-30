@@ -1,7 +1,7 @@
 import { HttpError } from "./http/http-error.js";
 import { sendJson } from "./http/respond.js";
 import { verifyOrigin } from "./http/request.js";
-import { serveFrontend } from "./http/static.js";
+import { serveFrontend, serveUploads } from "./http/static.js";
 import { registerRoutes } from "./routes/index.js";
 
 const router = registerRoutes();
@@ -22,6 +22,7 @@ export async function handleRequest(request, response) {
     const handler = router.match(request.method, url.pathname);
     if (handler) return await handler(ctx);
 
+    if (serveUploads(request, response, url)) return;
     if (!url.pathname.startsWith("/api/") && serveFrontend(request, response, url)) return;
 
     throw new HttpError(404, "NOT_FOUND");

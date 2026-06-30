@@ -1,4 +1,4 @@
-import { audit, db, transaction } from "../db.js";
+import { db, recordAudit, transaction } from "../db.js";
 import { HttpError } from "../http/http-error.js";
 import { sendJson } from "../http/respond.js";
 import { readJson } from "../http/body.js";
@@ -45,7 +45,7 @@ export async function saveCmsContent({ request, response }) {
     `);
     for (const entry of entries) await upsert.run(routePath, locale, entry.contentKey, entry.contentType, entry.value, user.id, now);
   });
-  await audit({ userId: user.id, eventType: "cms.content_published", targetType: "route", targetId: routePath, metadata: { locale, count: entries.length } });
+  recordAudit({ userId: user.id, eventType: "cms.content_published", targetType: "route", targetId: routePath, metadata: { locale, count: entries.length } });
   sendJson(response, 200, { ok: true, routePath, locale, count: entries.length, updatedAt: now });
 }
 
@@ -58,6 +58,6 @@ export async function deleteCmsEntry({ request, response }) {
   const contentType = String(body.contentType || "");
   if (!contentKey || !contentType) throw new HttpError(400, "INVALID_CONTENT_ENTRY");
   await db.prepare("DELETE FROM cms_content WHERE route_path = ? AND locale = ? AND content_key = ? AND content_type = ?").run(routePath, locale, contentKey, contentType);
-  await audit({ userId: user.id, eventType: "cms.content_reset", targetType: "route", targetId: routePath, metadata: { locale, contentKey, contentType } });
+  recordAudit({ userId: user.id, eventType: "cms.content_reset", targetType: "route", targetId: routePath, metadata: { locale, contentKey, contentType } });
   sendJson(response, 200, { ok: true });
 }
