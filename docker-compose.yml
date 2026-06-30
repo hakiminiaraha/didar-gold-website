@@ -43,6 +43,10 @@ services:
       OTP_PROVIDER: http
       SMS_API_URL: http://otp-catcher:8025/send
       SMS_API_KEY: local-dev
+      # Dev-login: 09123456789 signs in with code 123456 (no SMS). Local only.
+      DEV_LOGIN: "true"
+      DEV_LOGIN_MOBILE: "09123456789"
+      DEV_LOGIN_CODE: "123456"
     volumes:
       - uploads:/app/public/uploads   # persist runtime media uploads
     depends_on:

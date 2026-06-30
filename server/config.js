@@ -50,6 +50,11 @@ export const config = {
   otpMaxAttempts: Number(process.env.OTP_MAX_ATTEMPTS || 5),
   otpIpWindowSeconds: Number(process.env.OTP_IP_WINDOW_SECONDS || 3600),
   otpIpMaxRequests: Number(process.env.OTP_IP_MAX_REQUESTS || 20),
+  // Dev-login: an explicitly opt-in (DEV_LOGIN=true) fixed-code login for a single
+  // mobile, for local/demo/reviewer use. Off by default; never enable in real prod.
+  devLoginEnabled: process.env.DEV_LOGIN === "true",
+  devLoginMobile: process.env.DEV_LOGIN_MOBILE || "09123456789",
+  devLoginCode: process.env.DEV_LOGIN_CODE || "123456",
   sessionTtlDays: Number(process.env.SESSION_TTL_DAYS || 30),
   adminMobiles: new Set((process.env.ADMIN_MOBILES || "").split(",").map((value) => value.trim()).filter(Boolean)),
   smsApiUrl: process.env.SMS_API_URL || "",

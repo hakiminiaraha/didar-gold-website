@@ -31,23 +31,32 @@ export async function requestOtp({ request, response }) {
 
   const now = Date.now();
   const ipHash = hashIp(clientIp(request));
-  const ipWindowStart = now - config.otpIpWindowSeconds * 1000;
-  const ipCount = (await db.prepare("SELECT COUNT(*) AS count FROM otp_challenges WHERE ip_hash = ? AND created_at >= ?").get(ipHash, ipWindowStart)).count;
-  if (ipCount >= config.otpIpMaxRequests) {
-    throw new HttpError(429, "OTP_RATE_LIMIT", "OTP_RATE_LIMIT", { retryAfter: config.otpIpWindowSeconds });
-  }
 
-  const recent = await db.prepare("SELECT created_at FROM otp_challenges WHERE mobile = ? ORDER BY created_at DESC LIMIT 1").get(mobile);
-  const cooldownMs = config.otpCooldownSeconds * 1000;
-  if (recent && now - recent.created_at < cooldownMs) {
-    const retryAfter = Math.ceil((cooldownMs - (now - recent.created_at)) / 1000);
-    throw new HttpError(429, "OTP_COOLDOWN", "OTP_COOLDOWN", { retryAfter });
+  // Dev-login account: an explicitly enabled (DEV_LOGIN=true), fixed-code login for
+  // one configured mobile — for local/demo/reviewer use. It still goes through the
+  // normal challenge + verify flow, but skips SMS delivery and rate limits.
+  const devLogin = config.devLoginEnabled && mobile === normalizeMobile(config.devLoginMobile);
+
+  if (!devLogin) {
+    const ipWindowStart = now - config.otpIpWindowSeconds * 1000;
+    const ipCount = (await db.prepare("SELECT COUNT(*) AS count FROM otp_challenges WHERE ip_hash = ? AND created_at >= ?").get(ipHash, ipWindowStart)).count;
+    if (ipCount >= config.otpIpMaxRequests) {
+      throw new HttpError(429, "OTP_RATE_LIMIT", "OTP_RATE_LIMIT", { retryAfter: config.otpIpWindowSeconds });
+    }
+
+    const recent = await db.prepare("SELECT created_at FROM otp_challenges WHERE mobile = ? ORDER BY created_at DESC LIMIT 1").get(mobile);
+    const cooldownMs = config.otpCooldownSeconds * 1000;
+    if (recent && now - recent.created_at < cooldownMs) {
+      const retryAfter = Math.ceil((cooldownMs - (now - recent.created_at)) / 1000);
+      throw new HttpError(429, "OTP_COOLDOWN", "OTP_COOLDOWN", { retryAfter });
+    }
   }
 
   const challengeId = randomToken(18);
-  const code = config.otpProvider === "console" && !config.isProduction
-    ? "123456"
-    : String(randomInt(0, 1_000_000)).padStart(6, "0");
+  const isConsoleDemo = config.otpProvider === "console" && !config.isProduction;
+  const code = devLogin
+    ? config.devLoginCode
+    : (isConsoleDemo ? "123456" : String(randomInt(0, 1_000_000)).padStart(6, "0"));
   const codeHash = hmac(`${challengeId}:${code}`, "otp");
   const expiresAt = now + config.otpTtlSeconds * 1000;
 
@@ -56,12 +65,14 @@ export async function requestOtp({ request, response }) {
     VALUES (?, ?, ?, ?, ?, ?)
   `).run(challengeId, mobile, codeHash, expiresAt, ipHash, now);
 
-  try {
-    await sendOtp({ mobile, code });
-  } catch (error) {
-    await db.prepare("DELETE FROM otp_challenges WHERE id = ?").run(challengeId);
-    console.error("[didar:sms]", error.message);
-    throw new HttpError(503, "OTP_DELIVERY_FAILED");
+  if (!devLogin) {
+    try {
+      await sendOtp({ mobile, code });
+    } catch (error) {
+      await db.prepare("DELETE FROM otp_challenges WHERE id = ?").run(challengeId);
+      console.error("[didar:sms]", error.message);
+      throw new HttpError(503, "OTP_DELIVERY_FAILED");
+    }
   }
 
   recordAudit({ eventType: "auth.otp_requested", targetType: "mobile", targetId: hmac(mobile, "mobile-audit").slice(0, 16), ipHash });
@@ -69,7 +80,7 @@ export async function requestOtp({ request, response }) {
     challengeId,
     mobile,
     expiresIn: config.otpTtlSeconds,
-    ...(config.otpProvider === "console" && !config.isProduction ? { demoCode: code } : {}),
+    ...((devLogin || isConsoleDemo) ? { demoCode: code } : {}),
   });
 }
 

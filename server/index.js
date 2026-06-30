@@ -11,6 +11,9 @@ server.listen(config.port, config.host, () => {
   if (!config.isProduction && config.otpProvider === "console") {
     console.log("[didar:api] development OTP provider active; code is 123456");
   }
+  if (config.devLoginEnabled) {
+    console.warn(`[didar:api] DEV LOGIN ENABLED — ${config.devLoginMobile} signs in with a fixed code. Never enable in production.`);
+  }
 });
 
 // Graceful shutdown: stop accepting connections, drain in-flight requests, then

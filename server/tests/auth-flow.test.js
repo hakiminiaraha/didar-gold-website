@@ -10,6 +10,9 @@ process.env.OTP_PROVIDER = "console";
 process.env.AUTH_HASH_SECRET = "test-auth-hash-secret-with-more-than-32-characters";
 process.env.SESSION_SECRET = "test-session-secret-with-more-than-32-characters";
 process.env.ADMIN_MOBILES = "09120000000";
+process.env.DEV_LOGIN = "true";
+process.env.DEV_LOGIN_MOBILE = "09123456789";
+process.env.DEV_LOGIN_CODE = "123456";
 
 const { server } = await import("../index.js");
 const { db } = await import("../db.js");
@@ -329,6 +332,28 @@ test("uploaded media is served from /uploads and delete handlers validate id", a
     });
     assert.equal(response.status, 400, `${route} delete with no id should be 400`);
   }
+});
+
+test("dev-login mobile signs in with a fixed code, bypassing SMS and rate limits", async () => {
+  const headers = { "Content-Type": "application/json" };
+  const requestBody = JSON.stringify({ mobile: "09123456789" });
+
+  // Two back-to-back requests for the dev mobile both succeed (cooldown bypassed).
+  const first = await fetch(`${baseUrl}/api/auth/request-otp`, { method: "POST", headers, body: requestBody });
+  assert.equal(first.status, 200);
+  assert.equal((await first.json()).demoCode, "123456");
+
+  const second = await fetch(`${baseUrl}/api/auth/request-otp`, { method: "POST", headers, body: requestBody });
+  assert.equal(second.status, 200, "dev-login must not hit OTP_COOLDOWN");
+  const challenge = await second.json();
+
+  const verify = await fetch(`${baseUrl}/api/auth/verify-otp`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ mobile: "09123456789", challengeId: challenge.challengeId, code: "123456" }),
+  });
+  assert.equal(verify.status, 200);
+  assert.match(verify.headers.get("set-cookie"), /didar_session=/);
 });
 
 test("PayamSMS provider authenticates, caches its token, and validates send results", async () => {
