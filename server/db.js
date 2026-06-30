@@ -62,6 +62,11 @@ class PostgresDatabase {
   async query(sql, params = []) { return this.queryable.query(postgresSql(sql), params); }
   async get(sql, params = []) { return (await this.query(sql, params)).rows[0]; }
   async all(sql, params = []) { return (await this.query(sql, params)).rows; }
+  // CONTRACT: use run() for UPDATE/DELETE and inserts where the new id is not
+  // needed. `lastInsertRowid` is best-effort and only populated for the legacy
+  // auto-id tables below (the SQLite adapter always has it; Postgres needs an
+  // explicit RETURNING). If you need the inserted id, call insert() — it always
+  // appends RETURNING id — rather than relying on this whitelist.
   async run(sql, params = []) {
     const autoId = /^\s*INSERT\s+INTO\s+(users|sessions|audit_log|catalog_items|journal_articles|inquiries)\b/i.test(sql) && !/\bRETURNING\b/i.test(sql);
     const result = await this.query(autoId ? `${sql.trim().replace(/;$/, "")} RETURNING id` : sql, params);
@@ -125,6 +130,8 @@ const sqliteSchema = `
     id INTEGER PRIMARY KEY AUTOINCREMENT, actor_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     event_type TEXT NOT NULL, target_type TEXT, target_id TEXT, metadata_json TEXT, ip_hash TEXT, created_at INTEGER NOT NULL
   );
+  CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log (created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_audit_event_created ON audit_log (event_type, created_at DESC);
   CREATE TABLE IF NOT EXISTS cms_content (
     route_path TEXT NOT NULL, locale TEXT NOT NULL CHECK (locale IN ('fa', 'en')), content_key TEXT NOT NULL,
     content_type TEXT NOT NULL CHECK (content_type IN ('text', 'image', 'video', 'poster', 'link', 'alt')),
@@ -228,7 +235,13 @@ async function createDatabase() {
   if (config.databaseProvider === "postgres") {
     const pool = new Pool({
       connectionString: config.databaseUrl,
-      ssl: config.databaseSsl ? { rejectUnauthorized: false } : undefined,
+      // Verify the server certificate (prevents MitM). Supply the provider CA via
+      // DATABASE_CA_CERT[_PATH]; DATABASE_SSL_INSECURE=true is an explicit opt-out.
+      ssl: config.databaseSsl
+        ? (config.databaseSslInsecure
+            ? { rejectUnauthorized: false }
+            : { rejectUnauthorized: true, ...(config.databaseCaCert ? { ca: config.databaseCaCert } : {}) })
+        : undefined,
       max: Number(process.env.DATABASE_POOL_MAX || 10),
       idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 10_000,
@@ -276,4 +289,17 @@ export async function audit({ userId = null, eventType, targetType = null, targe
     INSERT INTO audit_log (actor_user_id, event_type, target_type, target_id, metadata_json, ip_hash, created_at)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `, [userId, eventType, targetType, targetId, metadata ? JSON.stringify(metadata) : null, ipHash, Date.now()]);
+}
+
+// Fire-and-forget audit for the request hot path: never block or fail the user's
+// (already-committed) operation on an audit write, but never swallow it silently —
+// these are security records, so log failures.
+export function recordAudit(entry) {
+  audit(entry).catch((error) => console.error("[didar:audit]", error?.message || error));
+}
+
+// UNIQUE-violation detection across both drivers: Postgres uses SQLSTATE 23505,
+// SQLite surfaces it in the message text.
+export function isUniqueViolation(error) {
+  return error?.code === "23505" || /UNIQUE/i.test(error?.message || "");
 }

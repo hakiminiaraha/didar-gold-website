@@ -298,6 +298,39 @@ test("role permissions and session revocation are enforced", async () => {
   assert.equal((await selfDemotion.json()).error, "CANNOT_DEMOTE_SELF");
 });
 
+test("uploaded media is served from /uploads and delete handlers validate id", async () => {
+  const admin = await freshLogin("09120000000");
+
+  const pngBytes = Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), Buffer.from("served-image")]);
+  const upload = await fetch(`${baseUrl}/api/admin/media`, {
+    method: "POST",
+    headers: { "Content-Type": "image/png", "X-File-Name": "served.png", Cookie: admin.cookie },
+    body: pngBytes,
+  });
+  assert.equal(upload.status, 201);
+  const asset = await upload.json();
+
+  // The uploaded file must be reachable at its publicUrl (serveUploads route).
+  const served = await fetch(`${baseUrl}${asset.publicUrl}`);
+  assert.equal(served.status, 200);
+  assert.equal(served.headers.get("content-type"), "image/png");
+  fs.unlinkSync(path.resolve("public", asset.publicUrl.replace(/^\//, "")));
+
+  // A traversal attempt must not escape the uploads root.
+  const traversal = await fetch(`${baseUrl}/uploads/..%2F..%2Fpackage.json`);
+  assert.equal(traversal.status, 404);
+
+  // Delete handlers must reject a missing/non-numeric id with 400 (not pass NaN to the DB).
+  for (const route of ["catalog", "journal"]) {
+    const response = await fetch(`${baseUrl}/api/admin/${route}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", Cookie: admin.cookie },
+      body: JSON.stringify({}),
+    });
+    assert.equal(response.status, 400, `${route} delete with no id should be 400`);
+  }
+});
+
 test("PayamSMS provider authenticates, caches its token, and validates send results", async () => {
   const previousFetch = globalThis.fetch;
   const previousConfig = {

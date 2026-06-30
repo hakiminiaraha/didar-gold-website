@@ -1,5 +1,5 @@
 import { config } from "../config.js";
-import { audit, db } from "../db.js";
+import { db, recordAudit, transaction } from "../db.js";
 import { maskMobile } from "../security.js";
 import { HttpError } from "../http/http-error.js";
 import { sendJson } from "../http/respond.js";
@@ -8,14 +8,27 @@ import { publicUser, requireAdmin } from "../middleware/auth.js";
 
 export async function adminOverview({ request, response }) {
   const user = await requireAdmin(request);
-  const users = (await db.prepare("SELECT COUNT(*) AS count FROM users").get()).count;
-  const wishlistItems = (await db.prepare("SELECT COUNT(*) AS count FROM wishlist_items").get()).count;
-  const activeSessions = (await db.prepare("SELECT COUNT(*) AS count FROM sessions WHERE expires_at > ?").get(Date.now())).count;
-  await audit({ userId: user.id, eventType: "admin.overview_viewed", targetType: "admin" });
-  const verifiedToday = (await db.prepare("SELECT COUNT(*) AS count FROM users WHERE mobile_verified_at >= ?").get(Date.now() - 86_400_000)).count;
-  const otpFailuresToday = (await db.prepare("SELECT COUNT(*) AS count FROM audit_log WHERE event_type = 'auth.otp_failed' AND created_at >= ?").get(Date.now() - 86_400_000)).count;
-  const newInquiries = (await db.prepare("SELECT COUNT(*) AS count FROM inquiries WHERE status = 'new'").get()).count;
-  sendJson(response, 200, { users, wishlistItems, activeSessions, verifiedToday, otpFailuresToday, newInquiries });
+  const now = Date.now();
+  const dayAgo = now - 86_400_000;
+  // The six counts span five tables and are independent — run them concurrently
+  // (real parallelism on Postgres via the pool; a harmless no-op on synchronous SQLite).
+  const [users, wishlistItems, activeSessions, verifiedToday, otpFailuresToday, newInquiries] = await Promise.all([
+    db.prepare("SELECT COUNT(*) AS count FROM users").get(),
+    db.prepare("SELECT COUNT(*) AS count FROM wishlist_items").get(),
+    db.prepare("SELECT COUNT(*) AS count FROM sessions WHERE expires_at > ?").get(now),
+    db.prepare("SELECT COUNT(*) AS count FROM users WHERE mobile_verified_at >= ?").get(dayAgo),
+    db.prepare("SELECT COUNT(*) AS count FROM audit_log WHERE event_type = 'auth.otp_failed' AND created_at >= ?").get(dayAgo),
+    db.prepare("SELECT COUNT(*) AS count FROM inquiries WHERE status = 'new'").get(),
+  ]);
+  recordAudit({ userId: user.id, eventType: "admin.overview_viewed", targetType: "admin" });
+  sendJson(response, 200, {
+    users: users.count,
+    wishlistItems: wishlistItems.count,
+    activeSessions: activeSessions.count,
+    verifiedToday: verifiedToday.count,
+    otpFailuresToday: otpFailuresToday.count,
+    newInquiries: newInquiries.count,
+  });
 }
 
 export async function adminUsers({ request, response, url }) {
@@ -56,13 +69,24 @@ export async function updateUserRole({ request, response }) {
   if (!target) throw new HttpError(404, "USER_NOT_FOUND");
   if (target.id === actor.id && role !== "admin") throw new HttpError(409, "CANNOT_DEMOTE_SELF");
   if (config.adminMobiles.has(target.mobile) && role !== "admin") throw new HttpError(409, "ROLE_MANAGED_BY_ENV");
-  if (target.role === "admin" && role !== "admin") {
-    const adminCount = (await db.prepare("SELECT COUNT(*) AS count FROM users WHERE role = 'admin'").get()).count;
-    if (adminCount <= 1) throw new HttpError(409, "LAST_ADMIN_REQUIRED");
-  }
-  await db.prepare("UPDATE users SET role = ?, updated_at = ? WHERE id = ?").run(role, Date.now(), userId);
-  if (target.id !== actor.id) await db.prepare("DELETE FROM sessions WHERE user_id = ?").run(userId);
-  await audit({ userId: actor.id, eventType: "admin.user_role_updated", targetType: "user", targetId: String(userId), metadata: { from: target.role, to: role } });
+
+  // The last-admin guard is a read-modify-write: without serialization two
+  // concurrent demotions both read count=2 and commit, leaving zero admins.
+  // Postgres (READ COMMITTED) needs an explicit row lock; SQLite's BEGIN IMMEDIATE
+  // already serializes writers, so the same transaction is safe there.
+  await transaction(async (tx) => {
+    if (config.databaseProvider === "postgres") {
+      await tx.prepare("SELECT id FROM users WHERE role = 'admin' FOR UPDATE").all();
+    }
+    const current = await tx.prepare("SELECT role FROM users WHERE id = ?").get(userId);
+    if (current?.role === "admin" && role !== "admin") {
+      const adminCount = (await tx.prepare("SELECT COUNT(*) AS count FROM users WHERE role = 'admin'").get()).count;
+      if (adminCount <= 1) throw new HttpError(409, "LAST_ADMIN_REQUIRED");
+    }
+    await tx.prepare("UPDATE users SET role = ?, updated_at = ? WHERE id = ?").run(role, Date.now(), userId);
+    if (target.id !== actor.id) await tx.prepare("DELETE FROM sessions WHERE user_id = ?").run(userId);
+  });
+  recordAudit({ userId: actor.id, eventType: "admin.user_role_updated", targetType: "user", targetId: String(userId), metadata: { from: target.role, to: role } });
   const updated = await db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
   sendJson(response, 200, publicUser(updated));
 }
@@ -91,21 +115,28 @@ export async function revokeUserSessions({ request, response }) {
   const result = userId === actor.id
     ? await db.prepare("DELETE FROM sessions WHERE user_id = ? AND id != ?").run(userId, actor.session_id)
     : await db.prepare("DELETE FROM sessions WHERE user_id = ?").run(userId);
-  await audit({ userId: actor.id, eventType: "admin.user_sessions_revoked", targetType: "user", targetId: String(userId), metadata: { count: result.changes } });
+  recordAudit({ userId: actor.id, eventType: "admin.user_sessions_revoked", targetType: "user", targetId: String(userId), metadata: { count: result.changes } });
   sendJson(response, 200, { ok: true, revoked: result.changes });
 }
 
 export async function adminAudit({ request, response, url }) {
   await requireAdmin(request);
   const limit = Math.min(Math.max(Number(url.searchParams.get("limit")) || 30, 1), 100);
-  const events = (await db.prepare(`
+  // Keyset pagination on the indexed created_at: deep pages stay O(limit) instead
+  // of degrading like OFFSET. `before` is the createdAt of the last row seen.
+  const before = Number(url.searchParams.get("before")) || null;
+  const where = before ? "WHERE audit_log.created_at < ?" : "";
+  const params = before ? [before, limit] : [limit];
+  const rows = await db.prepare(`
     SELECT audit_log.id, audit_log.event_type, audit_log.target_type, audit_log.target_id,
       audit_log.metadata_json, audit_log.created_at, users.mobile AS actor_mobile
     FROM audit_log
     LEFT JOIN users ON users.id = audit_log.actor_user_id
+    ${where}
     ORDER BY audit_log.created_at DESC
     LIMIT ?
-  `).all(limit)).map((event) => ({
+  `).all(...params);
+  const events = rows.map((event) => ({
     id: String(event.id),
     eventType: event.event_type,
     targetType: event.target_type,
@@ -114,7 +145,9 @@ export async function adminAudit({ request, response, url }) {
     createdAt: event.created_at,
     actorMobileMasked: event.actor_mobile ? maskMobile(event.actor_mobile) : null,
   }));
-  sendJson(response, 200, { events });
+  // Cursor for the next page; null when this page wasn't full (no more rows).
+  const nextCursor = events.length === limit ? events[events.length - 1].createdAt : null;
+  sendJson(response, 200, { events, nextCursor });
 }
 
 export async function adminSystem({ request, response }) {

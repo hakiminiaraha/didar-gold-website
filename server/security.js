@@ -32,7 +32,13 @@ export function parseCookies(header = "") {
       .filter(Boolean)
       .map((item) => {
         const index = item.indexOf("=");
-        return index === -1 ? [item, ""] : [item.slice(0, index), decodeURIComponent(item.slice(index + 1))];
+        if (index === -1) return [item, ""];
+        const raw = item.slice(index + 1);
+        // A malformed value (e.g. a stray '%') must not throw URIError and turn
+        // every authenticated request into a 500 — fall back to the raw value.
+        let value = raw;
+        try { value = decodeURIComponent(raw); } catch { /* keep raw */ }
+        return [item.slice(0, index), value];
       }),
   );
 }

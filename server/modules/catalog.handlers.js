@@ -1,4 +1,4 @@
-import { audit, db } from "../db.js";
+import { db, isUniqueViolation, recordAudit } from "../db.js";
 import { validateSlug } from "../validation.js";
 import { HttpError } from "../http/http-error.js";
 import { sendJson } from "../http/respond.js";
@@ -34,7 +34,7 @@ function catalogPayload(body) {
   return { type, slug, status, sortOrder, dataJson };
 }
 
-export async function publicCatalog({ request, response, url }) {
+export async function publicCatalog({ response, url }) {
   const type = catalogType(url.searchParams.get("type"));
   const slug = url.searchParams.get("slug");
   if (slug) {
@@ -65,10 +65,10 @@ export async function createCatalogItem({ request, response }) {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(payload.type, payload.slug, payload.status, payload.sortOrder, payload.dataJson, user.id, now, now);
     const item = await db.prepare("SELECT * FROM catalog_items WHERE id = ?").get(result.lastInsertRowid);
-    await audit({ userId: user.id, eventType: "catalog.item_created", targetType: payload.type, targetId: payload.slug });
+    recordAudit({ userId: user.id, eventType: "catalog.item_created", targetType: payload.type, targetId: payload.slug });
     sendJson(response, 201, serializeCatalogItem(item));
   } catch (error) {
-    if (String(error.message).includes("UNIQUE")) throw new HttpError(409, "CATALOG_SLUG_EXISTS");
+    if (isUniqueViolation(error)) throw new HttpError(409, "CATALOG_SLUG_EXISTS");
     throw error;
   }
 }
@@ -86,10 +86,10 @@ export async function updateCatalogItem({ request, response }) {
     `).run(payload.type, payload.slug, payload.status, payload.sortOrder, payload.dataJson, user.id, Date.now(), id);
     if (!result.changes) throw new HttpError(404, "CATALOG_ITEM_NOT_FOUND");
     const item = await db.prepare("SELECT * FROM catalog_items WHERE id = ?").get(id);
-    await audit({ userId: user.id, eventType: "catalog.item_updated", targetType: payload.type, targetId: payload.slug, metadata: { status: payload.status } });
+    recordAudit({ userId: user.id, eventType: "catalog.item_updated", targetType: payload.type, targetId: payload.slug, metadata: { status: payload.status } });
     sendJson(response, 200, serializeCatalogItem(item));
   } catch (error) {
-    if (String(error.message).includes("UNIQUE")) throw new HttpError(409, "CATALOG_SLUG_EXISTS");
+    if (isUniqueViolation(error)) throw new HttpError(409, "CATALOG_SLUG_EXISTS");
     throw error;
   }
 }
@@ -98,9 +98,10 @@ export async function deleteCatalogItem({ request, response }) {
   const user = await requirePermission(request, "catalog");
   const body = await readJson(request);
   const id = Number(body.id);
+  if (!Number.isInteger(id) || id < 1) throw new HttpError(400, "INVALID_CATALOG_ID");
   const item = await db.prepare("SELECT * FROM catalog_items WHERE id = ?").get(id);
   if (!item) throw new HttpError(404, "CATALOG_ITEM_NOT_FOUND");
   await db.prepare("DELETE FROM catalog_items WHERE id = ?").run(id);
-  await audit({ userId: user.id, eventType: "catalog.item_deleted", targetType: item.item_type, targetId: item.slug });
+  recordAudit({ userId: user.id, eventType: "catalog.item_deleted", targetType: item.item_type, targetId: item.slug });
   sendJson(response, 200, { ok: true });
 }

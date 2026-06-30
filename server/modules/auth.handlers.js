@@ -1,7 +1,7 @@
 import { randomInt } from "node:crypto";
 
 import { config } from "../config.js";
-import { audit, db, transaction } from "../db.js";
+import { db, recordAudit, transaction } from "../db.js";
 import { sendOtp } from "../otpProvider.js";
 import {
   clearSessionCookie,
@@ -64,7 +64,7 @@ export async function requestOtp({ request, response }) {
     throw new HttpError(503, "OTP_DELIVERY_FAILED");
   }
 
-  await audit({ eventType: "auth.otp_requested", targetType: "mobile", targetId: hmac(mobile, "mobile-audit").slice(0, 16), ipHash });
+  recordAudit({ eventType: "auth.otp_requested", targetType: "mobile", targetId: hmac(mobile, "mobile-audit").slice(0, 16), ipHash });
   sendJson(response, 200, {
     challengeId,
     mobile,
@@ -95,11 +95,20 @@ export async function verifyOtp({ request, response }) {
 
   const expectedHash = hmac(`${challengeId}:${code}`, "otp");
   if (!safeEqual(challenge.code_hash, expectedHash)) {
-    await audit({ eventType: "auth.otp_failed", targetType: "challenge", targetId: challengeId, ipHash: hashIp(clientIp(request)) });
+    recordAudit({ eventType: "auth.otp_failed", targetType: "challenge", targetId: challengeId, ipHash: hashIp(clientIp(request)) });
     throw new HttpError(400, "INVALID_OTP");
   }
 
   const configuredRole = config.adminMobiles.has(mobile) ? "admin" : null;
+  const token = randomToken(32);
+  const sessionTtlSeconds = config.sessionTtlDays * 24 * 60 * 60;
+  const userAgent = String(request.headers["user-agent"] || "").slice(0, 300);
+  const reqIpHash = hashIp(clientIp(request));
+
+  // All-or-nothing: resolve the user, create the session, and consume the OTP in
+  // one transaction. Consuming last means a failure anywhere rolls back the
+  // consume too, so the user can retry immediately instead of being locked out
+  // for the cooldown with a spent challenge and no session.
   const user = await transaction(async (tx) => {
     const byMobile = await tx.prepare("SELECT * FROM users WHERE mobile = ?").get(mobile);
     let current = byMobile;
@@ -116,19 +125,16 @@ export async function verifyOtp({ request, response }) {
       await tx.prepare("UPDATE users SET role = ?, mobile_verified_at = ?, updated_at = ? WHERE id = ?").run(nextRole, now, now, current.id);
       current = await tx.prepare("SELECT * FROM users WHERE id = ?").get(current.id);
     }
+    await tx.prepare("DELETE FROM sessions WHERE expires_at <= ?").run(now);
+    await tx.prepare(`
+      INSERT INTO sessions (user_id, token_hash, expires_at, created_at, last_seen_at, user_agent, ip_hash)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(current.id, hashSessionToken(token), now + sessionTtlSeconds * 1000, now, now, userAgent, reqIpHash);
     await tx.prepare("UPDATE otp_challenges SET consumed_at = ? WHERE id = ?").run(now, challengeId);
     return current;
   });
 
-  const token = randomToken(32);
-  const sessionTtlSeconds = config.sessionTtlDays * 24 * 60 * 60;
-  await db.prepare("DELETE FROM sessions WHERE expires_at <= ?").run(now);
-  await db.prepare(`
-    INSERT INTO sessions (user_id, token_hash, expires_at, created_at, last_seen_at, user_agent, ip_hash)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(user.id, hashSessionToken(token), now + sessionTtlSeconds * 1000, now, now, String(request.headers["user-agent"] || "").slice(0, 300), hashIp(clientIp(request)));
-
-  await audit({ userId: user.id, eventType: "auth.login_succeeded", targetType: "session", ipHash: hashIp(clientIp(request)) });
+  recordAudit({ userId: user.id, eventType: "auth.login_succeeded", targetType: "session", ipHash: reqIpHash });
   sendJson(response, 200, publicUser(user), { "Set-Cookie": sessionCookie(token, sessionTtlSeconds) });
 }
 

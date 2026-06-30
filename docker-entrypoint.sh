@@ -12,18 +12,7 @@ for var in AUTH_HASH_SECRET SESSION_SECRET; do
   fi
 done
 
-# 2) Make the persisted uploads dir the dir the server actually serves.
-#    serveFrontend() (server/http/static.js) serves static from dist/, but the
-#    media handler writes uploads to public/uploads (the mounted volume). Symlink
-#    so written files are reachable at /uploads/<file>: serveFrontend resolves the
-#    path lexically, then fs.existsSync follows the symlink and streams the file.
-#    `vite build` copies public/ into dist/, so dist/uploads exists as a real
-#    (empty) dir — remove it first, else `ln` would nest the link inside it.
-rm -rf dist/uploads
-ln -s ../public/uploads dist/uploads
-echo "[entrypoint] linked dist/uploads -> public/uploads"
-
-# 3) Wait for Postgres. connectionTimeoutMillis makes each attempt fail fast and
+# 2) Wait for Postgres. connectionTimeoutMillis makes each attempt fail fast and
 #    retry, so PG's init phase (socket up, TCP not yet accepting) can't hang us.
 if [ -n "$DATABASE_URL" ]; then
   echo "[entrypoint] waiting for postgres..."
@@ -33,7 +22,7 @@ if [ -n "$DATABASE_URL" ]; then
   echo "[entrypoint] postgres is ready"
 fi
 
-# 4) Schema auto-applies on app boot (db.js execs schema/postgres.sql, idempotent).
+# 3) Schema auto-applies on app boot (db.js execs schema/postgres.sql, idempotent).
 #    The seed is idempotent and bootstraps the schema on import as well.
 if [ "${DATABASE_SEED:-true}" != "false" ]; then
   echo "[entrypoint] seeding..."

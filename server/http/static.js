@@ -33,6 +33,44 @@ const mimeTypes = {
   ".xml": "application/xml; charset=utf-8",
 };
 
+// Serve user-uploaded media from config.uploadsDir, independent of dist/. This
+// decouples uploads from the SPA build (which is wiped/rebuilt each deploy) so a
+// persistent volume/disk mounted at uploadsDir keeps them reachable at /uploads/*.
+// Runs in every mode (dev + prod) so the API serves uploads on its own.
+export function serveUploads(request, response, url) {
+  if (!["GET", "HEAD"].includes(request.method)) return false;
+  let pathname;
+  try {
+    pathname = decodeURIComponent(url.pathname);
+  } catch {
+    return false;
+  }
+  if (!pathname.startsWith("/uploads/")) return false;
+
+  const root = config.uploadsDir;
+  const relativePath = pathname.slice("/uploads/".length);
+  const requestedPath = path.resolve(root, relativePath);
+  const insideRoot = requestedPath === root || requestedPath.startsWith(`${root}${path.sep}`);
+  if (!insideRoot || !relativePath || !fs.existsSync(requestedPath) || !fs.statSync(requestedPath).isFile()) return false;
+
+  const extension = path.extname(requestedPath).toLowerCase();
+  response.writeHead(200, {
+    "Cache-Control": "public, max-age=604800",
+    "Content-Security-Policy": "default-src 'none'",
+    "Content-Type": mimeTypes[extension] || "application/octet-stream",
+    ...(config.isProduction ? { "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload" } : {}),
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+  });
+  if (request.method === "HEAD") {
+    response.end();
+    return true;
+  }
+  fs.createReadStream(requestedPath).pipe(response);
+  return true;
+}
+
 export function serveFrontend(request, response, url) {
   if (!config.isProduction || !["GET", "HEAD"].includes(request.method)) return false;
   const distRoot = path.resolve("dist");

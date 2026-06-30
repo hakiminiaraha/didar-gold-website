@@ -1,4 +1,4 @@
-import { audit, db } from "../db.js";
+import { db, recordAudit } from "../db.js";
 import { hashIp, randomToken } from "../security.js";
 import { HttpError } from "../http/http-error.js";
 import { sendJson } from "../http/respond.js";
@@ -36,7 +36,7 @@ export async function createInquiry({ request, response }) {
     INSERT INTO inquiries (reference_code, reason, full_name, contact_value, preferred_channel, preferred_date, message, locale, source_path, ip_hash, created_at, updated_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(referenceCode, reason, fullName, contact, preferredChannel, preferredDate, message, locale, "/contact", ipHash, now, now);
-  await audit({ eventType: "inquiry.created", targetType: "inquiry", targetId: String(result.lastInsertRowid), metadata: { reason, locale }, ipHash });
+  recordAudit({ eventType: "inquiry.created", targetType: "inquiry", targetId: String(result.lastInsertRowid), metadata: { reason, locale }, ipHash });
   sendJson(response, 201, { ok: true, referenceCode, status: "new" });
 }
 
@@ -64,6 +64,6 @@ export async function updateInquiry({ request, response }) {
   const result = await db.prepare("UPDATE inquiries SET status = ?, internal_note = ?, handled_by = ?, updated_at = ? WHERE id = ?").run(status, internalNote, user.id, Date.now(), id);
   if (!result.changes) throw new HttpError(404, "INQUIRY_NOT_FOUND");
   const inquiry = await db.prepare("SELECT * FROM inquiries WHERE id = ?").get(id);
-  await audit({ userId: user.id, eventType: "inquiry.status_updated", targetType: "inquiry", targetId: String(id), metadata: { status } });
+  recordAudit({ userId: user.id, eventType: "inquiry.status_updated", targetType: "inquiry", targetId: String(id), metadata: { status } });
   sendJson(response, 200, serializeInquiry(inquiry));
 }

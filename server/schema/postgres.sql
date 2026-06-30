@@ -49,6 +49,8 @@ CREATE TABLE IF NOT EXISTS audit_log (
   ip_hash TEXT,
   created_at BIGINT NOT NULL
 );
+CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_event_created ON audit_log (event_type, created_at DESC);
 
 CREATE TABLE IF NOT EXISTS cms_content (
   route_path TEXT NOT NULL,

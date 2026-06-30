@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -12,6 +13,15 @@ function secret(name, developmentFallback) {
   return value;
 }
 
+// Postgres CA certificate for verified TLS: inline PEM (DATABASE_CA_CERT) or a
+// file path (DATABASE_CA_CERT_PATH). Required by most managed providers (their
+// certs are not in the system trust store) once strict TLS is enabled.
+function readCaCert() {
+  if (process.env.DATABASE_CA_CERT) return process.env.DATABASE_CA_CERT;
+  if (process.env.DATABASE_CA_CERT_PATH) return fs.readFileSync(process.env.DATABASE_CA_CERT_PATH, "utf8");
+  return null;
+}
+
 export const config = {
   isProduction,
   port: Number(process.env.PORT || process.env.API_PORT || 8787),
@@ -20,7 +30,13 @@ export const config = {
   databaseUrl,
   databaseProvider: databaseUrl ? "postgres" : "sqlite",
   databaseSsl: process.env.DATABASE_SSL === "true",
+  databaseCaCert: readCaCert(),
+  // Escape hatch for emergencies only — disables TLS cert verification (MitM risk).
+  databaseSslInsecure: process.env.DATABASE_SSL_INSECURE === "true",
   databaseSeed: process.env.DATABASE_SEED !== "false",
+  // Where uploaded media is written and served from. Decoupled from dist/ so it
+  // survives rebuilds; point at a persistent disk/volume in production.
+  uploadsDir: path.resolve(process.env.UPLOADS_DIR || "public/uploads"),
   trustProxy: process.env.TRUST_PROXY === "true",
   appOrigins: (process.env.APP_ORIGINS || "http://localhost:5173,http://127.0.0.1:5173")
     .split(",")
