@@ -13,6 +13,7 @@ dist-ssr
 *.local
 server/data/
 .env
+.env.docker
 tmp/
 local-assets/
 *-capture.png

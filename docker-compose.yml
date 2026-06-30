@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: didar_gold
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-didar_local_pw}
+      POSTGRES_DB: didar_gold
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U didar_gold -d didar_gold"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Local OTP receiver. App runs in prod mode (forbids console OTP), so it sends
+  # codes here via the http provider. View codes at http://localhost:8025
+  otp-catcher:
+    image: node:22-alpine
+    command: node /app/otp-catcher.js
+    working_dir: /app
+    volumes:
+      - ./docker/otp-catcher.js:/app/otp-catcher.js:ro
+    ports:
+      - "8025:8025"
+
+  app:
+    build:
+      context: .
+      args:                        # VITE_* baked at build time
+        VITE_TRACKING_ENABLED: "false"
+        VITE_AUTH_API_URL: /api/auth
+    ports:
+      - "8787:8787"
+    env_file:                      # runtime secrets/config
+      - path: .env.docker          # optional so `up` parses on a clean clone
+        required: false            # (Compose v2.24+); entrypoint guards missing secrets
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://didar_gold:${POSTGRES_PASSWORD:-didar_local_pw}@db:5432/didar_gold
+      DATABASE_SSL: "false"
+      # Route OTP to the local catcher (overrides any console default).
+      OTP_PROVIDER: http
+      SMS_API_URL: http://otp-catcher:8025/send
+      SMS_API_KEY: local-dev
+    volumes:
+      - uploads:/app/public/uploads   # persist runtime media uploads
+    depends_on:
+      db:
+        condition: service_healthy
+      otp-catcher:
+        condition: service_started
+
+volumes:
+  pgdata:
+  uploads:
