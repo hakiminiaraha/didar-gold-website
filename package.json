@@ -15,6 +15,7 @@
     "db:seed:production": "node --env-file-if-exists=.env server/scripts/seed-production.js",
     "audit:launch": "node --env-file-if-exists=.env scripts/audit-launch.mjs",
     "audit:production": "node scripts/post-deploy-smoke.mjs",
+    "docker:init": "node -e \"const fs=require('fs'),c=require('crypto');if(fs.existsSync('.env.docker')){console.log('.env.docker already exists');process.exit(0)}let t=fs.readFileSync('.env.docker.example','utf8');for(const k of ['AUTH_HASH_SECRET','SESSION_SECRET'])t=t.replace(new RegExp(k+'=.*'),k+'='+c.randomBytes(36).toString('base64url'));fs.writeFileSync('.env.docker',t);console.log('wrote .env.docker with generated secrets')\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
