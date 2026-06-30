@@ -12,9 +12,11 @@ import { requirePermission } from "../middleware/auth.js";
 
 export async function listMedia({ request, response }) {
   await requirePermission(request, "media");
+  // Quote the camelCase aliases: Postgres folds unquoted identifiers to lowercase
+  // (breaking the client keys), while SQLite preserves them either way.
   const assets = await db.prepare(`
-    SELECT id, file_name AS fileName, public_url AS publicUrl, mime_type AS mimeType,
-      size_bytes AS sizeBytes, created_at AS createdAt
+    SELECT id, file_name AS "fileName", public_url AS "publicUrl", mime_type AS "mimeType",
+      size_bytes AS "sizeBytes", created_at AS "createdAt"
     FROM media_assets ORDER BY created_at DESC LIMIT 300
   `).all();
   sendJson(response, 200, { assets });

@@ -108,14 +108,17 @@ export function serveFrontend(request, response, url) {
 
   response.writeHead(200, {
     "Cache-Control": cacheControl,
-    "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    // frame-ancestors 'self' (+ X-Frame-Options SAMEORIGIN) so the admin CMS live
+    // preview can embed the SPA in a same-origin iframe; cross-origin framing
+    // (clickjacking) is still blocked.
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
     "Content-Type": mimeTypes[extension] || "application/octet-stream",
     ...(encoding ? { "Content-Encoding": encoding, "Vary": "Accept-Encoding" } : {}),
     ...(config.isProduction ? { "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload" } : {}),
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
+    "X-Frame-Options": "SAMEORIGIN",
   });
 
   if (request.method === "HEAD") {

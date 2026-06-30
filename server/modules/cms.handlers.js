@@ -14,8 +14,10 @@ export async function getCmsContent({ request, response, url }, adminOnly = fals
   if (adminOnly) await requirePermission(request, "content");
   const routePath = normalizeCmsRoute(url.searchParams.get("route"));
   const locale = url.searchParams.get("locale") === "en" ? "en" : "fa";
+  // Quote the camelCase aliases: Postgres folds unquoted identifiers to lowercase
+  // (breaking the client keys), while SQLite preserves them either way.
   const entries = await db.prepare(`
-    SELECT content_key AS contentKey, content_type AS contentType, value, updated_at AS updatedAt
+    SELECT content_key AS "contentKey", content_type AS "contentType", value, updated_at AS "updatedAt"
     FROM cms_content WHERE route_path = ? AND locale = ? ORDER BY content_key, content_type
   `).all(routePath, locale);
   sendJson(response, 200, { routePath, locale, entries });
